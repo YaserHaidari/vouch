@@ -1,0 +1,158 @@
+type Deal = {
+  id: string;
+  brand: string;
+  title: string;
+  instructions: string[];
+  category: string;
+  emoji: string;
+  bg: string;
+  reward: string;
+  // users: string;
+  hot?: boolean;
+  featured?: boolean;
+  featuredBg?: string;
+  featuredDesc?: string;
+};
+
+export const ALL_DEALS: Deal[] = [
+  {
+    id: 'uber',
+    brand: 'Uber',
+    title: 'Free rides for new riders',
+    instructions: ['Sign up to Uber with our referral code and get credit off your first three rides.', 'faw'],
+    category: 'Transport',
+    emoji: '🚗',
+    bg: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+    reward: '$20 credit',
+    // users: '28.4k',
+    // hot: true,
+    featured: true,
+    featuredBg: 'linear-gradient(135deg, #1a1a1a, #3a3a3a)',
+    featuredDesc: "Australia's most popular ride-share. Sign up through Vouch and get $20 off your first rides — no minimum spend.",
+  },
+  {
+    id: 'uber-eats',
+    brand: 'Uber Eats',
+    title: 'Free delivery on first order',
+    instructions: ['New Uber Eats customers get free delivery on their first 3 orders when signing up via Vouch.'],
+    category: 'Food',
+    emoji: '🍔',
+    bg: 'linear-gradient(135deg, #06C167 0%, #039952 100%)',
+    reward: 'Free delivery ×3',
+    // users: '41.2k',
+    hot: true,
+  },
+  {
+    id: 'tiger-trade',
+    brand: 'Tiger Trade',
+    title: 'Earn $150',
+    instructions: ["", ''],
+    category: 'Finance',
+    emoji: '📈',
+    bg: 'linear-gradient(135deg, #FF6B00 0%, #e05500 100%)',
+    reward: 'Free stocks',
+    // users: '12.8k',
+    hot: true,
+  },
+  {
+    id: 'ing',
+    brand: 'ING',
+    title: 'Bonus cashback on Everyday Account',
+    instructions: ['Open an ING Everyday account with our referral and earn bonus cashback on eligible purchases.'],
+    category: 'Banking',
+    emoji: '🏦',
+    bg: 'linear-gradient(135deg, #FF6600 0%, #e05500 100%)',
+    reward: '$100 cashback',
+    // users: '9.3k',
+  },
+  {
+    id: 'commbank',
+    brand: 'CommBank',
+    title: '$100 when you switch',
+    instructions: ['Switch your everyday banking to CommBank via Vouch and earn $100 once eligible criteria are met.'],
+    category: 'Banking',
+    emoji: '💳',
+    bg: 'linear-gradient(135deg, #ffb703 0%, #e09400 100%)',
+    reward: '$100 bonus',
+    // users: '7.1k',
+  },
+  {
+    id: 'stake',
+    brand: 'Stake',
+    title: 'Free stock when you sign up',
+    instructions:[ 'Join Stake via Vouch and get a free US stock valued up to $150. Fund your account to unlock.'],
+    category: 'Finance',
+    emoji: '💹',
+    bg: 'linear-gradient(135deg, #7C3AED 0%, #5b21b6 100%)',
+    reward: 'Up to $150 stock',
+    // users: '15.6k',
+    hot: true,
+  },
+  {
+    id: 'wise',
+    brand: 'Wise',
+    title: 'Fee-free first transfer',
+    instructions: ['Send money overseas fee-free on your first Wise transfer. Great for international students.'],
+    category: 'Finance',
+    emoji: '💸',
+    bg: 'linear-gradient(135deg, #9FE870 0%, #6fc940 100%)',
+    reward: 'Fee-free transfer',
+    // users: '22.0k',
+  },
+  {
+    id: 'netflix',
+    brand: 'Netflix',
+    title: 'First month discounted',
+    instructions: ['New Netflix members signing up via Vouch get a discounted first month subscription.'],
+    category: 'Entertainment',
+    emoji: '🎬',
+    bg: 'linear-gradient(135deg, #E50914 0%, #b5070f 100%)',
+    reward: '50% off first month',
+    // users: '33.7k',
+  },
+  {
+    id: 'spotify',
+    brand: 'Spotify',
+    title: '3 months Premium for free',
+    instructions: ['New Spotify users get 3 months of Premium free when they sign up using our referral.'],
+    category: 'Entertainment',
+    emoji: '🎵',
+    bg: 'linear-gradient(135deg, #1DB954 0%, #158a3e 100%)',
+    reward: '3 months free',
+    // users: '44.9k',
+    hot: true,
+  },
+  {
+    id: 'doordash',
+    brand: 'DoorDash',
+    title: '$0 delivery fees for 30 days',
+    instructions: ['New DashPass members via Vouch get 30 days free with $0 delivery fees on eligible orders.'],
+    category: 'Food',
+    emoji: '🛵',
+    bg: 'linear-gradient(135deg, #FF3008 0%, #d42007 100%)',
+    reward: '30 days free',
+    // users: '18.2k',
+  },
+  {
+    id: 'canva',
+    brand: 'Canva',
+    title: 'Canva Pro free for 30 days',
+    instructions: ['Start designing like a pro — new Canva users get a full month of Canva Pro free via Vouch.'],
+    category: 'Tech',
+    emoji: '🎨',
+    bg: 'linear-gradient(135deg, #7D2AE8 0%, #5c1bc2 100%)',
+    reward: '1 month free Pro',
+    // users: '29.5k',
+  },
+  {
+    id: 'boost-mobile',
+    brand: 'Boost Mobile',
+    title: '10GB bonus data on first plan',
+    instructions: ['Switch to Boost Mobile and get 10GB extra data on your first month — Vouch exclusive.', 'ahah', 'ahahha'],
+    category: 'Telco',
+    emoji: '📱',
+    bg: 'linear-gradient(135deg, #D32F2F 0%, #a32020 100%)',
+    reward: '10GB bonus data',
+    // users: '6.4k',
+  },
+];
