@@ -3,7 +3,7 @@
 import styled, { createGlobalStyle, keyframes } from "styled-components";
 import { getDealStats } from "./deals_stats";
 import { useEffect, useState } from "react";
-import { DealCard } from "../components/dealCardComp/dealcard";
+
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -564,20 +564,20 @@ const DealsGrid = styled.div`
   margin-top: 3rem;
 `;
 
-// const DealCard = styled.div`
-//   border: 1.5px solid ${T.grey200};
-//   border-radius: 16px;
-//   overflow: hidden;
-//   transition:
-//     transform 0.25s,
-//     box-shadow 0.25s;
-//   background: ${T.white};
+const DealCard = styled.div`
+  border: 1.5px solid ${T.grey200};
+  border-radius: 16px;
+  overflow: hidden;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+  background: ${T.white};
 
-//   &:hover {
-//     transform: translateY(-4px);
-//     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.09);
-//   }
-// `;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.09);
+  }
+`;
 
 const DealHeader = styled.div<{ $bg: string }>`
   background: ${(p) => p.$bg};
@@ -910,14 +910,14 @@ export default function VouchHome() {
     valueOfDeals: number;
     popularDeals: any[];
   }>({ numOfDeals: 0, valueOfDeals: 0, popularDeals: [] });
-  const [isLoading, setIsLoading] = useState<boolean>();
+  const [isLoading, setIsLoading] = useState<boolean>()
 
   async function fetchData() {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       const val = await getDealStats();
-      setStats(val);
-      setIsLoading(false);
+      setStats(val)
+      setIsLoading(false)
     } catch (err) {
       console.error("Fetch failed:", err);
     }
@@ -1070,37 +1070,9 @@ export default function VouchHome() {
           </StepsGrid>
         </SectionInner>
       </HowSection>
-      <DealsSection id="deals">
-        <SectionInner>
-          <SectionHeader>
-            <SectionEyebrow>Featured deals</SectionEyebrow>
-            <SectionTitle>Top referral deals right now</SectionTitle>
-            <SectionSubtitle>
-              Fresh deals updated regularly. All vetted by the Vouch team.
-            </SectionSubtitle>
-          </SectionHeader>
-          <DealsGrid>
-            {stats.popularDeals?.map((d) => (
-              <DealCard
-                key={d.row_id}
-                brandName={d.brand_name}
-                brandLogoText={d.brand} // Falls back to brand_name if missing
-                category={d.return_type}
-                description={
-                  d.requirements?.instructions?.[0] ||
-                  "No description available"
-                }
-                payout={d.payout_estimate}
-                link={d.link}
-                bg={d.bg}
-              />
-            ))}
-          </DealsGrid>
-        </SectionInner>
-      </DealsSection>
 
       {/* Deals */}
-      {/* <DealsSection id="deals">
+      <DealsSection id="deals">
         <SectionInner>
           <SectionHeader>
             <SectionEyebrow>Featured deals</SectionEyebrow>
@@ -1135,7 +1107,7 @@ export default function VouchHome() {
             </DealsGrid>
           )}
         </SectionInner>
-      </DealsSection> */}
+      </DealsSection>
 
       {/* Trust signals */}
       <TrustSection>

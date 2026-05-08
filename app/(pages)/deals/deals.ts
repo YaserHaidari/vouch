@@ -1,6 +1,6 @@
 export enum ReturnType {
   Credit = 'Credit',
-  Voucher = 'Voucher',
+  Cash = 'Cash',
   Stocks = 'Stocks',
 }
 
@@ -23,19 +23,20 @@ export type Deal = {
   return_type: ReturnType;
   is_cash_convertible: boolean;
   payout_estimate: string;
+  popular: boolean
 };
 
 // Maps return_type → emoji for card image area
 export const RETURN_TYPE_EMOJI: Record<ReturnType, string> = {
   [ReturnType.Credit]:  '💳',
-  [ReturnType.Voucher]: '🎟️',
+  [ReturnType.Cash]: '🎟️',
   [ReturnType.Stocks]:  '📈',
 };
 
 // Maps return_type → gradient background for card image area
 export const RETURN_TYPE_BG: Record<ReturnType, string> = {
   [ReturnType.Credit]:  'linear-gradient(135deg, #0064D2 0%, #004fb0 100%)',
-  [ReturnType.Voucher]: 'linear-gradient(135deg, #FFD000 0%, #E8BD00 100%)',
+  [ReturnType.Cash]: 'linear-gradient(135deg, #FFD000 0%, #E8BD00 100%)',
   [ReturnType.Stocks]:  'linear-gradient(135deg, #06C167 0%, #039952 100%)',
 };
 

@@ -748,7 +748,9 @@ export default function DealsPage() {
 
                   <CardBody>
                     <BrandName>{deal.brand_name}</BrandName>
-                    <CardTitle>{deal.payout_estimate}</CardTitle>
+                    <CardTitle>
+                      Earn up to ${deal.payout_estimate}
+                    </CardTitle>
 
                     {instructions.slice(0, 2).map((step, idx) => (
                       <CardDesc key={idx}>{step}</CardDesc>
@@ -778,7 +780,7 @@ export default function DealsPage() {
                       {deal.is_cash_convertible && (
                         <CardMetaRow>
                           <span style={{ color: T.blue }}>
-                            💵 Cash convertible
+                            💵 Redeemable for Cash
                           </span>
                         </CardMetaRow>
                       )}
@@ -790,7 +792,11 @@ export default function DealsPage() {
                   <CardFooter>
                     <RewardBox>
                       <div className="label">You receive</div>
-                      <div className="value">{deal.payout_estimate}</div>
+                      <div className="value">
+                        {deal.return_type === "Credit" && `$${deal.payout_estimate} Credit`}
+                        {deal.return_type === "Cash" && `$${deal.payout_estimate} Cash`}
+                        {deal.return_type === "Stocks" && `$${deal.payout_estimate} in Stocks`}
+                      </div>
                     </RewardBox>
                     <ViewBtn>View deal →</ViewBtn>
                   </CardFooter>
