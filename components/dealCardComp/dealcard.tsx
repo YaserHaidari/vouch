@@ -1,147 +1,210 @@
 import React from "react";
 import styled from "styled-components";
 
-// Use the same tokens from your main page
+// --- Tokens (Keep consistent with your main page) ---
 const T = {
   navy: "#1A1A2E",
+  blue: "#0064D2",
+  grey50: "#F8F9FA",
   grey100: "#F0F1F3",
   grey200: "#E2E4E9",
   grey400: "#9DA3AE",
   grey600: "#5A6172",
   white: "#FFFFFF",
-  yellow: "#FFD000",
 };
 
-const Card = styled.div`
+// --- Styled Components ---
+const CardWrapper = styled.div`
+  background: ${T.white};
   border: 1.5px solid ${T.grey200};
   border-radius: 16px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.25s, box-shadow 0.25s;
-  background: ${T.white};
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.09);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
   }
 `;
 
-const Header = styled.div<{ $bg?: string }>`
-  background: ${(p) => p.$bg || T.navy};
-  padding: 1.5rem;
+const CardImageArea = styled.div<{ $bg: string }>`
+  height: 140px;
+  background: ${(p) => p.$bg};
+  padding: 1.25rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
+  position: relative;
 `;
 
-const Logo = styled.div`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: ${T.white};
+const CardBadgeRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
-const Category = styled.span`
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
-  background: rgba(255, 255, 255, 0.15);
-  padding: 0.25rem 0.65rem;
-  border-radius: 100px;
-`;
-
-const Body = styled.div`
-  padding: 1.4rem;
-`;
-
-const Title = styled.h3`
-  font-family: "Bricolage Grotesque", sans-serif;
+const CategoryPill = styled.span`
+  font-size: 0.7rem;
   font-weight: 700;
-  font-size: 1rem;
-  color: ${T.navy};
-  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  color: ${T.white};
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  backdrop-filter: blur(4px);
 `;
 
-const Desc = styled.p`
+const StatusBadge = styled.span<{ $status: string }>`
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  background: ${(p) => (p.$status === "active" ? "#E6F7ED" : "#FFFBE6")};
+  color: ${(p) => (p.$status === "active" ? "#1B7A3A" : "#7A5F00")};
+`;
+
+const BrandEmoji = styled.div`
+  font-size: 2.5rem;
+  align-self: center;
+`;
+
+const CardBody = styled.div`
+  padding: 1.25rem;
+  flex-grow: 1;
+`;
+
+const BrandName = styled.div`
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: ${T.grey400};
+  margin-bottom: 0.25rem;
+`;
+
+const CardTitle = styled.h3`
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: ${T.navy};
+  margin-bottom: 0.75rem;
+`;
+
+const CardDesc = styled.p`
   font-size: 0.85rem;
   color: ${T.grey600};
-  line-height: 1.5;
-  margin-bottom: 1rem;
+  line-height: 1.4;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+
+  &::before { content: "•"; color: ${T.blue}; }
 `;
 
-const Footer = styled.div`
+const CardMeta = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+`;
+
+const CardMetaRow = styled.div`
+  font-size: 0.78rem;
+  color: ${T.grey600};
+  font-weight: 500;
+  span { color: ${T.navy}; font-weight: 700; }
+`;
+
+const CardDivider = styled.div`
+  height: 1px;
+  background: ${T.grey100};
+  margin: 0 1.25rem;
+`;
+
+const CardFooter = styled.div`
+  padding: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 1rem;
-  border-top: 1px solid ${T.grey100};
 `;
 
-const Bonus = styled.div`
-  .label {
-    font-size: 0.72rem;
-    color: ${T.grey400};
-    font-weight: 500;
-  }
-  .value {
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: ${T.navy};
-  }
+const RewardBox = styled.div`
+  .label { font-size: 0.7rem; color: ${T.grey400}; font-weight: 600; text-transform: uppercase; }
+  .value { font-family: "Bricolage Grotesque", sans-serif; font-size: 1rem; font-weight: 800; color: ${T.navy}; }
 `;
 
-const SignUpLink = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: ${T.yellow};
-  color: ${T.navy};
+const ViewBtn = styled.div`
+  background: ${T.navy};
+  color: ${T.white};
+  font-size: 0.8rem;
   font-weight: 700;
-  font-size: 0.85rem;
-  padding: 0.5rem 1.1rem;
+  padding: 0.5rem 1rem;
   border-radius: 8px;
-  text-decoration: none;
-  transition: background 0.2s, transform 0.15s;
-
-  &:hover {
-    background: #e8bd00;
-    transform: translateY(-1px);
-  }
 `;
 
-// Interface to type your props
+// --- Component Logic ---
 interface DealCardProps {
-  brandName: string;
-  category: string;
-  description: string | string[];
-  payout: string | number;
-  link: string;
-  bg?: string;
-  brandLogoText?: string;
+  deal: any; // Ideally replace with your Deal interface
+  bg: string;
+  emoji: string;
+  style?: React.CSSProperties;
 }
 
-export const DealCard = (props: DealCardProps) => {
-  const { brandName,category, description, payout,link, bg} = props
+export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => {
+  const instructions = deal.requirements?.instructions ?? [];
 
   return (
-    <Card>
-      <Header $bg={bg}>
-        <Logo>{brandName}</Logo>
-        <Category>{category}</Category>
-      </Header>
-      <Body>
-        <Title>{brandName}</Title>
-        <Desc>{description}</Desc>
-        <Footer>
-          <Bonus>
-            <div className="label">You get</div>
-            <div className="value">${payout}</div>
-          </Bonus>
-          <SignUpLink href={link}>Sign up →</SignUpLink>
-        </Footer>
-      </Body>
-    </Card>
+    <CardWrapper as="a" href={deal.link || `/deals/${deal.brand_id}`} style={style}>
+      <CardImageArea $bg={bg}>
+        <CardBadgeRow>
+          <CategoryPill>{deal.return_type}</CategoryPill>
+          <StatusBadge $status={deal.status}>
+            {deal.status === "active" ? "Active" : deal.status === "coming_soon" ? "Soon" : "Expired"}
+          </StatusBadge>
+        </CardBadgeRow>
+        <BrandEmoji>{emoji}</BrandEmoji>
+      </CardImageArea>
+
+      <CardBody>
+        <BrandName>{deal.brand_name}</BrandName>
+        <CardTitle>Earn up to ${deal.payout_estimate}</CardTitle>
+
+        {instructions.slice(0, 2).map((step: string, idx: number) => (
+          <CardDesc key={idx}>{step}</CardDesc>
+        ))}
+
+        <CardMeta>
+          {deal.requirements?.initial_deposit > 0 && (
+            <CardMetaRow>Min. deposit: <span>${deal.requirements.initial_deposit}</span></CardMetaRow>
+          )}
+          {deal.offer_expiry_date && (
+            <CardMetaRow>
+              Expires: <span>{new Date(deal.offer_expiry_date).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}</span>
+            </CardMetaRow>
+          )}
+          {deal.is_cash_convertible && (
+            <CardMetaRow><span style={{ color: T.blue }}>💵 Redeemable for Cash</span></CardMetaRow>
+          )}
+        </CardMeta>
+      </CardBody>
+
+      <CardDivider />
+
+      <CardFooter>
+        <RewardBox>
+          <div className="label">You receive</div>
+          <div className="value">
+            {deal.return_type === "Credit" && `$${deal.payout_estimate} Credit`}
+            {deal.return_type === "Cash" && `$${deal.payout_estimate} Cash`}
+            {deal.return_type === "Stocks" && `$${deal.payout_estimate} in Stocks`}
+          </div>
+        </RewardBox>
+        <ViewBtn>View deal →</ViewBtn>
+      </CardFooter>
+    </CardWrapper>
   );
 };

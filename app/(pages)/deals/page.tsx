@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styled, { keyframes } from "styled-components";
 import "../deals/../../styles.css";
+
 import { supabase } from "@/lib/supabaseClient";
 import {
   Deal,
@@ -13,6 +14,7 @@ import {
   CATEGORIES,
   SORT_OPTIONS,
 } from "./deals";
+import { DealCardComponent } from "@/components/dealCardComp/dealcard";
 
 const T = {
   navy: "#1A1A2E",
@@ -363,17 +365,6 @@ const CardBadgeRow = styled.div`
   z-index: 2;
 `;
 
-const CategoryPill = styled.span`
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.22);
-  color: #fff;
-  backdrop-filter: blur(6px);
-  padding: 0.22rem 0.65rem;
-  border-radius: 100px;
-`;
 
 const StatusBadge = styled.span<{ $status: DealStatus }>`
   font-size: 0.7rem;
@@ -391,84 +382,7 @@ const StatusBadge = styled.span<{ $status: DealStatus }>`
   color: ${(p) => (p.$status === "active" ? T.navy : "#fff")};
 `;
 
-const CardBody = styled.div`
-  padding: 1.25rem 1.25rem 0;
-  flex: 1;
-`;
 
-const BrandName = styled.p`
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: ${T.grey400};
-  margin-bottom: 0.3rem;
-`;
-
-const CardTitle = styled.h3`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: ${T.navy};
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-`;
-
-const CardDesc = styled.p`
-  font-size: 0.83rem;
-  color: ${T.grey600};
-  line-height: 1.5;
-  margin-bottom: 1rem;
-`;
-
-const CardMeta = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 1rem;
-`;
-
-const CardMetaRow = styled.div`
-  font-size: 0.78rem;
-  color: ${T.grey400};
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  span {
-    color: ${T.grey600};
-    font-weight: 500;
-  }
-`;
-
-const CardDivider = styled.div`
-  height: 1px;
-  background: ${T.grey100};
-  margin: 0 -1.25rem;
-`;
-
-const CardFooter = styled.div`
-  padding: 1rem 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const RewardBox = styled.div`
-  .label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: ${T.grey400};
-    margin-bottom: 2px;
-  }
-  .value {
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: ${T.navy};
-  }
-`;
 
 const ViewBtn = styled.span`
   display: inline-flex;
@@ -556,7 +470,7 @@ export default function DealsPage() {
   };
 
   useEffect(() => {
-    fetchData()
+    fetchData();
     const channel = supabase
       .channel("schema-db-changes")
       .on(
@@ -566,7 +480,7 @@ export default function DealsPage() {
           schema: "public",
         },
         (payload) => {
-          console.log("recieed", payload)
+          console.log("recieed", payload);
           fetchData(); // re-fetch all deals on any change
         },
       )
@@ -719,90 +633,18 @@ export default function DealsPage() {
         {/* Deal cards */}
         {!loading && (
           <DealsGrid>
-            {sorted.map((deal, i) => {
-              const emoji = RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁";
-              const bg =
-                RETURN_TYPE_BG[deal.return_type] ??
-                `linear-gradient(135deg, ${T.navy}, #2d2d2d)`;
-              const instructions = deal.requirements?.instructions ?? [];
-
-              return (
-                <Card
-                  key={deal.row_id}
-                  href={deal.link || `/deals/${deal.brand_id}`}
-                  style={{ animationDelay: `${i * 0.05}s` }}
-                >
-                  <CardImageArea $bg={bg}>
-                    <CardBadgeRow>
-                      <CategoryPill>{deal.return_type}</CategoryPill>
-                      <StatusBadge $status={deal.status}>
-                        {deal.status === "active"
-                          ? "Active"
-                          : deal.status === "coming_soon"
-                            ? "Soon"
-                            : "Expired"}
-                      </StatusBadge>
-                    </CardBadgeRow>
-                    <BrandEmoji>{emoji}</BrandEmoji>
-                  </CardImageArea>
-
-                  <CardBody>
-                    <BrandName>{deal.brand_name}</BrandName>
-                    <CardTitle>
-                      Earn up to ${deal.payout_estimate}
-                    </CardTitle>
-
-                    {instructions.slice(0, 2).map((step, idx) => (
-                      <CardDesc key={idx}>{step}</CardDesc>
-                    ))}
-
-                    <CardMeta>
-                      {deal.requirements?.initial_deposit > 0 && (
-                        <CardMetaRow>
-                          Min. deposit:{" "}
-                          <span>${deal.requirements.initial_deposit}</span>
-                        </CardMetaRow>
-                      )}
-                      {deal.offer_expiry_date && (
-                        <CardMetaRow>
-                          Expires:{" "}
-                          <span>
-                            {new Date(
-                              deal.offer_expiry_date,
-                            ).toLocaleDateString("en-AU", {
-                              day: "numeric",
-                              month: "short",
-                              year: "numeric",
-                            })}
-                          </span>
-                        </CardMetaRow>
-                      )}
-                      {deal.is_cash_convertible && (
-                        <CardMetaRow>
-                          <span style={{ color: T.blue }}>
-                            💵 Redeemable for Cash
-                          </span>
-                        </CardMetaRow>
-                      )}
-                    </CardMeta>
-                  </CardBody>
-
-                  <CardDivider />
-
-                  <CardFooter>
-                    <RewardBox>
-                      <div className="label">You receive</div>
-                      <div className="value">
-                        {deal.return_type === "Credit" && `$${deal.payout_estimate} Credit`}
-                        {deal.return_type === "Cash" && `$${deal.payout_estimate} Cash`}
-                        {deal.return_type === "Stocks" && `$${deal.payout_estimate} in Stocks`}
-                      </div>
-                    </RewardBox>
-                    <ViewBtn>View deal →</ViewBtn>
-                  </CardFooter>
-                </Card>
-              );
-            })}
+            {sorted.map((deal, i) => (
+              <DealCardComponent
+                key={deal.row_id}
+                deal={deal}
+                emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
+                bg={
+                  RETURN_TYPE_BG[deal.return_type] ??
+                  `linear-gradient(135deg, ${T.navy}, #2d2d2d)`
+                }
+                style={{ animationDelay: `${i * 0.05}s` }}
+              />
+            ))}
           </DealsGrid>
         )}
 

@@ -3,7 +3,16 @@
 import styled, { createGlobalStyle, keyframes } from "styled-components";
 import { getDealStats } from "./deals_stats";
 import { useEffect, useState } from "react";
-import { DealCard } from "../components/dealCardComp/dealcard";
+import { DealCardComponent } from "../components/dealCardComp/dealcard";
+import {
+  Deal,
+  DealStatus,
+  ReturnType,
+  RETURN_TYPE_EMOJI,
+  RETURN_TYPE_BG,
+  CATEGORIES,
+  SORT_OPTIONS,
+} from "../app/(pages)/deals/deals";
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -564,74 +573,6 @@ const DealsGrid = styled.div`
   margin-top: 3rem;
 `;
 
-// const DealCard = styled.div`
-//   border: 1.5px solid ${T.grey200};
-//   border-radius: 16px;
-//   overflow: hidden;
-//   transition:
-//     transform 0.25s,
-//     box-shadow 0.25s;
-//   background: ${T.white};
-
-//   &:hover {
-//     transform: translateY(-4px);
-//     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.09);
-//   }
-// `;
-
-const DealHeader = styled.div<{ $bg: string }>`
-  background: ${(p) => p.$bg};
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const DealLogo = styled.div`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: ${T.white};
-`;
-
-const DealCategory = styled.span`
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
-  background: rgba(255, 255, 255, 0.15);
-  padding: 0.25rem 0.65rem;
-  border-radius: 100px;
-`;
-
-const DealBody = styled.div`
-  padding: 1.4rem;
-`;
-
-const DealTitle = styled.h3`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  color: ${T.navy};
-  margin-bottom: 0.4rem;
-`;
-
-const DealDesc = styled.p`
-  font-size: 0.85rem;
-  color: ${T.grey600};
-  line-height: 1.5;
-  margin-bottom: 1rem;
-`;
-
-const DealFooter = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 1rem;
-  border-top: 1px solid ${T.grey100};
-`;
-
 const DealBonus = styled.div`
   .label {
     font-size: 0.72rem;
@@ -1080,21 +1021,24 @@ export default function VouchHome() {
             </SectionSubtitle>
           </SectionHeader>
           <DealsGrid>
-            {stats.popularDeals?.map((d) => (
-              <DealCard
-                key={d.row_id}
-                brandName={d.brand_name}
-                brandLogoText={d.brand} // Falls back to brand_name if missing
-                category={d.return_type}
-                description={
-                  d.requirements?.instructions?.[0] ||
-                  "No description available"
-                }
-                payout={d.payout_estimate}
-                link={d.link}
-                bg={d.bg}
-              />
-            ))}
+            {stats.popularDeals?.map((d, i) => {
+              // 1. Define your visual logic (colors and emojis)
+              const emoji = RETURN_TYPE_EMOJI[d.return_type] ?? "🎁";
+              const cardBg =
+                d.bg ||
+                RETURN_TYPE_BG[d.return_type] ||
+                `linear-gradient(135deg, ${T.navy}, #2d2d2d)`;
+
+              return (
+                <DealCardComponent
+                  key={d.row_id}
+                  deal={d} // Pass the whole data object
+                  emoji={emoji} // Pass the computed emoji
+                  bg={cardBg} // Pass the background color/gradient
+                  style={{ animationDelay: `${i * 0.05}s` }} // Optional: staggered entrance
+                />
+              );
+            })}
           </DealsGrid>
         </SectionInner>
       </DealsSection>
