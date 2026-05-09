@@ -13,6 +13,7 @@ import {
   CATEGORIES,
   SORT_OPTIONS,
 } from "../app/(pages)/deals/deals";
+import { supabase } from "@/utils/supabase/client";
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -862,6 +863,9 @@ export default function VouchHome() {
     } catch (err) {
       console.error("Fetch failed:", err);
     }
+
+    const {data: {user}} = await supabase.auth.getUser()
+    console.log(user)
   }
   useEffect(() => {
     fetchData();

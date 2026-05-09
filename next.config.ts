@@ -5,8 +5,9 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true,
   },
-  output: 'export',
-  trailingSlash: true
+  // output: 'export',
+  trailingSlash: true,
+  allowedDevOrigins: ['192.168.0.12'],
 };
 
 export default nextConfig;

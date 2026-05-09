@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/utils/supabase/client";
 
 
 export async function getDealStats() {
@@ -14,7 +14,6 @@ export async function getDealStats() {
     });
 
     const popularDeals =  data.filter((value) => value.popular === true)
-    console.log(popularDeals)
     return { numOfDeals, valueOfDeals: sum, popularDeals };
   }
 }
