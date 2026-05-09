@@ -3,7 +3,9 @@
 import styled, { createGlobalStyle, keyframes } from "styled-components";
 import { getDealStats } from "./deals_stats";
 import { useEffect, useState } from "react";
-import { DealCardComponent } from "../components/dealCardComp/dealcard";
+import { DealCardComponent } from "../components/DealCard/dealcard";
+import { T } from "@/assets/colors";
+import { pulse, fadeUp,float,shimmer } from "@/assets/animations";
 import {
   Deal,
   DealStatus,
@@ -14,6 +16,8 @@ import {
   SORT_OPTIONS,
 } from "../app/(pages)/deals/deals";
 import { supabase } from "@/utils/supabase/client";
+import { NavCard } from "@/components/NavCard/navcard";
+import { FooterCard } from "@/components/FooterCard/footercard";
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -26,120 +30,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 // ─── Tokens ───────────────────────────────────────────────
-const T = {
-  navy: "#1A1A2E",
-  blue: "#0064D2",
-  blueLight: "#E8F1FC",
-  yellow: "#FFD000",
-  yellowLight: "#FFFBE6",
-  grey50: "#F8F9FA",
-  grey100: "#F0F1F3",
-  grey200: "#E2E4E9",
-  grey400: "#9DA3AE",
-  grey600: "#5A6172",
-  white: "#FFFFFF",
-};
 
-// ─── Animations ───────────────────────────────────────────
-const fadeUp = keyframes`
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
-
-const shimmer = keyframes`
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-`;
-
-const pulse = keyframes`
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%       { transform: scale(1.15); opacity: 0.7; }
-`;
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-8px); }
-`;
-
-// ─── Nav ──────────────────────────────────────────────────
-const Nav = styled.nav`
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid ${T.grey200};
-  padding: 0 2rem;
-`;
-
-const NavInner = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 68px;
-`;
-
-const Logo = styled.div`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 800;
-  font-size: 1.6rem;
-  color: ${T.navy};
-  letter-spacing: -0.03em;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  span {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: ${T.yellow};
-    margin-bottom: 2px;
-    animation: ${pulse} 2.5s ease-in-out infinite;
-  }
-`;
-
-const NavLinks = styled.ul`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  list-style: none;
-
-  @media (max-width: 640px) {
-    display: none;
-  }
-`;
-
-const NavLink = styled.a`
-  color: ${T.grey600};
-  text-decoration: none;
-  font-size: 0.92rem;
-  font-weight: 500;
-  transition: color 0.2s;
-  &:hover {
-    color: ${T.navy};
-  }
-`;
-
-const NavCta = styled.a`
-  background: ${T.blue};
-  color: #fff;
-  padding: 0.55rem 1.3rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition:
-    background 0.2s,
-    transform 0.15s;
-  &:hover {
-    background: #004fb0;
-    transform: translateY(-1px);
-  }
-`;
 
 // ─── Hero ─────────────────────────────────────────────────
 const HeroSection = styled.section`
@@ -722,65 +613,7 @@ const CtaBtn = styled.a`
   }
 `;
 
-// ─── Footer ───────────────────────────────────────────────
-const Footer = styled.footer`
-  background: ${T.navy};
-  padding: 3rem 2rem;
-`;
 
-const FooterInner = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-`;
-
-const FooterLogo = styled.div`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 800;
-  font-size: 1.4rem;
-  color: ${T.white};
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: ${T.yellow};
-    display: inline-block;
-  }
-`;
-
-const FooterLinks = styled.div`
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-`;
-
-const FooterLink = styled.a`
-  color: rgba(255, 255, 255, 0.5);
-  text-decoration: none;
-  font-size: 0.85rem;
-  transition: color 0.2s;
-  &:hover {
-    color: rgba(255, 255, 255, 0.9);
-  }
-`;
-
-const FooterCopy = styled.p`
-  color: rgba(255, 255, 255, 0.35);
-  font-size: 0.8rem;
-  width: 100%;
-  text-align: center;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  margin-top: 1rem;
-`;
 
 // ─── Data ─────────────────────────────────────────────────
 const steps = [
@@ -875,31 +708,7 @@ export default function VouchHome() {
       <GlobalStyle />
 
       {/* Nav */}
-      <Nav>
-        <NavInner>
-          <Logo>
-            vouch
-            <span />
-          </Logo>
-          <NavLinks>
-            <li>
-              <NavLink href="#how">How it works</NavLink>
-            </li>
-            <li>
-              <NavLink href="/deals">Deals</NavLink>
-            </li>
-            <li>
-              <NavLink href="#about">About</NavLink>
-            </li>
-            <li>
-              <NavLink href="/register">Register </NavLink>
-            </li>
-            <li>
-              <NavCta href="#deals">Browse Deals →</NavCta>
-            </li>
-          </NavLinks>
-        </NavInner>
-      </Nav>
+      <NavCard/>
 
       {/* Hero */}
       <HeroSection>
@@ -1117,26 +926,7 @@ export default function VouchHome() {
       </CtaBanner>
 
       {/* Footer */}
-      <Footer>
-        <FooterInner>
-          <FooterLogo>
-            vouch
-            <span />
-          </FooterLogo>
-          <FooterLinks>
-            <FooterLink href="#">About</FooterLink>
-            <FooterLink href="#">Privacy Policy</FooterLink>
-            <FooterLink href="#">Terms of Use</FooterLink>
-            <FooterLink href="#">Contact</FooterLink>
-          </FooterLinks>
-        </FooterInner>
-        <FooterInner style={{ paddingTop: 0 }}>
-          <FooterCopy>
-            © {new Date().getFullYear()} Vouch Pty Ltd. All rights reserved. ABN
-            00 000 000 000. Made with ❤️ in Australia.
-          </FooterCopy>
-        </FooterInner>
-      </Footer>
+      <FooterCard/>
     </>
   );
 }

@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styled, { keyframes } from "styled-components";
 import "../deals/../../styles.css";
-
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/utils/supabase/client";
 import {
   Deal,
   DealStatus,
@@ -14,170 +13,13 @@ import {
   CATEGORIES,
   SORT_OPTIONS,
 } from "./deals";
-import { DealCardComponent } from "@/components/dealCardComp/dealcard";
+import { DealCardComponent } from "@/components/DealCard/dealcard";
+import { T } from "@/assets/colors";
+import { NavCard } from "@/components/NavCard/navcard";
+import { fadeUp, pulse } from "@/assets/animations";
+import { PageHero, PageHeroInner, PageHeroTop, PageHeroText, Breadcrumb, PageTitle, PageSubtitle } from "@/assets/pageHeroStyles";
 
-const T = {
-  navy: "#1A1A2E",
-  blue: "#0064D2",
-  blueHover: "#004fb0",
-  blueLight: "#E8F1FC",
-  yellow: "#FFD000",
-  yellowHover: "#E8BD00",
-  yellowLight: "#FFFBE6",
-  grey50: "#F8F9FA",
-  grey100: "#F0F1F3",
-  grey200: "#E2E4E9",
-  grey400: "#9DA3AE",
-  grey600: "#5A6172",
-  white: "#FFFFFF",
-};
 
-const fadeUp = keyframes`
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
-
-const pulse = keyframes`
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50%       { transform: scale(1.2); opacity: 0.6; }
-`;
-
-// ─── Nav ──────────────────────────────────────────────────
-const Nav = styled.nav`
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid ${T.grey200};
-  padding: 0 2rem;
-`;
-const NavInner = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 68px;
-`;
-const Logo = styled(Link)`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 800;
-  font-size: 1.5rem;
-  color: ${T.navy};
-  letter-spacing: -0.03em;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  span {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: ${T.yellow};
-    display: inline-block;
-    animation: ${pulse} 2.5s ease-in-out infinite;
-  }
-`;
-const NavLinks = styled.ul`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  list-style: none;
-  @media (max-width: 640px) {
-    display: none;
-  }
-`;
-const NavLink = styled(Link)`
-  color: ${T.grey600};
-  text-decoration: none;
-  font-size: 0.92rem;
-  font-weight: 500;
-  transition: color 0.2s;
-  &:hover {
-    color: ${T.navy};
-  }
-  &.active {
-    color: ${T.blue};
-    font-weight: 600;
-  }
-`;
-const NavCta = styled(Link)`
-  background: ${T.blue};
-  color: #fff;
-  padding: 0.55rem 1.3rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition:
-    background 0.2s,
-    transform 0.15s;
-  &:hover {
-    background: ${T.blueHover};
-    transform: translateY(-1px);
-  }
-`;
-
-// ─── Hero strip ───────────────────────────────────────────
-const PageHero = styled.div`
-  background: ${T.navy};
-  padding: 3rem 2rem 0;
-  position: relative;
-  overflow: hidden;
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      ellipse at 80% 50%,
-      rgba(0, 100, 210, 0.25) 0%,
-      transparent 60%
-    );
-    pointer-events: none;
-  }
-`;
-const PageHeroInner = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-`;
-const PageHeroTop = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding-bottom: 2rem;
-`;
-const PageHeroText = styled.div``;
-const Breadcrumb = styled.p`
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.45);
-  margin-bottom: 0.6rem;
-  font-weight: 500;
-  a {
-    color: rgba(255, 255, 255, 0.45);
-    text-decoration: none;
-    &:hover {
-      color: rgba(255, 255, 255, 0.7);
-    }
-  }
-`;
-const PageTitle = styled.h1`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin-bottom: 0.6rem;
-  animation: ${fadeUp} 0.6s ease both;
-`;
-const PageSubtitle = styled.p`
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.95rem;
-  animation: ${fadeUp} 0.6s 0.1s ease both;
-`;
 const DealCount = styled.div`
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 2rem;
@@ -518,30 +360,7 @@ export default function DealsPage() {
   return (
     <>
       {/* Nav */}
-      <Nav>
-        <NavInner>
-          <Logo href="/">
-            vouch
-            <span />
-          </Logo>
-          <NavLinks>
-            <li>
-              <NavLink href="/">Home</NavLink>
-            </li>
-            <li>
-              <NavLink href="/deals" className="active">
-                Deals
-              </NavLink>
-            </li>
-            <li>
-              <NavLink href="/about">About</NavLink>
-            </li>
-            <li>
-              <NavCta href="/deals">Browse Deals →</NavCta>
-            </li>
-          </NavLinks>
-        </NavInner>
-      </Nav>
+      <NavCard/>
 
       {/* Hero */}
       <PageHero>
