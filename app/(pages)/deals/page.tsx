@@ -11,13 +11,21 @@ import {
   RETURN_TYPE_BG,
   CATEGORIES,
   SORT_OPTIONS,
+  category,
 } from "./deals";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { NavCard } from "@/components/NavCard/navcard";
 import { fadeUp, pulse } from "@/assets/animations";
-import { PageHero, PageHeroInner, PageHeroTop, PageHeroText, Breadcrumb, PageTitle, PageSubtitle } from "@/assets/pageHeroStyles";
-
+import {
+  PageHero,
+  PageHeroInner,
+  PageHeroTop,
+  PageHeroText,
+  Breadcrumb,
+  PageTitle,
+  PageSubtitle,
+} from "@/assets/pageHeroStyles";
 
 const DealCount = styled.div`
   font-family: "Bricolage Grotesque", sans-serif;
@@ -206,7 +214,6 @@ const CardBadgeRow = styled.div`
   z-index: 2;
 `;
 
-
 const StatusBadge = styled.span<{ $status: DealStatus }>`
   font-size: 0.7rem;
   font-weight: 700;
@@ -222,8 +229,6 @@ const StatusBadge = styled.span<{ $status: DealStatus }>`
         : T.grey400};
   color: ${(p) => (p.$status === "active" ? T.navy : "#fff")};
 `;
-
-
 
 const ViewBtn = styled.span`
   display: inline-flex;
@@ -333,9 +338,11 @@ export default function DealsPage() {
   }, []);
 
   // Filter
+  // Find this section inside your DealsPage component:
   const filtered = allDeals.filter((d) => {
-    const catMatch =
-      activeCategory === "All" || d.return_type === activeCategory;
+    // Update this line to use d.category
+    const catMatch = activeCategory === "All" || d.category === activeCategory;
+
     const statusMatch =
       activeFilter === "All deals"
         ? true
@@ -359,7 +366,7 @@ export default function DealsPage() {
   return (
     <>
       {/* Nav */}
-      <NavCard/>
+      <NavCard />
 
       {/* Hero */}
       <PageHero>
@@ -453,7 +460,7 @@ export default function DealsPage() {
           <DealsGrid>
             {sorted.map((deal, i) => (
               <DealCardComponent
-                key={deal.row_id}
+                key={deal.uuid}
                 deal={deal}
                 emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
                 bg={

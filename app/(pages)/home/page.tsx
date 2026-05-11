@@ -13,7 +13,7 @@ export default function home() {
   type DEALS = {
     brand_name: string;
     brand_id: string,
-    row_id: string;
+    uuid: string;
     created_at: Date,
     updated_at: Date,
     num: number;
@@ -49,7 +49,7 @@ export default function home() {
     <div>
       <h1>HAHA</h1>
       {allDeals.map((deal) => (
-        <div key={deal.row_id}>
+        <div key={deal.uuid}>
           <p>{deal.brand_name}</p>
         </div>
       ))}

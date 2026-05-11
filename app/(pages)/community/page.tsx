@@ -26,7 +26,7 @@ import {
 // ─── Mock community data ──────────────────────────────────
 const MOCK_COMMUNITY_DEALS: Deal[] = [
   {
-    row_id: "c1",
+    uuid: "c1",
     brand_name: "Boost Mobile",
     return_type: "Mobile" as ReturnType,
     payout_estimate: "10GB bonus",
@@ -34,7 +34,7 @@ const MOCK_COMMUNITY_DEALS: Deal[] = [
     created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
   },
   {
-    row_id: "c2",
+    uuid: "c2",
     brand_name: "Bupa Health",
     return_type: "Insurance" as ReturnType,
     payout_estimate: "$100 gift card",
@@ -42,7 +42,7 @@ const MOCK_COMMUNITY_DEALS: Deal[] = [
     created_at: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
   },
   {
-    row_id: "c3",
+    uuid: "c3",
     brand_name: "CommBank",
     return_type: "Banking" as ReturnType,
     payout_estimate: "$50 cashback",
@@ -479,7 +479,7 @@ export default function CommunityPage() {
           <DealsGrid>
             {sorted.map((deal, i) => (
               <DealCardComponent
-                key={deal.row_id}
+                key={deal.uuid}
                 deal={deal}
                 emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
                 bg={RETURN_TYPE_BG[deal.return_type] ?? `linear-gradient(135deg, ${T.navy}, #2d2d2d)`}

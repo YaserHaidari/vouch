@@ -844,7 +844,7 @@ export default function VouchHome() {
 
               return (
                 <DealCardComponent
-                  key={d.row_id}
+                  key={d.uuid}
                   deal={d} // Pass the whole data object
                   emoji={emoji} // Pass the computed emoji
                   bg={cardBg} // Pass the background color/gradient
@@ -871,7 +871,7 @@ export default function VouchHome() {
           ) : (
             <DealsGrid>
               {stats.popularDeals?.map((d) => (
-                <DealCard key={d.row_id}>
+                <DealCard key={d.uuid}>
                   <DealHeader $bg={d.bg}>
                     <DealLogo>{d.brand}</DealLogo>
                     <DealCategory>{d.return_type}</DealCategory>
@@ -922,7 +922,7 @@ export default function VouchHome() {
           Join over 120,000 Australians already using Vouch to get more from the
           services they sign up to.
         </CtaDesc>
-        <CtaBtn href="#deals">Browse all deals →</CtaBtn>
+        <CtaBtn href="/deals">Browse all deals →</CtaBtn>
       </CtaBanner>
 
       {/* Footer */}

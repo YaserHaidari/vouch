@@ -17,7 +17,7 @@ export type DealStatus = 'active' | 'expired' | 'coming_soon';
 export type Deal = {
   brand_name: string;
   brand_id: string;
-  row_id: string;
+  uuid: string;
   created_at: Date;
   updated_at: Date;
   num: number;
@@ -49,5 +49,6 @@ export const RETURN_TYPE_BG: Record<ReturnType, string> = {
   [ReturnType.Stocks]:  'linear-gradient(135deg, #06C167 0%, #039952 100%)',
 };
 
-export const CATEGORIES = ['All', ...Object.values(ReturnType)] as const;
+// Change this line in your deals.ts
+export const CATEGORIES = ['All', ...Object.values(Category)] as const;
 export const SORT_OPTIONS = ['Newest', 'Highest payout', 'A–Z'] as const;

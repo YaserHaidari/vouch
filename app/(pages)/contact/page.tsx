@@ -14,7 +14,6 @@ export default function Contact(){
   return(
     <div>
       <NavCard/>
-      <h1>HEllo</h1>
       <ContactPageForm/>
     </div>
   )
