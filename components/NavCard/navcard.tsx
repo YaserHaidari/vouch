@@ -1,6 +1,10 @@
+
+"use client"
 import styled, { createGlobalStyle, keyframes } from "styled-components";
 import { T } from "@/assets/colors";
-import { pulse, fadeUp,float,shimmer } from "@/assets/animations";
+import { pulse, fadeUp, float, shimmer } from "@/assets/animations";
+import { useEffect, useState } from "react";
+import { supabase } from "@/utils/supabase/client";
 
 const Nav = styled.nav`
   position: sticky;
@@ -81,32 +85,59 @@ const NavCta = styled.a`
   }
 `;
 
-export function NavCard(){
-    return(
-           <Nav>
-        <NavInner>
-          <Logo>
-            vouch
-            <span />
-          </Logo>
-          <NavLinks>
-            <li>
-              <NavLink href="#how">How it works</NavLink>
-            </li>
-            <li>
-              <NavLink href="/deals">Deals</NavLink>
-            </li>
-            <li>
-              <NavLink href="#about">About</NavLink>
-            </li>
+export function NavCard() {
+  const [isUser, setIsUser] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  async function fetchUser(): Promise<boolean> {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    setIsLoading(false);
+    if (user) {
+      setIsUser(true);
+      return true;
+    } else {
+      setIsUser(false);
+      return false;
+    }
+  }
+  return isLoading ? (
+    <></>
+  ) : (
+    <Nav>
+      <NavInner>
+        <Logo>
+          vouch
+          <span />
+        </Logo>
+        <NavLinks>
+          <li>
+            <NavLink href="/#how">How it works</NavLink>
+          </li>
+          {!isUser ? (
             <li>
               <NavLink href="/register">Register </NavLink>
             </li>
-            <li>
-              <NavCta href="#deals">Browse Deals →</NavCta>
-            </li>
-          </NavLinks>
-        </NavInner>
-      </Nav>
-    )
+          ) : (
+            <>
+              <li>
+                <NavLink href="/community">Community deals</NavLink>
+              </li>
+            </>
+          )}
+          <li>
+            <NavLink href="/deals">Deals</NavLink>
+          </li>
+          <li>
+            <NavCta href="#deals">Browse Deals →</NavCta>
+          </li>
+        </NavLinks>
+      </NavInner>
+    </Nav>
+  );
 }

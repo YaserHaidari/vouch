@@ -72,7 +72,7 @@ export function FooterCard(){
             <FooterLink href="#">About</FooterLink>
             <FooterLink href="#">Privacy Policy</FooterLink>
             <FooterLink href="#">Terms of Use</FooterLink>
-            <FooterLink href="#">Contact</FooterLink>
+            <FooterLink href="/contact">Contact</FooterLink>
           </FooterLinks>
         </FooterInner>
         <FooterInner style={{ paddingTop: 0 }}>

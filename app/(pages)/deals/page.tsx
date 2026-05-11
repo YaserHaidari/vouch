@@ -7,7 +7,6 @@ import { supabase } from "@/utils/supabase/client";
 import {
   Deal,
   DealStatus,
-  ReturnType,
   RETURN_TYPE_EMOJI,
   RETURN_TYPE_BG,
   CATEGORIES,

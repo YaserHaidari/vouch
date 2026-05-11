@@ -3,6 +3,14 @@ export enum ReturnType {
   Cash = 'Cash',
   Stocks = 'Stocks',
 }
+export enum Category {
+  Banking = 'Banking',
+  Internet = 'Internet',
+  Transport = 'Transport',
+  Energy = 'Energy',
+  Investing = 'Investing',
+  Tech = 'Tech'
+}
 
 export type DealStatus = 'active' | 'expired' | 'coming_soon';
 
@@ -23,7 +31,8 @@ export type Deal = {
   return_type: ReturnType;
   is_cash_convertible: boolean;
   payout_estimate: string;
-  popular: boolean
+  popular: boolean,
+  category: Category
 };
 
 // Maps return_type → emoji for card image area
