@@ -11,7 +11,7 @@ import {
   RETURN_TYPE_BG,
   CATEGORIES,
   SORT_OPTIONS,
-  category,
+  Category,
 } from "./deals";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";

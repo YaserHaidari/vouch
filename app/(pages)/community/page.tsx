@@ -22,32 +22,38 @@ import {
   RETURN_TYPE_BG,
   CATEGORIES,
 } from "@/app/(pages)/deals/deals";
-
+export enum Category {
+  Banking = 'Banking',
+  Internet = 'Internet',
+  Transport = 'Transport',
+  Energy = 'Energy',
+  Investing = 'Investing',
+  Tech = 'Tech'
+}
 // ─── Mock community data ──────────────────────────────────
 const MOCK_COMMUNITY_DEALS: Deal[] = [
   {
     uuid: "c1",
     brand_name: "Boost Mobile",
-    return_type: "Mobile" as ReturnType,
-    payout_estimate: "10GB bonus",
-    status: "active" as DealStatus,
+    brand_id: "123",
     created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    uuid: "c2",
-    brand_name: "Bupa Health",
-    return_type: "Insurance" as ReturnType,
-    payout_estimate: "$100 gift card",
-    status: "active" as DealStatus,
-    created_at: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    uuid: "c3",
-    brand_name: "CommBank",
-    return_type: "Banking" as ReturnType,
-    payout_estimate: "$50 cashback",
-    status: "coming_soon" as DealStatus,
-    created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+    updated_at: new Date(Date.now() - 2 * 60 * 60 * 1000),
+    num: 1,
+    status: "active",
+    link: "https://example.com/referral",
+    offer_expiry_date: new Date(
+      Date.now() + 7 * 24 * 60 * 60 * 1000,
+    ).toISOString(),
+    requirements: {
+      initial_deposit: 0,
+      instructions: ["Sign up", "Use referral link"],
+    },
+    return_type: ReturnType.Credit,
+    is_cash_convertible: false,
+    payout_estimate: "10GB bonus",
+    popular: true,
+    category: Category.Banking,
+    bg: "#0064D2",
   },
 ];
 
@@ -78,7 +84,9 @@ const TabBar = styled.div`
   gap: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
+  &::-webkit-scrollbar {
+    display: none;
+  }
   margin-top: 0.5rem;
 `;
 
@@ -93,7 +101,9 @@ const Tab = styled.button<{ $active: boolean }>`
   color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.55)")};
   padding: 0.9rem 1.3rem;
   border-bottom: 2px solid ${(p) => (p.$active ? T.yellow : "transparent")};
-  transition: color 0.2s, border-color 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
   white-space: nowrap;
   &:hover {
     color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.85)")};
@@ -136,7 +146,10 @@ const SortSelect = styled.select`
   border-radius: 8px;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
-  &:focus { outline: none; border-color: ${T.blue}; }
+  &:focus {
+    outline: none;
+    border-color: ${T.blue};
+  }
 `;
 
 const PostBtn = styled.button`
@@ -149,9 +162,14 @@ const PostBtn = styled.button`
   font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
   white-space: nowrap;
-  &:hover { background: #e6bb00; transform: translateY(-1px); }
+  &:hover {
+    background: #e6bb00;
+    transform: translateY(-1px);
+  }
 `;
 
 // ─── Page body ────────────────────────────────────────────
@@ -185,7 +203,10 @@ const EmptyState = styled.div`
   text-align: center;
   padding: 4rem 2rem;
   color: ${T.grey400};
-  .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
   h3 {
     font-family: "Bricolage Grotesque", sans-serif;
     font-size: 1.2rem;
@@ -193,7 +214,9 @@ const EmptyState = styled.div`
     color: ${T.navy};
     margin-bottom: 0.4rem;
   }
-  p { font-size: 0.9rem; }
+  p {
+    font-size: 0.9rem;
+  }
 `;
 
 // ─── Modal ────────────────────────────────────────────────
@@ -220,8 +243,14 @@ const Modal = styled.div`
   box-shadow: 0 20px 60px rgba(17, 24, 39, 0.15);
   animation: slideUp 0.22s ease;
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;
 
@@ -257,7 +286,10 @@ const CloseBtn = styled.button`
   align-items: center;
   justify-content: center;
   transition: all 0.15s;
-  &:hover { background: ${T.grey200}; color: ${T.navy}; }
+  &:hover {
+    background: ${T.grey200};
+    color: ${T.navy};
+  }
 `;
 
 const Field = styled.div`
@@ -285,9 +317,16 @@ const Input = styled.input`
   font-size: 0.9rem;
   padding: 10px 14px;
   outline: none;
-  transition: border-color 0.15s, background 0.15s;
-  &:focus { border-color: ${T.blue}; background: ${T.white}; }
-  &::placeholder { color: ${T.grey400}; }
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  &:focus {
+    border-color: ${T.blue};
+    background: ${T.white};
+  }
+  &::placeholder {
+    color: ${T.grey400};
+  }
 `;
 
 const SelectInput = styled.select`
@@ -302,7 +341,9 @@ const SelectInput = styled.select`
   outline: none;
   cursor: pointer;
   transition: border-color 0.15s;
-  &:focus { border-color: ${T.blue}; }
+  &:focus {
+    border-color: ${T.blue};
+  }
 `;
 
 const Textarea = styled.textarea`
@@ -317,16 +358,25 @@ const Textarea = styled.textarea`
   outline: none;
   resize: vertical;
   min-height: 80px;
-  transition: border-color 0.15s, background 0.15s;
-  &:focus { border-color: ${T.blue}; background: ${T.white}; }
-  &::placeholder { color: ${T.grey400}; }
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  &:focus {
+    border-color: ${T.blue};
+    background: ${T.white};
+  }
+  &::placeholder {
+    color: ${T.grey400};
+  }
 `;
 
 const TwoCol = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  @media (max-width: 480px) { grid-template-columns: 1fr; }
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -341,9 +391,19 @@ const SubmitBtn = styled.button`
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-  &:hover { background: #e6bb00; transform: translateY(-1px); }
-  &:disabled { background: ${T.grey200}; color: ${T.grey400}; cursor: default; transform: none; }
+  transition:
+    background 0.2s,
+    transform 0.15s;
+  &:hover {
+    background: #e6bb00;
+    transform: translateY(-1px);
+  }
+  &:disabled {
+    background: ${T.grey200};
+    color: ${T.grey400};
+    cursor: default;
+    transform: none;
+  }
 `;
 
 const SuccessState = styled.div`
@@ -369,7 +429,11 @@ const SuccessState = styled.div`
     font-weight: 800;
     color: ${T.navy};
   }
-  p { font-size: 0.85rem; color: ${T.grey400}; line-height: 1.5; }
+  p {
+    font-size: 0.85rem;
+    color: ${T.grey400};
+    line-height: 1.5;
+  }
 `;
 
 // ─── Page ─────────────────────────────────────────────────
@@ -388,12 +452,13 @@ export default function CommunityPage() {
   });
 
   const filtered = deals.filter(
-    (d) => activeCategory === "All" || d.return_type === activeCategory
+    (d) => activeCategory === "All" || d.return_type === activeCategory,
   );
 
   const sorted = [...filtered].sort((a, b) => {
     if (sort === "A–Z") return a.brand_name.localeCompare(b.brand_name);
-    if (sort === "Highest payout") return b.payout_estimate.localeCompare(a.payout_estimate);
+    if (sort === "Highest payout")
+      return b.payout_estimate.localeCompare(a.payout_estimate);
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 
@@ -404,7 +469,13 @@ export default function CommunityPage() {
     setTimeout(() => {
       setSubmitted(false);
       setShowForm(false);
-      setForm({ brand_name: "", return_type: CATEGORIES.filter((c) => c !== "All")[0] ?? "", payout_estimate: "", referral_link: "", description: "" });
+      setForm({
+        brand_name: "",
+        return_type: CATEGORIES.filter((c) => c !== "All")[0] ?? "",
+        payout_estimate: "",
+        referral_link: "",
+        description: "",
+      });
     }, 2500);
   };
 
@@ -422,7 +493,8 @@ export default function CommunityPage() {
               </Breadcrumb>
               <PageTitle>Community referrals</PageTitle>
               <PageSubtitle>
-                Deals shared by the Vouch community. Every submission is reviewed before going live.
+                Deals shared by the Vouch community. Every submission is
+                reviewed before going live.
               </PageSubtitle>
             </PageHeroText>
             <DealCount>
@@ -448,12 +520,23 @@ export default function CommunityPage() {
       {/* Filter bar */}
       <FilterBar>
         <FilterInner>
-          <ResultsCount>{sorted.length} referral{sorted.length !== 1 ? "s" : ""}</ResultsCount>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <SortSelect value={sort} onChange={(e) => setSort(e.target.value as SortOption)}>
-              {SORT_OPTIONS.map((o) => <option key={o}>{o}</option>)}
+          <ResultsCount>
+            {sorted.length} referral{sorted.length !== 1 ? "s" : ""}
+          </ResultsCount>
+          <div
+            style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+          >
+            <SortSelect
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortOption)}
+            >
+              {SORT_OPTIONS.map((o) => (
+                <option key={o}>{o}</option>
+              ))}
             </SortSelect>
-            <PostBtn onClick={() => setShowForm(true)}>+ Post a referral</PostBtn>
+            <PostBtn onClick={() => setShowForm(true)}>
+              + Post a referral
+            </PostBtn>
           </div>
         </FilterInner>
       </FilterBar>
@@ -462,7 +545,9 @@ export default function CommunityPage() {
       <PageBody>
         <SectionHeading>
           <h2>
-            {activeCategory === "All" ? "All community referrals" : `${activeCategory} referrals`}
+            {activeCategory === "All"
+              ? "All community referrals"
+              : `${activeCategory} referrals`}
           </h2>
           <span style={{ fontSize: "0.85rem", color: T.grey400 }}>
             Showing {sorted.length} of {deals.length}
@@ -482,7 +567,10 @@ export default function CommunityPage() {
                 key={deal.uuid}
                 deal={deal}
                 emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
-                bg={RETURN_TYPE_BG[deal.return_type] ?? `linear-gradient(135deg, ${T.navy}, #2d2d2d)`}
+                bg={
+                  RETURN_TYPE_BG[deal.return_type] ??
+                  `linear-gradient(135deg, ${T.navy}, #2d2d2d)`
+                }
                 style={{ animationDelay: `${i * 0.05}s` }}
               />
             ))}
@@ -492,7 +580,9 @@ export default function CommunityPage() {
 
       {/* Modal */}
       {showForm && (
-        <Overlay onClick={(e) => e.target === e.currentTarget && setShowForm(false)}>
+        <Overlay
+          onClick={(e) => e.target === e.currentTarget && setShowForm(false)}
+        >
           <Modal>
             <CloseBtn onClick={() => setShowForm(false)}>✕</CloseBtn>
 
@@ -500,19 +590,28 @@ export default function CommunityPage() {
               <SuccessState>
                 <div className="icon">✓</div>
                 <h3>Referral submitted!</h3>
-                <p>Our team will review it before it goes live.<br />Thanks for contributing to the community!</p>
+                <p>
+                  Our team will review it before it goes live.
+                  <br />
+                  Thanks for contributing to the community!
+                </p>
               </SuccessState>
             ) : (
               <>
                 <ModalTitle>Post a referral</ModalTitle>
-                <ModalSub>Submitted referrals are reviewed by our team before going live.</ModalSub>
+                <ModalSub>
+                  Submitted referrals are reviewed by our team before going
+                  live.
+                </ModalSub>
 
                 <Field>
                   <Label>Brand name *</Label>
                   <Input
                     placeholder="e.g. Boost Mobile"
                     value={form.brand_name}
-                    onChange={(e) => setForm({ ...form, brand_name: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, brand_name: e.target.value })
+                    }
                   />
                 </Field>
 
@@ -521,7 +620,9 @@ export default function CommunityPage() {
                   <Input
                     placeholder="https://..."
                     value={form.referral_link}
-                    onChange={(e) => setForm({ ...form, referral_link: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, referral_link: e.target.value })
+                    }
                   />
                 </Field>
 
@@ -531,14 +632,18 @@ export default function CommunityPage() {
                     <Input
                       placeholder="e.g. $50 cashback"
                       value={form.payout_estimate}
-                      onChange={(e) => setForm({ ...form, payout_estimate: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, payout_estimate: e.target.value })
+                      }
                     />
                   </Field>
                   <Field>
                     <Label>Category</Label>
                     <SelectInput
                       value={form.return_type}
-                      onChange={(e) => setForm({ ...form, return_type: e.target.value })}
+                      onChange={(e) =>
+                        setForm({ ...form, return_type: e.target.value as Category })
+                      }
                     >
                       {CATEGORIES.filter((c) => c !== "All").map((c) => (
                         <option key={c}>{c}</option>
@@ -552,7 +657,9 @@ export default function CommunityPage() {
                   <Textarea
                     placeholder="Any extra details, promo codes, expiry date..."
                     value={form.description}
-                    onChange={(e) => setForm({ ...form, description: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, description: e.target.value })
+                    }
                   />
                 </Field>
 
