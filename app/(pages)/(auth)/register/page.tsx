@@ -9,6 +9,7 @@ export default function Register() {
     supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
+        // redirectTo: "http://localhost:3000/auth/callback/",
         redirectTo: "https://vouch-2jshkpx1a-yaserhaidaris-projects.vercel.app/auth/callback/",
 
       },
