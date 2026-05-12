@@ -683,7 +683,7 @@ export default function VouchHome() {
   const [stats, setStats] = useState<{
     numOfDeals: number;
     valueOfDeals: number;
-    popularDeals: any[];
+    popularDeals: Deal[];
   }>({ numOfDeals: 0, valueOfDeals: 0, popularDeals: [] });
   const [isLoading, setIsLoading] = useState<boolean>();
 

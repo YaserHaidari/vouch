@@ -32,7 +32,8 @@ export type Deal = {
   is_cash_convertible: boolean;
   payout_estimate: string;
   popular: boolean,
-  category: Category
+  category: Category,
+  bg: string
 };
 
 // Maps return_type → emoji for card image area
