@@ -70,7 +70,7 @@ export function FooterCard(){
           </FooterLogo>
           <FooterLinks>
             <FooterLink href="#">About</FooterLink>
-            <FooterLink href="#">Privacy Policy</FooterLink>
+            <FooterLink href="/policy">Privacy Policy</FooterLink>
             <FooterLink href="#">Terms of Use</FooterLink>
             <FooterLink href="/contact">Contact</FooterLink>
           </FooterLinks>
