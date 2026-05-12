@@ -18,7 +18,7 @@ export type Deal = {
   brand_name: string;
   brand_id: string;
   uuid: string;
-  created_at: Date;
+  created_at: string;
   updated_at: Date;
   num: number;
   status: DealStatus;

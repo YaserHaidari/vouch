@@ -836,10 +836,11 @@ export default function VouchHome() {
           <DealsGrid>
             {stats.popularDeals?.map((d, i) => {
               // 1. Define your visual logic (colors and emojis)
-              const emoji = RETURN_TYPE_EMOJI[d.return_type] ?? "🎁";
+              const returnType = d.return_type as ReturnType;
+              const emoji = RETURN_TYPE_EMOJI[returnType] ?? "🎁";
               const cardBg =
                 d.bg ||
-                RETURN_TYPE_BG[d.return_type] ||
+                RETURN_TYPE_BG[returnType] ||
                 `linear-gradient(135deg, ${T.navy}, #2d2d2d)`;
 
               return (
