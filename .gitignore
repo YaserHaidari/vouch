@@ -41,3 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 .client_secret_923784932483-gkjv4kn8vstoihcd0u6o225p5g7p9tdn.apps.googleusercontent.com
+.env*.local
