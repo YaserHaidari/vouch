@@ -34,7 +34,8 @@ export type Deal = {
   payout_estimate: string;
   popular: boolean,
   category: Category,
-  bg: string
+  bg: string,
+  note: string
 };
 
 // Maps return_type → emoji for card image area

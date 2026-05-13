@@ -22,7 +22,7 @@ import {
   CATEGORIES,
 } from "@/app/lib/deals";
 
-import { Category } from "@/app/lib/deals"; 
+import { Category } from "@/app/lib/deals";
 // ─── Mock community data ──────────────────────────────────
 const MOCK_COMMUNITY_DEALS: Deal[] = [
   {
@@ -47,6 +47,7 @@ const MOCK_COMMUNITY_DEALS: Deal[] = [
     popular: true,
     category: Category.Banking,
     bg: "#0064D2",
+    note: "",
   },
 ];
 
@@ -559,6 +560,7 @@ export default function CommunityPage() {
               <DealCardComponent
                 key={deal.uuid}
                 deal={deal}
+                note={deal.note ? `Note: ${deal.note}` : ""}
                 emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
                 bg={
                   RETURN_TYPE_BG[deal.return_type] ??
@@ -635,7 +637,10 @@ export default function CommunityPage() {
                     <SelectInput
                       value={form.return_type}
                       onChange={(e) =>
-                        setForm({ ...form, return_type: e.target.value as Category })
+                        setForm({
+                          ...form,
+                          return_type: e.target.value as Category,
+                        })
                       }
                     >
                       {CATEGORIES.filter((c) => c !== "All").map((c) => (

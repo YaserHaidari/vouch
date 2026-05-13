@@ -408,6 +408,7 @@ export default function DealsPage() {
                 key={deal.uuid}
                 deal={deal}
                 emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
+                note={deal.note ? `Note: ${deal.note}` : ''}
                 bg={
                   RETURN_TYPE_BG[deal.return_type] ??
                   `linear-gradient(135deg, ${T.navy}, #2d2d2d)`

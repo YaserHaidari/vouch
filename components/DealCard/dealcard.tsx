@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Link from "next/link";
 
 // --- Tokens (Keep consistent with your main page) ---
 const T = {
@@ -112,6 +113,7 @@ const CardMeta = styled.div`
   gap: 0.4rem;
 `;
 
+
 const CardMetaRow = styled.div`
   font-size: 0.78rem;
   color: ${T.grey600};
@@ -137,13 +139,22 @@ const RewardBox = styled.div`
   .value { font-family: "Bricolage Grotesque", sans-serif; font-size: 1rem; font-weight: 800; color: ${T.navy}; }
 `;
 
-const ViewBtn = styled.div`
+const ViewBtn = styled(Link)`
   background: ${T.navy};
   color: ${T.white};
   font-size: 0.8rem;
   font-weight: 700;
   padding: 0.5rem 1rem;
   border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  &:hover {
+    background: #111827;
+    color: ${T.yellow};
+  }
 `;
 
 // --- Component Logic ---
@@ -152,9 +163,10 @@ interface DealCardProps {
   bg: string;
   emoji: string;
   style?: React.CSSProperties;
+  note: string;
 }
 
-export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => {
+export const DealCardComponent = ({ deal, bg, emoji, style, note }: DealCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false); // State to track toggle
   const instructions = deal.requirements?.instructions ?? [];
   
@@ -163,7 +175,7 @@ export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => 
   const hasMore = instructions.length > 3;
 
   return (
-    <CardWrapper as="a" href={deal.link || `/deals/${deal.brand_id}`} style={style}>
+    <CardWrapper style={style}>
       <CardImageArea $bg={bg}>
         <CardBadgeRow>
           <CategoryPill>{deal.return_type}</CategoryPill>
@@ -202,7 +214,7 @@ export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => 
               marginTop: "4px"
             }}
           >
-            {isExpanded ? "↑ View Less" : `+ View ${instructions.length - 3} more steps`}
+            {isExpanded ? "↑ View Less" : `+ View detailed steps`}
           </button>
         )}
 
@@ -215,6 +227,10 @@ export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => 
               Expires: <span>{new Date(deal.offer_expiry_date).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}</span>
             </CardMetaRow>
           )}
+          {/* Note section below expiry */}
+          <CardMetaRow>
+           {note}
+          </CardMetaRow>
           {deal.is_cash_convertible && (
             <CardMetaRow><span style={{ color: T.blue }}>💵 Redeemable for Cash</span></CardMetaRow>
           )}
@@ -222,7 +238,19 @@ export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => 
       </CardBody>
 
       <CardDivider />
-      {/* ... rest of your footer component */}
+      <CardFooter>
+        <RewardBox>
+          <div className="label">YOU RECEIVE</div>
+          <div className="value">
+            {deal.return_type === "credit" && `$${deal.payout_estimate} Credit`}
+            {deal.return_type === "cash" && `$${deal.payout_estimate} Cash`}
+            {deal.return_type === "stocks" && `$${deal.payout_estimate} in Stocks`}
+          </div>
+        </RewardBox>
+        {deal.status !== "expired" && (
+          <ViewBtn href={`/deals/${deal.uuid}`}>Claim deal →</ViewBtn>
+        )}
+      </CardFooter>
     </CardWrapper>
   );
 };
