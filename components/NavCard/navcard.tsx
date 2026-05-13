@@ -1,10 +1,10 @@
-
 "use client"
-import styled, { createGlobalStyle, keyframes } from "styled-components";
+import styled from "styled-components";
 import { T } from "@/assets/colors";
-import { pulse, fadeUp, float, shimmer } from "@/assets/animations";
+import { pulse } from "@/assets/animations";
 import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase/client";
+import { Menu, X } from "lucide-react"; // Install lucide-react if you haven't
 
 const Nav = styled.nav`
   position: sticky;
@@ -34,6 +34,9 @@ const Logo = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
+  z-index: 101; /* Stay above mobile menu */
+
+  a { text-decoration: none; color: inherit; }
 
   span {
     display: inline-block;
@@ -46,14 +49,24 @@ const Logo = styled.div`
   }
 `;
 
-const NavLinks = styled.ul`
+// Updated NavLinks to handle mobile state
+const NavLinks = styled.ul<{ $isOpen: boolean }>`
   display: flex;
   align-items: center;
   gap: 2rem;
   list-style: none;
 
-  @media (max-width: 640px) {
-    display: none;
+  @media (max-width: 768px) {
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+    flex-direction: column;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 2rem;
+    border-bottom: 1px solid ${T.grey200};
+    gap: 1.5rem;
   }
 `;
 
@@ -63,9 +76,7 @@ const NavLink = styled.a`
   font-size: 0.92rem;
   font-weight: 500;
   transition: color 0.2s;
-  &:hover {
-    color: ${T.navy};
-  }
+  &:hover { color: ${T.navy}; }
 `;
 
 const NavCta = styled.a`
@@ -76,66 +87,61 @@ const NavCta = styled.a`
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
-  transition:
-    background 0.2s,
-    transform 0.15s;
-  &:hover {
-    background: #004fb0;
-    transform: translateY(-1px);
+  transition: background 0.2s, transform 0.15s;
+  &:hover { background: #004fb0; transform: translateY(-1px); }
+`;
+
+const MobileToggle = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: ${T.navy};
+  z-index: 101;
+
+  @media (max-width: 768px) {
+    display: block;
   }
 `;
 
 export function NavCard() {
-  const [isUser, setIsUser] = useState<boolean>(true);
+  const [isUser, setIsUser] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     fetchUser();
   }, []);
 
-  async function fetchUser(): Promise<boolean> {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+  async function fetchUser() {
+    const { data: { user } } = await supabase.auth.getUser();
+    setIsUser(!!user);
     setIsLoading(false);
-    if (user) {
-      setIsUser(true);
-      return true;
-    } else {
-      setIsUser(false);
-      return false;
-    }
   }
-  return isLoading ? (
-    <></>
-  ) : (
+
+  if (isLoading) return null;
+
+  return (
     <Nav>
       <NavInner>
         <Logo>
           <a href="/">vouch</a>
           <span />
         </Logo>
-        <NavLinks>
-          <li>
-            <NavLink href="/#how">How it works</NavLink>
-          </li>
+
+        <MobileToggle onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
+        </MobileToggle>
+
+        <NavLinks $isOpen={isOpen}>
+          <li><NavLink href="/#how">How it works</NavLink></li>
           {!isUser ? (
-            <li>
-              <NavLink href="/register">Register </NavLink>
-            </li>
+            <li><NavLink href="/register">Register</NavLink></li>
           ) : (
-            <>
-              <li>
-                <NavLink href="/community">Community deals</NavLink>
-              </li>
-            </>
+            <li><NavLink href="/community">Community deals</NavLink></li>
           )}
-          <li>
-            <NavLink href="/deals">Deals</NavLink>
-          </li>
-          <li>
-            <NavCta href="/deals">Browse Deals →</NavCta>
-          </li>
+          <li><NavLink href="/deals">Deals</NavLink></li>
+          <li><NavCta href="/deals">Browse Deals →</NavCta></li>
         </NavLinks>
       </NavInner>
     </Nav>
