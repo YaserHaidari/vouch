@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vouch",
   description:
-    "Vouch finds the best referral deals from top Aussie services so you get more just for signing up. No gimmicks. Just real rewards.",
+    "Vouch finds the best deals from top Aussie services so you get more just for signing up. No gimmicks. Just real rewards.",
 };
 
 export default function RootLayout({

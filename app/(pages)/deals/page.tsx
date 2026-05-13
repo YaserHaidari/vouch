@@ -358,9 +358,9 @@ export default function DealsPage() {
               <Breadcrumb>
                 <a href="/">Home</a> / Deals
               </Breadcrumb>
-              <PageTitle>All referral deals</PageTitle>
+              <PageTitle>All deals</PageTitle>
               <PageSubtitle>
-                Vetted referral offers from Australia's best services. Updated
+                Vetted offers from Australia's best services. Updated
                 weekly.
               </PageSubtitle>
             </PageHeroText>

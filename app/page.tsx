@@ -619,7 +619,7 @@ const steps = [
     icon: "🔗",
     bg: "#E8F1FC",
     accent: T.blue,
-    title: "Browse referral deals",
+    title: "Browse deals",
     desc: "Vouch brings the best referral offers from top Australian & International services — all in one place.",
   },
   {
@@ -718,7 +718,7 @@ export default function VouchHome() {
               <em>Get rewarded.</em>
             </HeroHeading>
             <HeroDesc>
-              Vouch finds the best referral deals from top Aussie services so
+              Vouch finds the best deals from top Aussie services so
               you get more just for signing up. No gimmicks. Just real rewards.
             </HeroDesc>
             <HeroCtas>
@@ -779,7 +779,7 @@ export default function VouchHome() {
         <StatsInner>
           <StatItem>
             <div className="num">{stats.numOfDeals}+</div>
-            <div className="lbl">Live referral deals</div>
+            <div className="lbl">Live deals</div>
           </StatItem>
           <StatItem>
             <div className="num">5k+</div>
@@ -825,7 +825,7 @@ export default function VouchHome() {
         <SectionInner>
           <SectionHeader>
             <SectionEyebrow>Featured deals</SectionEyebrow>
-            <SectionTitle>Top referral deals right now</SectionTitle>
+            <SectionTitle>Top deals right now</SectionTitle>
             <SectionSubtitle>
               Fresh deals updated regularly. All vetted by the Vouch team.
             </SectionSubtitle>
@@ -846,6 +846,7 @@ export default function VouchHome() {
                   deal={d} // Pass the whole data object
                   emoji={emoji} // Pass the computed emoji
                   bg={cardBg} // Pass the background color/gradient
+                  note={d.note ? `Note: ${d.note}` : ''}
                   style={{ animationDelay: `${i * 0.05}s` }} // Optional: staggered entrance
                 />
               );
@@ -859,7 +860,7 @@ export default function VouchHome() {
         <SectionInner>
           <SectionHeader>
             <SectionEyebrow>Featured deals</SectionEyebrow>
-            <SectionTitle>Top referral deals right now</SectionTitle>
+            <SectionTitle>Top deals right now</SectionTitle>
             <SectionSubtitle>
               Fresh deals updated regularly. All vetted by the Vouch team.
             </SectionSubtitle>

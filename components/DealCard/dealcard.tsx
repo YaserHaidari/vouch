@@ -1,18 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-
-// --- Tokens (Keep consistent with your main page) ---
-const T = {
-  navy: "#1A1A2E",
-  blue: "#0064D2",
-  grey50: "#F8F9FA",
-  grey100: "#F0F1F3",
-  grey200: "#E2E4E9",
-  grey400: "#9DA3AE",
-  grey600: "#5A6172",
-  white: "#FFFFFF",
-};
+import { T } from "@/assets/colors";
 
 // --- Styled Components ---
 const CardWrapper = styled.div`
