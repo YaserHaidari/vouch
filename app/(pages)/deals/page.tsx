@@ -309,7 +309,7 @@ export default function DealsPage() {
     }
     setLoading(false);
   };
-  function capitalize(str) {
+  function capitalize(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
   useEffect(() => {

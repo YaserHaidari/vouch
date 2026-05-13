@@ -154,7 +154,7 @@ interface DealCardProps {
   style?: React.CSSProperties;
 }
 
-export const DealCardComponent = ({ deal, bg, emoji, style, isExpired }: DealCardProps) => {
+export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => {
   const instructions = deal.requirements?.instructions ?? [];
 
   return (

@@ -3,7 +3,7 @@ export enum ReturnType {
   Cash = 'cash',
   Stocks = 'stocks',
 }
-export const enum Category {
+export enum Category {
   Banking = 'banking',
   Internet = 'internet',
   Transport = 'transport',
@@ -52,5 +52,5 @@ export const RETURN_TYPE_BG: Record<ReturnType, string> = {
 };
 
 // Change this line in your deals.ts
-export const CATEGORIES = ['All', ...Object.values(Category)] as const;
+export const CATEGORIES = ['All', ...Object.values(Category)];
 export const SORT_OPTIONS = ['Newest', 'Highest payout', 'A–Z'] as const;
