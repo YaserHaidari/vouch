@@ -152,10 +152,19 @@ const PageBody = styled.div`
 // ─── Deal Card ────────────────────────────────────────────
 const DealsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
-`;
 
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+`;
 const Card = styled(Link)`
   display: flex;
   flex-direction: column;
