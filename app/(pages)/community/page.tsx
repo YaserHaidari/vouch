@@ -16,20 +16,13 @@ import {
 } from "@/assets/pageHeroStyles";
 import {
   Deal,
-  DealStatus,
   ReturnType,
   RETURN_TYPE_EMOJI,
   RETURN_TYPE_BG,
   CATEGORIES,
 } from "@/app/lib/deals";
-export enum Category {
-  Banking = 'Banking',
-  Internet = 'Internet',
-  Transport = 'Transport',
-  Energy = 'Energy',
-  Investing = 'Investing',
-  Tech = 'Tech'
-}
+
+import { Category } from "@/app/lib/deals"; 
 // ─── Mock community data ──────────────────────────────────
 const MOCK_COMMUNITY_DEALS: Deal[] = [
   {

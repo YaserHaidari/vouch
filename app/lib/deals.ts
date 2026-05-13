@@ -3,7 +3,7 @@ export enum ReturnType {
   Cash = 'cash',
   Stocks = 'stocks',
 }
-export enum Category {
+export const enum Category {
   Banking = 'banking',
   Internet = 'internet',
   Transport = 'transport',
