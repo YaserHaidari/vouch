@@ -1,20 +1,17 @@
 "use client";
 
 import styled, { createGlobalStyle, keyframes } from "styled-components";
-import { getDealStats } from "./deals_stats";
+import { getDealStats } from "./lib/deals_stats";
 import { useEffect, useState } from "react";
 import { DealCardComponent } from "../components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { pulse, fadeUp,float,shimmer } from "@/assets/animations";
 import {
   Deal,
-  DealStatus,
   ReturnType,
   RETURN_TYPE_EMOJI,
   RETURN_TYPE_BG,
-  CATEGORIES,
-  SORT_OPTIONS,
-} from "../app/(pages)/deals/deals";
+} from "./lib/deals";
 import { supabase } from "@/utils/supabase/client";
 import { NavCard } from "@/components/NavCard/navcard";
 import { FooterCard } from "@/components/FooterCard/footercard";
@@ -725,14 +722,14 @@ export default function VouchHome() {
               you get more just for signing up. No gimmicks. Just real rewards.
             </HeroDesc>
             <HeroCtas>
-              <BtnPrimary href="#deals">Browse deals →</BtnPrimary>
+              <BtnPrimary href="/deals">Browse deals →</BtnPrimary>
               <BtnSecondary href="#how">How it works</BtnSecondary>
             </HeroCtas>
           </div>
 
           {/* Referral card mockup */}
           <HeroVisual>
-            <ReferralCard>
+            {/* <ReferralCard>
               <CardTop>
                 <ServiceBadge $color={T.blue} $bg={T.blueLight}>
                   <div className="icon">📱</div>
@@ -772,7 +769,7 @@ export default function VouchHome() {
                   <div className="lbl">No cost to join</div>
                 </MiniStatItem>
               </MiniStat>
-            </ReferralCard>
+            </ReferralCard> */}
           </HeroVisual>
         </HeroInner>
       </HeroSection>
@@ -785,8 +782,8 @@ export default function VouchHome() {
             <div className="lbl">Live referral deals</div>
           </StatItem>
           <StatItem>
-            <div className="num">120k+</div>
-            <div className="lbl">Aussies signed up</div>
+            <div className="num">5k+</div>
+            <div className="lbl">Upto 5k+ Aussies signed up</div>
           </StatItem>
           <StatItem>
             <div className="num">${stats.valueOfDeals}+</div>
@@ -902,7 +899,7 @@ export default function VouchHome() {
             <div className="icon">🇦🇺</div> Australian owned & operated
           </TrustItem>
           <TrustItem>
-            <div className="icon">🔒</div> No personal data sold
+            <div className="icon">🔒</div> Community deals included
           </TrustItem>
           <TrustItem>
             <div className="icon">✅</div> All deals verified by Vouch
@@ -920,8 +917,7 @@ export default function VouchHome() {
       <CtaBanner>
         <CtaTitle>Ready to get rewarded?</CtaTitle>
         <CtaDesc>
-          Join over 120,000 Australians already using Vouch to get more from the
-          services they sign up to.
+          Before you sign up to any new service, check our curated deals to find a referral link and save.
         </CtaDesc>
         <CtaBtn href="/deals">Browse all deals →</CtaBtn>
       </CtaBanner>

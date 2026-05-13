@@ -468,7 +468,7 @@ export const ContactPageForm = () => {
                   <Field>
                     <Label>First name *</Label>
                     <Input
-                      placeholder="Yaser"
+                      placeholder="Alex"
                       value={form.first_name}
                       onChange={(e) => setForm({ ...form, first_name: e.target.value })}
                     />
@@ -476,7 +476,7 @@ export const ContactPageForm = () => {
                   <Field>
                     <Label>Last name</Label>
                     <Input
-                      placeholder="H."
+                      placeholder="Hamilton"
                       value={form.last_name}
                       onChange={(e) => setForm({ ...form, last_name: e.target.value })}
                     />

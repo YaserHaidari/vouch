@@ -154,7 +154,7 @@ interface DealCardProps {
   style?: React.CSSProperties;
 }
 
-export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => {
+export const DealCardComponent = ({ deal, bg, emoji, style, isExpired }: DealCardProps) => {
   const instructions = deal.requirements?.instructions ?? [];
 
   return (
@@ -198,9 +198,9 @@ export const DealCardComponent = ({ deal, bg, emoji, style }: DealCardProps) => 
         <RewardBox>
           <div className="label">You receive</div>
           <div className="value">
-            {deal.return_type === "Credit" && `$${deal.payout_estimate} Credit`}
-            {deal.return_type === "Cash" && `$${deal.payout_estimate} Cash`}
-            {deal.return_type === "Stocks" && `$${deal.payout_estimate} in Stocks`}
+            {deal.return_type === "credit" && `$${deal.payout_estimate} Credit`}
+            {deal.return_type === "cash" && `$${deal.payout_estimate} Cash`}
+            {deal.return_type === "stocks" && `$${deal.payout_estimate} in Stocks`}
           </div>
         </RewardBox>
         <ViewBtn>View deal →</ViewBtn>

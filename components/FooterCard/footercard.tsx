@@ -65,13 +65,11 @@ export function FooterCard(){
         <Footer>
         <FooterInner>
           <FooterLogo>
-            vouch
+            <a href="/">vouch</a>
             <span />
           </FooterLogo>
           <FooterLinks>
-            <FooterLink href="#">About</FooterLink>
-            <FooterLink href="/policy">Privacy Policy</FooterLink>
-            <FooterLink href="#">Terms of Use</FooterLink>
+            <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
             <FooterLink href="/contact">Contact</FooterLink>
           </FooterLinks>
         </FooterInner>

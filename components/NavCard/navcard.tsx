@@ -112,7 +112,7 @@ export function NavCard() {
     <Nav>
       <NavInner>
         <Logo>
-          vouch
+          <a href="/">vouch</a>
           <span />
         </Logo>
         <NavLinks>
@@ -134,7 +134,7 @@ export function NavCard() {
             <NavLink href="/deals">Deals</NavLink>
           </li>
           <li>
-            <NavCta href="#deals">Browse Deals →</NavCta>
+            <NavCta href="/deals">Browse Deals →</NavCta>
           </li>
         </NavLinks>
       </NavInner>

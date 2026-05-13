@@ -1,0 +1,7 @@
+<svg width="600" height="225" viewBox="0 0 600 225" xmlns="http://www.w3.org/2000/svg">
+  <!-- "vouch" Text - Enlarged 150% -->
+  <text x="60" y="150" font-family="Arial, sans-serif" font-weight="bold" font-size="127.5" fill="#0A1931" letter-spacing="-3">vouch</text>
+  
+  <!-- Yellow Circle - Enlarged 150% -->
+  <circle cx="495" cy="112.5" r="52.5" fill="#E9B84C" />
+</svg>

@@ -21,7 +21,7 @@ import {
   RETURN_TYPE_EMOJI,
   RETURN_TYPE_BG,
   CATEGORIES,
-} from "@/app/(pages)/deals/deals";
+} from "@/app/lib/deals";
 export enum Category {
   Banking = 'Banking',
   Internet = 'Internet',

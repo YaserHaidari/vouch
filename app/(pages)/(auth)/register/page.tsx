@@ -10,7 +10,7 @@ export default function Register() {
       provider: "google",
       options: {
         // redirectTo: "http://localhost:3000/auth/callback/",
-        redirectTo: "https://yaser-haidaris-vouch-staging.vercel.app/auth/callback/",
+        redirectTo: window.location.origin
 
       },
 

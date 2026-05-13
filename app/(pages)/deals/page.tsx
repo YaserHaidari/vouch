@@ -12,7 +12,7 @@ import {
   CATEGORIES,
   SORT_OPTIONS,
   Category,
-} from "./deals";
+} from "../../lib/deals";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { NavCard } from "@/components/NavCard/navcard";
@@ -287,22 +287,17 @@ const SkeletonCard = styled.div`
   animation: shimmer 1.4s infinite;
 `;
 
-const StatusLabel: Record<DealStatus, string> = {
-  active: "🟡 Active",
-  expired: "⚫ Expired",
-  coming_soon: "🔵 Coming soon",
-};
-
-const FILTER_OPTIONS = ["All deals", "Active only", "Coming soon"] as const;
-type FilterOption = (typeof FILTER_OPTIONS)[number];
-
 // ─── Page ─────────────────────────────────────────────────
 export default function DealsPage() {
   const [allDeals, setAllDeals] = useState<Deal[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [activeFilter, setActiveFilter] = useState<FilterOption>("All deals");
-  const [sort, setSort] = useState<string>(SORT_OPTIONS[0]);
+
+  // Filter deals by category
+  const filteredDeals =
+    activeCategory === "All"
+      ? allDeals
+      : allDeals.filter((deal) => deal.category === activeCategory);
 
   const fetchData = async () => {
     setLoading(true);
@@ -314,7 +309,9 @@ export default function DealsPage() {
     }
     setLoading(false);
   };
-
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
   useEffect(() => {
     fetchData();
     const channel = supabase
@@ -337,31 +334,7 @@ export default function DealsPage() {
     };
   }, []);
 
-  // Filter
-  // Find this section inside your DealsPage component:
-  const filtered = allDeals.filter((d) => {
-    // Update this line to use d.category
-    const catMatch = activeCategory === "All" || d.category === activeCategory;
 
-    const statusMatch =
-      activeFilter === "All deals"
-        ? true
-        : activeFilter === "Active only"
-          ? d.status === "active"
-          : activeFilter === "Coming soon"
-            ? d.status === "coming_soon"
-            : true;
-    return catMatch && statusMatch;
-  });
-
-  // Sort
-  const sorted = [...filtered].sort((a, b) => {
-    if (sort === "A–Z") return a.brand_name.localeCompare(b.brand_name);
-    if (sort === "Highest payout")
-      return b.payout_estimate.localeCompare(a.payout_estimate);
-    // Newest — fall back to created_at desc
-    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-  });
 
   return (
     <>
@@ -383,12 +356,16 @@ export default function DealsPage() {
               </PageSubtitle>
             </PageHeroText>
             <DealCount>
-              {loading ? "—" : allDeals.length}
+              {loading ? "—" : allDeals.filter((item) => {
+                console.log(item)
+                return item.status == "active"
+              }).length
+            }
               <span>live deals</span>
             </DealCount>
           </PageHeroTop>
 
-          {/* Category tabs — driven by ReturnType */}
+          {/* Category tabs — driven by Category */}
           <TabBar>
             {CATEGORIES.map((cat) => (
               <Tab
@@ -396,56 +373,15 @@ export default function DealsPage() {
                 $active={activeCategory === cat}
                 onClick={() => setActiveCategory(cat)}
               >
-                {cat}
+                {capitalize(cat)}
               </Tab>
             ))}
           </TabBar>
         </PageHeroInner>
       </PageHero>
 
-      {/* Filter / sort bar */}
-      <FilterBar>
-        <FilterInner>
-          <FilterLeft>
-            <FilterLabel>Filter:</FilterLabel>
-            {FILTER_OPTIONS.map((f) => (
-              <FilterChip
-                key={f}
-                $active={activeFilter === f}
-                onClick={() => setActiveFilter(f)}
-              >
-                {f}
-              </FilterChip>
-            ))}
-          </FilterLeft>
-          <div
-            style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
-          >
-            <ResultsCount>
-              {loading ? "…" : `${sorted.length} deals`}
-            </ResultsCount>
-            <SortSelect value={sort} onChange={(e) => setSort(e.target.value)}>
-              {SORT_OPTIONS.map((o) => (
-                <option key={o}>{o}</option>
-              ))}
-            </SortSelect>
-          </div>
-        </FilterInner>
-      </FilterBar>
-
       {/* Main content */}
       <PageBody>
-        <SectionHeading>
-          <h2>
-            {activeCategory === "All" ? "All deals" : `${activeCategory} deals`}
-          </h2>
-          {!loading && (
-            <span style={{ fontSize: "0.85rem", color: T.grey400 }}>
-              Showing {sorted.length} of {allDeals.length}
-            </span>
-          )}
-        </SectionHeading>
-
         {/* Skeleton loading state */}
         {loading && (
           <DealsGrid>
@@ -456,9 +392,9 @@ export default function DealsPage() {
         )}
 
         {/* Deal cards */}
-        {!loading && (
+        {!loading && filteredDeals.length > 0 && (
           <DealsGrid>
-            {sorted.map((deal, i) => (
+            {filteredDeals.map((deal, i) => (
               <DealCardComponent
                 key={deal.uuid}
                 deal={deal}
@@ -474,7 +410,7 @@ export default function DealsPage() {
         )}
 
         {/* Empty state */}
-        {!loading && sorted.length === 0 && (
+        {!loading && filteredDeals.length === 0 && (
           <div
             style={{
               textAlign: "center",

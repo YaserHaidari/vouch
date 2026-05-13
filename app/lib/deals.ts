@@ -1,15 +1,16 @@
 export enum ReturnType {
-  Credit = 'Credit',
-  Cash = 'Cash',
-  Stocks = 'Stocks',
+  Credit = 'credit',
+  Cash = 'cash',
+  Stocks = 'stocks',
 }
 export enum Category {
-  Banking = 'Banking',
-  Internet = 'Internet',
-  Transport = 'Transport',
-  Energy = 'Energy',
-  Investing = 'Investing',
-  Tech = 'Tech'
+  Banking = 'banking',
+  Internet = 'internet',
+  Transport = 'transport',
+  Energy = 'energy',
+  Finance = 'finance',
+  Investing = 'investing',
+  Tech = 'tech'
 }
 
 export type DealStatus = 'active' | 'expired' | 'coming_soon';
