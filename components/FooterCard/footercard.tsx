@@ -75,7 +75,7 @@ export function FooterCard(){
         </FooterInner>
         <FooterInner style={{ paddingTop: 0 }}>
           <FooterCopy>
-            © {new Date().getFullYear()} Vouch. All rights reserved. Made with ❤️ in Australia.
+            © {new Date().getFullYear()} Vouch. All rights reserved.
           </FooterCopy>
         </FooterInner>
       </Footer>
