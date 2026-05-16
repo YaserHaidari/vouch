@@ -343,6 +343,7 @@ export const ContactPageForm = () => {
 
   async function handleSubmitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    console.log("submit fired", form)
     if (!canSubmit) return;
     setError(null);
     setLoading(true);
@@ -452,6 +453,7 @@ export const ContactPageForm = () => {
                 <TypeRow>
                   {CONTACT_TYPES.map(({ label, value }) => (
                     <TypeChip
+                      type="button"
                       key={value}
                       $active={contactType === value}
                       onClick={() => {

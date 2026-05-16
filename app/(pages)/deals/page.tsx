@@ -332,7 +332,7 @@ export default function DealsPage() {
           schema: "public",
         },
         (payload) => {
-          console.log("recieed", payload);
+          // console.log("recieed", payload);
           fetchData(); // re-fetch all deals on any change
         },
       )

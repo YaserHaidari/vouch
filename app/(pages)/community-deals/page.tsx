@@ -503,7 +503,7 @@ export default function CommunityPage() {
       .select("*")
       .eq("is_approved", true)
       .then(({ data }) => {
-        console.log(data)
+        // console.log(data)
         if (data) setDeals(data as Deal[]);
       });
   }

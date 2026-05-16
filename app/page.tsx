@@ -695,7 +695,7 @@ export default function VouchHome() {
     }
 
     const {data: {user}} = await supabase.auth.getUser()
-    console.log(user)
+    // console.log(user)
   }
   useEffect(() => {
     fetchData();
