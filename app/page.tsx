@@ -729,11 +729,11 @@ export default function VouchHome() {
 
           {/* Referral card mockup */}
           <HeroVisual>
-            {/* <ReferralCard>
+            <ReferralCard>
               <CardTop>
                 <ServiceBadge $color={T.blue} $bg={T.blueLight}>
                   <div className="icon">📱</div>
-                  Boost Mobile
+                  Amaysim Mobile
                 </ServiceBadge>
                 <LiveTag>Live deal</LiveTag>
               </CardTop>
@@ -746,30 +746,29 @@ export default function VouchHome() {
                   lineHeight: 1.5,
                 }}
               >
-                Sign up using the Vouch referral link and get 10GB of bonus data
-                on your first month.
+                Amaysim yearly sim $121 off + Bonus 80GB + $75 finder reward
               </p>
 
               <CodeBox>
-                <CodeText>VOUCH-BOOST-10</CodeText>
-                <CopyBtn>Copy link</CopyBtn>
+                <CodeText>Limited time offer</CodeText>
+                <CopyBtn>< a href="https://www.finder.com.au/finder-rewards/finder-amaysim-switching-promotion-terms-and-conditions-may-2026?rewards_ref=MmQ4OWVkNjMtMWUwYS00MDhhLTg2ODAtNjlmN2ZkM2Q4MjE2">Claim deal</a></CopyBtn>
               </CodeBox>
 
               <MiniStat>
                 <MiniStatItem>
-                  <div className="val">3,241</div>
+                  <div className="val">4</div>
                   <div className="lbl">Used this deal</div>
                 </MiniStatItem>
                 <MiniStatItem>
-                  <div className="val">10GB</div>
+                  <div className="val">80GB</div>
                   <div className="lbl">Bonus data</div>
                 </MiniStatItem>
                 <MiniStatItem>
-                  <div className="val">Free</div>
-                  <div className="lbl">No cost to join</div>
+                  <div className="val">$199</div>
+                  <div className="lbl">Expires 22nd May </div>
                 </MiniStatItem>
               </MiniStat>
-            </ReferralCard> */}
+            </ReferralCard>
           </HeroVisual>
         </HeroInner>
       </HeroSection>
