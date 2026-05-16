@@ -10,7 +10,8 @@ export enum Category {
   Energy = 'energy',
   Finance = 'finance',
   Investing = 'investing',
-  Tech = 'tech'
+  Tech = 'tech',
+  Mobile = 'mobile'
 }
 
 export type DealStatus = 'active' | 'expired' | 'coming_soon';
