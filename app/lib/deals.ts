@@ -17,7 +17,7 @@ export type DealStatus = 'active' | 'expired' | 'coming_soon';
 
 export type Deal = {
   brand_name: string;
-  brand_id: string;
+  brand_id?: string;
   uuid: string;
   created_at: string;
   updated_at: Date;
@@ -25,7 +25,7 @@ export type Deal = {
   status: DealStatus;
   link: string;
   offer_expiry_date: string;
-  requirements: {
+  requirements?: {
     initial_deposit: number;
     instructions: string[];
   };
@@ -35,7 +35,9 @@ export type Deal = {
   popular: boolean,
   category: Category,
   bg: string,
-  note: string
+  note: string,
+  display_name?: string,
+  is_approved?: boolean
 };
 
 // Maps return_type → emoji for card image area

@@ -138,7 +138,7 @@ export function NavCard() {
           {!isUser ? (
             <li><NavLink href="/register">Register</NavLink></li>
           ) : (
-            <li><NavLink href="/community">Community deals</NavLink></li>
+            <li><NavLink href="/community-deals">Community deals</NavLink></li>
           )}
           <li><NavLink href="/deals">Deals</NavLink></li>
           <li><NavCta href="/deals">Browse Deals →</NavCta></li>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NavCard } from "@/components/NavCard/navcard";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
@@ -23,6 +23,7 @@ import {
 } from "@/app/lib/deals";
 
 import { Category } from "@/app/lib/deals";
+import { supabase } from "@/utils/supabase/client";
 // ─── Mock community data ──────────────────────────────────
 const MOCK_COMMUNITY_DEALS: Deal[] = [
   {
@@ -43,7 +44,7 @@ const MOCK_COMMUNITY_DEALS: Deal[] = [
     },
     return_type: ReturnType.Credit,
     is_cash_convertible: false,
-    payout_estimate: "10GB bonus",
+    payout_estimate: "1",
     popular: true,
     category: Category.Banking,
     bg: "#0064D2",
@@ -189,10 +190,19 @@ const SectionHeading = styled.div`
 
 const DealsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
-`;
 
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
 const EmptyState = styled.div`
   text-align: center;
   padding: 4rem 2rem;
@@ -232,6 +242,9 @@ const Modal = styled.div`
   border-radius: 20px;
   width: 100%;
   max-width: 520px;
+  /* Allow scrolling on small screens */
+  max-height: 90vh;
+  overflow-y: auto;
   padding: 36px;
   position: relative;
   box-shadow: 0 20px 60px rgba(17, 24, 39, 0.15);
@@ -373,6 +386,34 @@ const TwoCol = styled.div`
   }
 `;
 
+// ─── Checkbox row ─────────────────────────────────────────
+const CheckboxRow = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.88rem;
+  color: ${T.navy};
+  font-weight: 500;
+  user-select: none;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: ${T.blue};
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+`;
+
+// ─── Divider ──────────────────────────────────────────────
+const Divider = styled.div`
+  height: 1px;
+  background: ${T.grey200};
+  margin: 1.25rem 0;
+`;
+
 const SubmitBtn = styled.button`
   width: 100%;
   margin-top: 8px;
@@ -430,48 +471,95 @@ const SuccessState = styled.div`
   }
 `;
 
+// ─── Empty form state ─────────────────────────────────────
+const EMPTY_FORM = {
+  brand_name: "",
+  return_type: "" as ReturnType | "",
+  category: (CATEGORIES.filter((c) => c !== "All")[0] ?? "") as Category | "",
+  payout_estimate: "",
+  referral_link: "",
+  referral_code: "",
+  offer_expiry_date: "",
+  is_cash_convertible: false,
+  note: "",
+};
+
 // ─── Page ─────────────────────────────────────────────────
 export default function CommunityPage() {
-  const [deals] = useState<Deal[]>(MOCK_COMMUNITY_DEALS);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [sort, setSort] = useState<SortOption>("Newest");
+  const [deals, setDeals] = useState<Deal[]>([]);
+
+  const [activeCategory, setActiveCategory] = useState<string>("All");
   const [showForm, setShowForm] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({
-    brand_name: "",
-    return_type: CATEGORIES.filter((c) => c !== "All")[0] ?? "",
-    payout_estimate: "",
-    referral_link: "",
-    description: "",
-  });
+  const [form, setForm] = useState(EMPTY_FORM);
 
-  const filtered = deals.filter(
-    (d) => activeCategory === "All" || d.return_type === activeCategory,
-  );
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  const sorted = [...filtered].sort((a, b) => {
-    if (sort === "A–Z") return a.brand_name.localeCompare(b.brand_name);
-    if (sort === "Highest payout")
-      return b.payout_estimate.localeCompare(a.payout_estimate);
-    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-  });
+  async function fetchData() {
+    await supabase
+      .from("community_deals")
+      .select("*")
+      .eq("is_approved", true)
+      .then(({ data }) => {
+        console.log(data)
+        if (data) setDeals(data as Deal[]);
+      });
+  }
+  // Filter deals by category
+  const filteredDeals =
+    activeCategory === "All"
+      ? deals
+      : deals.filter((deal) => deal.category === activeCategory);
 
-  const handleSubmit = () => {
-    if (!form.brand_name || !form.payout_estimate) return;
-    // TODO: submit to backend (insert into community_deals table with status: "pending_review")
+  function capitalize(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
+
+  function handleClose() {
+    setShowForm(false);
+    setSubmitted(false);
+    setForm(EMPTY_FORM);
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!form.brand_name || !form.payout_estimate || !form.referral_link)
+      return;
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    const display_name = user?.user_metadata.full_name;
+    fetch("/api/postdeal", {
+      headers: { "content-type": "application/json" },
+      method: "POST",
+      body: JSON.stringify({
+        brand_name: form.brand_name,
+        return_type: form.return_type || null,
+        category: form.category || null,
+        payout_estimate: form.payout_estimate,
+        link: form.referral_link,
+        referral_code: form.referral_code || null,
+        offer_expiry_date: form.offer_expiry_date || null,
+        is_cash_convertible: form.is_cash_convertible,
+        display_name: display_name,
+        note: form.note || null,
+        is_referral: true,
+      }),
+    });
+
     setSubmitted(true);
     setTimeout(() => {
-      setSubmitted(false);
-      setShowForm(false);
-      setForm({
-        brand_name: "",
-        return_type: CATEGORIES.filter((c) => c !== "All")[0] ?? "",
-        payout_estimate: "",
-        referral_link: "",
-        description: "",
-      });
+      handleClose();
     }, 2500);
-  };
+  }
+
+  const canSubmit =
+    form.brand_name.trim() !== "" &&
+    form.payout_estimate.trim() !== "" &&
+    form.referral_link.trim() !== "";
 
   return (
     <>
@@ -497,6 +585,7 @@ export default function CommunityPage() {
             </DealCount>
           </PageHeroTop>
 
+          {/* Category tabs — driven by Category */}
           <TabBar>
             {CATEGORIES.map((cat) => (
               <Tab
@@ -504,7 +593,7 @@ export default function CommunityPage() {
                 $active={activeCategory === cat}
                 onClick={() => setActiveCategory(cat)}
               >
-                {cat}
+                {capitalize(cat)}
               </Tab>
             ))}
           </TabBar>
@@ -515,19 +604,12 @@ export default function CommunityPage() {
       <FilterBar>
         <FilterInner>
           <ResultsCount>
-            {sorted.length} referral{sorted.length !== 1 ? "s" : ""}
+            {filteredDeals.length} referral
+            {filteredDeals.length !== 1 ? "s" : ""}
           </ResultsCount>
           <div
             style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
           >
-            <SortSelect
-              value={sort}
-              onChange={(e) => setSort(e.target.value as SortOption)}
-            >
-              {SORT_OPTIONS.map((o) => (
-                <option key={o}>{o}</option>
-              ))}
-            </SortSelect>
             <PostBtn onClick={() => setShowForm(true)}>
               + Post a referral
             </PostBtn>
@@ -535,28 +617,11 @@ export default function CommunityPage() {
         </FilterInner>
       </FilterBar>
 
-      {/* Body */}
+      {/* Main content */}
       <PageBody>
-        <SectionHeading>
-          <h2>
-            {activeCategory === "All"
-              ? "All community referrals"
-              : `${activeCategory} referrals`}
-          </h2>
-          <span style={{ fontSize: "0.85rem", color: T.grey400 }}>
-            Showing {sorted.length} of {deals.length}
-          </span>
-        </SectionHeading>
-
-        {sorted.length === 0 ? (
-          <EmptyState>
-            <div className="icon">🔍</div>
-            <h3>No referrals found</h3>
-            <p>Be the first to post one in this category.</p>
-          </EmptyState>
-        ) : (
+        {filteredDeals.length > 0 ? (
           <DealsGrid>
-            {sorted.map((deal, i) => (
+            {filteredDeals.map((deal, i) => (
               <DealCardComponent
                 key={deal.uuid}
                 deal={deal}
@@ -570,16 +635,22 @@ export default function CommunityPage() {
               />
             ))}
           </DealsGrid>
+        ) : (
+          <EmptyState>
+            <div className="icon">🔍</div>
+            <h3>No referrals found</h3>
+            <p>Be the first to post one in this category.</p>
+          </EmptyState>
         )}
       </PageBody>
 
       {/* Modal */}
       {showForm && (
-        <Overlay
-          onClick={(e) => e.target === e.currentTarget && setShowForm(false)}
-        >
+        <Overlay onClick={(e) => e.target === e.currentTarget && handleClose()}>
           <Modal>
-            <CloseBtn onClick={() => setShowForm(false)}>✕</CloseBtn>
+            <CloseBtn type="button" onClick={handleClose}>
+              ✕
+            </CloseBtn>
 
             {submitted ? (
               <SuccessState>
@@ -592,26 +663,30 @@ export default function CommunityPage() {
                 </p>
               </SuccessState>
             ) : (
-              <>
+              <form onSubmit={handleSubmit}>
                 <ModalTitle>Post a referral</ModalTitle>
                 <ModalSub>
                   Submitted referrals are reviewed by our team before going
                   live.
                 </ModalSub>
 
-                <Field>
-                  <Label>Brand name *</Label>
-                  <Input
-                    placeholder="e.g. Boost Mobile"
-                    value={form.brand_name}
-                    onChange={(e) =>
-                      setForm({ ...form, brand_name: e.target.value })
-                    }
-                  />
-                </Field>
+                {/* ── Brand & submitter ── */}
+                <TwoCol>
+                  <Field>
+                    <Label>Brand name *</Label>
+                    <Input
+                      placeholder="e.g. Boost Mobile"
+                      value={form.brand_name}
+                      onChange={(e) =>
+                        setForm({ ...form, brand_name: e.target.value })
+                      }
+                    />
+                  </Field>
+                </TwoCol>
 
+                {/* ── Links ── */}
                 <Field>
-                  <Label>Referral link</Label>
+                  <Label>Referral link *</Label>
                   <Input
                     placeholder="https://..."
                     value={form.referral_link}
@@ -621,6 +696,20 @@ export default function CommunityPage() {
                   />
                 </Field>
 
+                <Field>
+                  <Label>Referral code</Label>
+                  <Input
+                    placeholder="e.g. SARAH50  (if separate from link)"
+                    value={form.referral_code}
+                    onChange={(e) =>
+                      setForm({ ...form, referral_code: e.target.value })
+                    }
+                  />
+                </Field>
+
+                <Divider />
+
+                {/* ── Reward details ── */}
                 <TwoCol>
                   <Field>
                     <Label>Reward / payout *</Label>
@@ -633,41 +722,90 @@ export default function CommunityPage() {
                     />
                   </Field>
                   <Field>
-                    <Label>Category</Label>
+                    <Label>Expiry date</Label>
+                    <Input
+                      type="date"
+                      value={form.offer_expiry_date}
+                      min={new Date().toISOString().split("T")[0]}
+                      onChange={(e) =>
+                        setForm({ ...form, offer_expiry_date: e.target.value })
+                      }
+                    />
+                  </Field>
+                </TwoCol>
+
+                <TwoCol>
+                  <Field>
+                    <Label>Return type</Label>
                     <SelectInput
                       value={form.return_type}
                       onChange={(e) =>
                         setForm({
                           ...form,
-                          return_type: e.target.value as Category,
+                          return_type: e.target.value as ReturnType,
+                        })
+                      }
+                    >
+                      <option value="">Select…</option>
+                      {Object.values(ReturnType).map((rt) => (
+                        <option key={rt} value={rt}>
+                          {RETURN_TYPE_EMOJI[rt]} {rt}
+                        </option>
+                      ))}
+                    </SelectInput>
+                  </Field>
+                  <Field>
+                    <Label>Category</Label>
+                    <SelectInput
+                      value={form.category}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          category: e.target.value as Category,
                         })
                       }
                     >
                       {CATEGORIES.filter((c) => c !== "All").map((c) => (
-                        <option key={c}>{c}</option>
+                        <option key={c} value={c}>
+                          {c}
+                        </option>
                       ))}
                     </SelectInput>
                   </Field>
                 </TwoCol>
 
                 <Field>
-                  <Label>Description</Label>
+                  <CheckboxRow>
+                    <input
+                      type="checkbox"
+                      checked={form.is_cash_convertible}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          is_cash_convertible: e.target.checked,
+                        })
+                      }
+                    />
+                    Reward is cash-convertible
+                  </CheckboxRow>
+                </Field>
+
+                <Divider />
+
+                {/* ── Extra notes ── */}
+                <Field>
+                  <Label>Note</Label>
                   <Textarea
-                    placeholder="Any extra details, promo codes, expiry date..."
-                    value={form.description}
-                    onChange={(e) =>
-                      setForm({ ...form, description: e.target.value })
-                    }
+                    placeholder="Any extra details, promo codes, or requirements..."
+                    value={form.note}
+                    onChange={(e) => setForm({ ...form, note: e.target.value })}
                   />
                 </Field>
 
-                <SubmitBtn
-                  onClick={handleSubmit}
-                  disabled={!form.brand_name || !form.payout_estimate}
-                >
+                <SubmitBtn type="submit" disabled={!canSubmit}>
                   Submit for review →
                 </SubmitBtn>
-              </>
+              </form>
             )}
           </Modal>
         </Overlay>

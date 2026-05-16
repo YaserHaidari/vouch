@@ -237,7 +237,7 @@ export const DealCardComponent = ({ deal, bg, emoji, style, note }: DealCardProp
           </div>
         </RewardBox>
         {deal.status !== "expired" && (
-          <ViewBtn href={`/deals/${deal.uuid}`}>Claim deal →</ViewBtn>
+          <ViewBtn href={`${deal.link}`}>Claim deal →</ViewBtn>
         )}
       </CardFooter>
     </CardWrapper>

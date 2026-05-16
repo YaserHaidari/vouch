@@ -620,15 +620,15 @@ const steps = [
     bg: "#E8F1FC",
     accent: T.blue,
     title: "Browse deals",
-    desc: "Vouch brings the best referral offers from top Australian & International services — all in one place.",
+    desc: "Vouch brings the best offers from top Australian & International services — all in one place.",
   },
   {
     num: "Step 02",
     icon: "📋",
     bg: T.yellowLight,
     accent: "#C8A200",
-    title: "Grab the referral link",
-    desc: "Each deal comes with a unique referral link. Clicking on the link will take you to service provider's signup page .",
+    title: "Grab the link",
+    desc: "Each deal comes with a unique link. Clicking on the link will take you to service provider's signup page .",
   },
   {
     num: "Step 03",
