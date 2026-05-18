@@ -4,7 +4,6 @@ export enum ReturnType {
   Stocks = 'stocks',
 }
 export enum Category {
-  Banking = 'banking',
   Internet = 'internet',
   Transport = 'transport',
   Energy = 'energy',

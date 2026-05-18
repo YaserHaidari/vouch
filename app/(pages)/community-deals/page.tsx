@@ -46,7 +46,7 @@ const MOCK_COMMUNITY_DEALS: Deal[] = [
     is_cash_convertible: false,
     payout_estimate: "1",
     popular: true,
-    category: Category.Banking,
+    category: Category.Finance,
     bg: "#0064D2",
     note: "",
   },
