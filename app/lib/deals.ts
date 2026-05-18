@@ -4,14 +4,14 @@ export enum ReturnType {
   Stocks = 'stocks',
 }
 export enum Category {
-  Banking = 'banking',
   Internet = 'internet',
   Transport = 'transport',
   Energy = 'energy',
   Finance = 'finance',
   Investing = 'investing',
   Tech = 'tech',
-  Mobile = 'mobile'
+  Mobile = 'mobile',
+  Insurance = 'insurance'
 }
 
 export type DealStatus = 'active' | 'expired' | 'coming_soon';

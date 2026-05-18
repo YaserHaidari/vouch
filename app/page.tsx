@@ -648,32 +648,7 @@ const steps = [
   },
 ];
 
-const deals = [
-  {
-    brand: "Finder",
-    category: "Finance",
-    bg: "#0D47A1",
-    title: "Compare & save on bills",
-    desc: "Sign up to Finder using our referral link and earn bonus credits to use on your first comparison.",
-    bonus: "$20 credit",
-  },
-  {
-    brand: "Boost Mobile",
-    category: "Telco",
-    bg: "#D32F2F",
-    title: "Switch & save on mobile",
-    desc: "New Boost Mobile customers get a bonus data add-on when they join via Vouch.",
-    bonus: "10GB bonus data",
-  },
-  {
-    brand: "Canstar Blue",
-    category: "Energy",
-    bg: "#00796B",
-    title: "Find a better energy deal",
-    desc: "Compare energy plans and get a gift card reward when you switch through our link.",
-    bonus: "$30 gift card",
-  },
-];
+
 
 // ─── Page ─────────────────────────────────────────────────
 export default function VouchHome() {
