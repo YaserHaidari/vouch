@@ -177,7 +177,7 @@ export const DealCardComponent = ({ deal, bg, emoji, style, note }: DealCardProp
 
       <CardBody>
         <BrandName>{deal.brand_name}</BrandName>
-        <CardTitle>Earn up to ${deal.payout_estimate}</CardTitle>
+        <CardTitle>{deal.is_referral == true ? `Earn up to $${deal.payout_estimate}` : `Get up to $${deal.payout_estimate}`}</CardTitle>
 
         {/* Render only visible instructions */}
         {visibleInstructions.map((step: string, idx: number) => (
