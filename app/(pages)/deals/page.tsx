@@ -310,11 +310,14 @@ export default function DealsPage() {
 
   const fetchData = async () => {
     setLoading(true);
-    const { data, error } = await supabase.from("deals").select("*");
+    const { data, error } = (await supabase.from("deals").select("*"));
     if (error) {
       console.error("Supabase error:", error);
     } else {
-      setAllDeals(data ?? []);
+      const fil = data.filter((item) => {
+        return new Date(item.offer_expiry_date).getTime() > Date.now()
+      })
+      setAllDeals(fil ?? []);
     }
     setLoading(false);
   };

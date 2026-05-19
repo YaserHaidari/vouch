@@ -511,7 +511,11 @@ export default function CommunityPage() {
   const filteredDeals =
     activeCategory === "All"
       ? deals
-      : deals.filter((deal) => deal.category === activeCategory);
+      : 
+      deals.filter((deal) => {
+       deal.category === activeCategory
+
+  });
 
   function capitalize(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
