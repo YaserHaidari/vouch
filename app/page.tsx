@@ -13,7 +13,36 @@ import { supabase } from "@/utils/supabase/client";
 import { NavCard } from "@/components/NavCard/navcard";
 import { FooterCard } from "@/components/FooterCard/footercard";
 import { HeroBadge, HeroCtas, HeroDesc, HeroHeading, HeroInner, HeroSection, HeroVisual } from "@/assets/pageHeroStyles";
-import { BtnPrimary, BtnSecondary, CopyBtn } from "@/assets/btnStyles";
+import { BtnPrimary, BtnSecondary, CopyBtn, CtaBtn } from "@/assets/btnStyles";
+
+import { Metadata } from "next";
+import { SectionTitle,SectionSubtitle,SectionInner,SectionHeader,SectionEyebrow, HowSection } from "@/assets/sectionStyles";
+import { steps } from "@/assets/data/steps";
+
+
+export const metadata: Metadata ={
+  title: 'We find the best deals for you in Australia so you get rewarded for signing up.',
+  description: '',
+  keywords: [],
+  openGraph: {
+    url: "vouch.net.au",
+    images: [{url: "", width: 100, height: 100}],
+    type: "website"
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+    }
+  }
+}
+
+
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -170,47 +199,7 @@ const StatItem = styled.div`
 `;
 
 // ─── How It Works ─────────────────────────────────────────
-const HowSection = styled.section`
-  background: ${T.grey50};
-  padding: 5rem 2rem;
-`;
 
-const SectionInner = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-`;
-
-const SectionHeader = styled.div`
-  text-align: center;
-  margin-bottom: 3.5rem;
-`;
-
-const SectionEyebrow = styled.p`
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: ${T.blue};
-  margin-bottom: 0.75rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 800;
-  color: ${T.navy};
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin-bottom: 0.8rem;
-`;
-
-const SectionSubtitle = styled.p`
-  color: ${T.grey600};
-  font-size: 1rem;
-  max-width: 500px;
-  margin: 0 auto;
-  line-height: 1.6;
-`;
 
 const StepsGrid = styled.div`
   display: grid;
@@ -419,31 +408,6 @@ const CtaDesc = styled.p`
   margin-bottom: 2rem;
   position: relative;
   z-index: 1;
-`;
-
-const CtaBtn = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: ${T.yellow};
-  color: ${T.navy};
-  padding: 0.9rem 2.2rem;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 1rem;
-  text-decoration: none;
-  position: relative;
-  z-index: 1;
-  transition:
-    background 0.2s,
-    transform 0.15s,
-    box-shadow 0.2s;
-
-  &:hover {
-    background: #e8bd00;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(255, 208, 0, 0.3);
-  }
 `;
 
 

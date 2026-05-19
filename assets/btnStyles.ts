@@ -63,3 +63,28 @@ export const BtnSecondary = styled.a`
     transform: translateY(-2px);
   }
 `;
+
+export const CtaBtn = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: ${T.yellow};
+  color: ${T.navy};
+  padding: 0.9rem 2.2rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  transition:
+    background 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
+
+  &:hover {
+    background: #e8bd00;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(255, 208, 0, 0.3);
+  }
+`;
