@@ -1,0 +1,239 @@
+export default async function VouchHome() {
+  async function getDealStats() {
+    const res = await fetch("/api/fetchdeal", { method: "POST" });
+    const data = await res.json();
+    console.log(data); // data will have numberOfDeals, valueOfDeals, popularDeals
+    return data;
+  }
+  return (
+    <>
+      <GlobalStyle />
+
+      {/* Nav */}
+      <NavCard />
+
+      {/* Hero */}
+      <HeroSection>
+        <HeroInner>
+          <div>
+            <HeroBadge>Australia&apos;s #1 Referral Network</HeroBadge>
+            <HeroHeading>
+              Sign up smarter.
+              <br />
+              <em>Get rewarded.</em>
+            </HeroHeading>
+            <HeroDesc>
+              Vouch finds the best deals from top Aussie services so you get
+              more just for signing up. No gimmicks. Just real rewards.
+            </HeroDesc>
+            <HeroCtas>
+              <BtnPrimary href="/deals">Browse deals →</BtnPrimary>
+              <BtnSecondary href="#how">How it works</BtnSecondary>
+            </HeroCtas>
+          </div>
+
+          {/* Referral card mockup */}
+          <HeroVisual>
+            <ReferralCard>
+              <CardTop>
+                <ServiceBadge $color={T.blue} $bg={T.blueLight}>
+                  <div className="icon">📱</div>
+                  Amaysim Mobile
+                </ServiceBadge>
+                <LiveTag>Live deal</LiveTag>
+              </CardTop>
+
+              <p
+                style={{
+                  fontSize: "0.85rem",
+                  color: T.grey600,
+                  marginBottom: "1rem",
+                  lineHeight: 1.5,
+                }}
+              >
+                Amaysim yearly sim $121 off + Bonus 80GB + $75 finder reward
+              </p>
+
+              <CodeBox>
+                <CodeText>Limited time offer</CodeText>
+                <CopyBtn>
+                  <a href="https://www.finder.com.au/finder-rewards/finder-amaysim-switching-promotion-terms-and-conditions-may-2026?rewards_ref=MmQ4OWVkNjMtMWUwYS00MDhhLTg2ODAtNjlmN2ZkM2Q4MjE2">
+                    Claim deal
+                  </a>
+                </CopyBtn>
+              </CodeBox>
+
+              <MiniStat>
+                <MiniStatItem>
+                  <div className="val">4</div>
+                  <div className="lbl">Used this deal</div>
+                </MiniStatItem>
+                <MiniStatItem>
+                  <div className="val">80GB</div>
+                  <div className="lbl">Bonus data</div>
+                </MiniStatItem>
+                <MiniStatItem>
+                  <div className="val">$199</div>
+                  <div className="lbl">Expires 22nd May </div>
+                </MiniStatItem>
+              </MiniStat>
+            </ReferralCard>
+          </HeroVisual>
+        </HeroInner>
+      </HeroSection>
+
+      {/* Stats */}
+      <StatsBar>
+        <StatsInner>
+          <StatItem>
+            <div className="num">{stats.numOfDeals}+</div>
+            <div className="lbl">Live deals</div>
+          </StatItem>
+          <StatItem>
+            <div className="num">5k+</div>
+            <div className="lbl">Upto 5k+ Aussies signed up</div>
+          </StatItem>
+          <StatItem>
+            <div className="num">${stats.valueOfDeals}+</div>
+            <div className="lbl">In rewards value</div>
+          </StatItem>
+          <StatItem>
+            <div className="num">100%</div>
+            <div className="lbl">Free to use</div>
+          </StatItem>
+        </StatsInner>
+      </StatsBar>
+
+      {/* How it works */}
+      <HowSection id="how">
+        <SectionInner>
+          <SectionHeader>
+            <SectionEyebrow>How it works</SectionEyebrow>
+            <SectionTitle>Four simple steps to your reward</SectionTitle>
+            <SectionSubtitle>
+              We scout the best deals so you don’t have to. Simply use our link,
+              follow the quick instructions, and collect your reward. Need a
+              hand? Contact our support team anytime.{" "}
+            </SectionSubtitle>
+          </SectionHeader>
+
+          <StepsGrid>
+            {steps.map((s) => (
+              <StepCard key={s.num} $accent={s.accent}>
+                <StepNumber $accent={s.accent}>{s.num}</StepNumber>
+                <StepIcon $bg={s.bg}>{s.icon}</StepIcon>
+                <StepTitle>{s.title}</StepTitle>
+                <StepDesc>{s.desc}</StepDesc>
+              </StepCard>
+            ))}
+          </StepsGrid>
+        </SectionInner>
+      </HowSection>
+      <DealsSection id="deals">
+        <SectionInner>
+          <SectionHeader>
+            <SectionEyebrow>Featured deals</SectionEyebrow>
+            <SectionTitle>Top deals right now</SectionTitle>
+            <SectionSubtitle>
+              Fresh deals updated regularly. All vetted by the Vouch team.
+            </SectionSubtitle>
+          </SectionHeader>
+          <DealsGrid>
+            {stats.popularDeals?.map((d, i) => {
+              // 1. Define your visual logic (colors and emojis)
+              const returnType = d.return_type as ReturnType;
+              const emoji = RETURN_TYPE_EMOJI[returnType] ?? "🎁";
+              const cardBg =
+                d.bg ||
+                RETURN_TYPE_BG[returnType] ||
+                `linear-gradient(135deg, ${T.navy}, #2d2d2d)`;
+
+              return (
+                <DealCardComponent
+                  key={d.uuid}
+                  deal={d} // Pass the whole data object
+                  emoji={emoji} // Pass the computed emoji
+                  bg={cardBg} // Pass the background color/gradient
+                  note={d.note ? `Note: ${d.note}` : ""}
+                  style={{ animationDelay: `${i * 0.05}s` }} // Optional: staggered entrance
+                />
+              );
+            })}
+          </DealsGrid>
+        </SectionInner>
+      </DealsSection>
+
+      {/* Deals */}
+      {/* <DealsSection id="deals">
+        <SectionInner>
+          <SectionHeader>
+            <SectionEyebrow>Featured deals</SectionEyebrow>
+            <SectionTitle>Top deals right now</SectionTitle>
+            <SectionSubtitle>
+              Fresh deals updated regularly. All vetted by the Vouch team.
+            </SectionSubtitle>
+          </SectionHeader>
+          {isLoading ? (
+            <div>Loading deals...</div> // Or a Skeleton component
+          ) : (
+            <DealsGrid>
+              {stats.popularDeals?.map((d) => (
+                <DealCard key={d.uuid}>
+                  <DealHeader $bg={d.bg}>
+                    <DealLogo>{d.brand}</DealLogo>
+                    <DealCategory>{d.return_type}</DealCategory>
+                  </DealHeader>
+                  <DealBody>
+                    <DealTitle>{d.brand_name}</DealTitle>
+                    <DealDesc>{d.requirements.instructions}</DealDesc>
+                    <DealFooter>
+                      <DealBonus>
+                        <div className="label">You get</div>
+                        <div className="value">${d.payout_estimate}</div>
+                      </DealBonus>
+                      <SignUpLink href="#">Sign up →</SignUpLink>
+                    </DealFooter>
+                  </DealBody>
+                </DealCard>
+              ))}
+            </DealsGrid>
+          )}
+        </SectionInner>
+      </DealsSection> */}
+
+      {/* Trust signals */}
+      <TrustSection>
+        <TrustGrid>
+          <TrustItem>
+            <div className="icon">🇦🇺</div> Australian owned & operated
+          </TrustItem>
+          <TrustItem>
+            <div className="icon">🔒</div> Community deals included
+          </TrustItem>
+          <TrustItem>
+            <div className="icon">✅</div> All deals verified by Vouch
+          </TrustItem>
+          <TrustItem>
+            <div className="icon">💸</div> Always free to use
+          </TrustItem>
+          <TrustItem>
+            <div className="icon">📞</div> Aussie support team
+          </TrustItem>
+        </TrustGrid>
+      </TrustSection>
+
+      {/* CTA Banner */}
+      <CtaBanner>
+        <CtaTitle>Ready to get rewarded?</CtaTitle>
+        <CtaDesc>
+          Before you sign up to any new service, check our special deals to find
+          a referral link and save.
+        </CtaDesc>
+        <CtaBtn href="/deals">Browse all deals →</CtaBtn>
+      </CtaBanner>
+
+      {/* Footer */}
+      <FooterCard />
+    </>
+  );
+}

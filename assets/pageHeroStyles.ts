@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { fadeUp } from "./animations";
+import { fadeUp, shimmer } from "./animations";
 import { T } from "./colors";
+
 // ─── Hero strip ───────────────────────────────────────────
 export const PageHero = styled.div`
   background: ${T.navy};
@@ -59,4 +60,106 @@ export const PageSubtitle = styled.p`
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.95rem;
   animation: ${fadeUp} 0.6s 0.1s ease both;
+`;
+
+// ─── Hero ─────────────────────────────────────────────────
+export const HeroSection = styled.section`
+  background: ${T.white};
+  padding: 5rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: ${T.grey200};
+  }
+`;
+
+export const HeroInner = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+`;
+
+export const HeroBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: ${T.yellowLight};
+  border: 1px solid #f0d800;
+  border-radius: 100px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #7a5f00;
+  margin-bottom: 1.2rem;
+  animation: ${fadeUp} 0.7s ease both;
+
+  &::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: ${T.yellow};
+    display: inline-block;
+  }
+`;
+
+export const HeroHeading = styled.h1`
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: ${T.navy};
+  margin-bottom: 1.2rem;
+  animation: ${fadeUp} 0.7s 0.1s ease both;
+
+  em {
+    font-style: normal;
+    background: linear-gradient(90deg, ${T.blue}, #0099ff, ${T.blue});
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: ${shimmer} 3s linear infinite;
+  }
+`;
+
+export const HeroDesc = styled.p`
+  font-size: 1.05rem;
+  color: ${T.grey600};
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 2rem;
+  font-weight: 400;
+  animation: ${fadeUp} 0.7s 0.2s ease both;
+`;
+
+export const HeroCtas = styled.div`
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  animation: ${fadeUp} 0.7s 0.3s ease both;
+`;
+
+export const HeroVisual = styled.div`
+  animation: ${fadeUp} 0.7s 0.35s ease both;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
