@@ -761,7 +761,7 @@ export default function VouchHome() {
           </StatItem>
           <StatItem>
             <div className="num">${stats.valueOfDeals}+</div>
-            <div className="lbl">In rewards to be claimed</div>
+            <div className="lbl">In rewards value</div>
           </StatItem>
           <StatItem>
             <div className="num">100%</div>
@@ -892,7 +892,7 @@ export default function VouchHome() {
       <CtaBanner>
         <CtaTitle>Ready to get rewarded?</CtaTitle>
         <CtaDesc>
-          Before you sign up to any new service, check our curated deals to find a referral link and save.
+          Before you sign up to any new service, check our special deals to find a referral link and save.
         </CtaDesc>
         <CtaBtn href="/deals">Browse all deals →</CtaBtn>
       </CtaBanner>
