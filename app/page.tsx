@@ -573,7 +573,7 @@ export default async function VouchHome() {
             </SectionSubtitle>
           </SectionHeader>
 
-          {/* <StepsGrid>
+          <StepsGrid>
             {steps.map((s) => (
               <StepCard key={s.num} $accent={s.accent}>
                 <StepNumber $accent={s.accent}>{s.num}</StepNumber>
@@ -582,7 +582,7 @@ export default async function VouchHome() {
                 <StepDesc>{s.desc}</StepDesc>
               </StepCard>
             ))}
-          </StepsGrid> */}
+          </StepsGrid>
         </SectionInner>
       </HowSection>
       <DealsSection id="deals">
