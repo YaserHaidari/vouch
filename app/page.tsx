@@ -686,15 +686,14 @@ export default function VouchHome() {
       <HeroSection>
         <HeroInner>
           <div>
-            <HeroBadge>Australia&apos;s #1 Referral Network</HeroBadge>
+            <HeroBadge>Australia&apos;s #1 Smart Saving Community</HeroBadge>
             <HeroHeading>
               Sign up smarter.
               <br />
               <em>Get rewarded.</em>
             </HeroHeading>
             <HeroDesc>
-              Vouch finds the best deals from top Aussie services so
-              you get more just for signing up. No gimmicks. Just real rewards.
+              It’s exhausting watching the cost of living climb, so we’re here to help you reclaim your money by finding you deals, cashback, and exclusive rewards on your everyday bills.
             </HeroDesc>
             <HeroCtas>
               <BtnPrimary href="/deals">Browse deals →</BtnPrimary>
@@ -868,7 +867,7 @@ export default function VouchHome() {
       </DealsSection> */}
 
       {/* Trust signals */}
-      <TrustSection>
+      {/* <TrustSection>
         <TrustGrid>
           <TrustItem>
             <div className="icon">🇦🇺</div> Australian owned & operated
@@ -886,13 +885,13 @@ export default function VouchHome() {
             <div className="icon">📞</div> Aussie support team
           </TrustItem>
         </TrustGrid>
-      </TrustSection>
+      </TrustSection> */}
 
       {/* CTA Banner */}
       <CtaBanner>
         <CtaTitle>Ready to get rewarded?</CtaTitle>
         <CtaDesc>
-          Before you sign up to any new service, check our special deals to find a referral link and save.
+          Before you sign up to any new service, check out our special deals first.
         </CtaDesc>
         <CtaBtn href="/deals">Browse all deals →</CtaBtn>
       </CtaBanner>
