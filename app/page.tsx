@@ -12,22 +12,37 @@ import {
 import { supabase } from "@/utils/supabase/client";
 import { NavCard } from "@/components/NavCard/navcard";
 import { FooterCard } from "@/components/FooterCard/footercard";
-import { HeroBadge, HeroCtas, HeroDesc, HeroHeading, HeroInner, HeroSection, HeroVisual } from "@/assets/pageHeroStyles";
+import {
+  HeroBadge,
+  HeroCtas,
+  HeroDesc,
+  HeroHeading,
+  HeroInner,
+  HeroSection,
+  HeroVisual,
+} from "@/assets/pageHeroStyles";
 import { BtnPrimary, BtnSecondary, CopyBtn, CtaBtn } from "@/assets/btnStyles";
 
 import { Metadata } from "next";
-import { SectionTitle,SectionSubtitle,SectionInner,SectionHeader,SectionEyebrow, HowSection } from "@/assets/sectionStyles";
+import {
+  SectionTitle,
+  SectionSubtitle,
+  SectionInner,
+  SectionHeader,
+  SectionEyebrow,
+  HowSection,
+} from "@/assets/sectionStyles";
 import { steps } from "@/assets/data/steps";
 
-
-export const metadata: Metadata ={
-  title: 'We find the best deals for you in Australia so you get rewarded for signing up.',
-  description: '',
+export const metadata: Metadata = {
+  title:
+    "We find the best deals for you in Australia so you get rewarded for signing up.",
+  description: "",
   keywords: [],
   openGraph: {
     url: "vouch.net.au",
-    images: [{url: "", width: 100, height: 100}],
-    type: "website"
+    images: [{ url: "", width: 100, height: 100 }],
+    type: "website",
   },
   robots: {
     index: true,
@@ -38,10 +53,9 @@ export const metadata: Metadata ={
       follow: true,
       "max-snippet": -1,
       "max-image-preview": "large",
-    }
-  }
-}
-
+    },
+  },
+};
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,10 +67,6 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
   }
 `;
-
-
-
-
 
 const ReferralCard = styled.div`
   background: ${T.white};
@@ -135,8 +145,6 @@ const CodeText = styled.span`
   color: ${T.navy};
 `;
 
-
-
 const MiniStat = styled.div`
   display: flex;
   align-items: center;
@@ -199,7 +207,6 @@ const StatItem = styled.div`
 `;
 
 // ─── How It Works ─────────────────────────────────────────
-
 
 const StepsGrid = styled.div`
   display: grid;
@@ -410,20 +417,22 @@ const CtaDesc = styled.p`
   z-index: 1;
 `;
 
-
 // ─── Page ─────────────────────────────────────────────────
 export default async function VouchHome() {
-  let data = {numberOfDeals:0, valueOfDeals:0, popularDeals:[]};
+  let data = { numberOfDeals: 0, valueOfDeals: 0, popularDeals: [] };
   //NEXT_PUBLIC_SITE_URL during production
-  const res = await fetch("http://localhost:3000/api/fetchdeal", {
-    method: "POST",
-  });
-  if (!res.ok) {
-    const text = await res.text();
-    console.log("Status:", res.status);
-    console.log("Body:", text); // This will show the actual error or HTML
-  } else {
-    data = await res.json();
+  try {
+    const res = await fetch("http://localhost:3000/api/fetchdeal", {
+      method: "POST",
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Request failed: ${res.status} - ${text}`);
+    } else {
+      data = await res.json();
+    }
+  } catch (error) {
+    console.log(error);
   }
   return (
     <>

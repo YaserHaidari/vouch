@@ -1,5 +1,3 @@
-"use client";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import styled, { keyframes } from "styled-components";
 import "../deals/../../styles.css";
@@ -26,7 +24,17 @@ import {
   PageTitle,
   PageSubtitle,
 } from "@/assets/pageHeroStyles";
+import { Metadata } from "next";
 
+
+export const metadata: Metadata = {
+  title: '',
+  description: '',
+  keywords: '',
+  robots: {
+    
+  }
+}
 const DealCount = styled.div`
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 2rem;
@@ -42,36 +50,6 @@ const DealCount = styled.div`
     letter-spacing: 0.04em;
     text-transform: uppercase;
     margin-top: 2px;
-  }
-`;
-
-const TabBar = styled.div`
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  margin-top: 0.5rem;
-`;
-const Tab = styled.button<{ $active: boolean }>`
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: "DM Sans", sans-serif;
-  font-size: 0.88rem;
-  font-weight: ${(p) => (p.$active ? "600" : "500")};
-  color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.55)")};
-  padding: 0.9rem 1.3rem;
-  border-bottom: 2px solid ${(p) => (p.$active ? T.yellow : "transparent")};
-  transition:
-    color 0.2s,
-    border-color 0.2s;
-  white-space: nowrap;
-  &:hover {
-    color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.85)")};
   }
 `;
 
@@ -297,53 +275,44 @@ const SkeletonCard = styled.div`
 `;
 
 // ─── Page ─────────────────────────────────────────────────
-export default function DealsPage() {
-  const [allDeals, setAllDeals] = useState<Deal[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState<string>("All");
+export default async function DealsPage() {
+  let isloading: boolean = true;
+  const activeCategory: string = "All";
 
   // Filter deals by category
+
+  const { data, error } = await supabase.from("deals").select("*");
+  if (error) {
+    console.error("Supabase error:", error);
+  }
+  console.log(data);
+  let allDeals: Deal[] = data || [];
+  isloading = false;
+
   const filteredDeals =
     activeCategory === "All"
       ? allDeals
       : allDeals.filter((deal) => deal.category === activeCategory);
 
-  const fetchData = async () => {
-    setLoading(true);
-    const { data, error } = await supabase.from("deals").select("*");
-    if (error) {
-      console.error("Supabase error:", error);
-    } else {
-      setAllDeals(data ?? []);
-    }
-    setLoading(false);
-  };
   function capitalize(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
-  useEffect(() => {
-    fetchData();
-    const channel = supabase
-      .channel("schema-db-changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-        },
-        (payload) => {
-          // console.log("recieed", payload);
-          fetchData(); // re-fetch all deals on any change
-        },
-      )
-      .subscribe();
+  // const channel = supabase
+  //   .channel("schema-db-changes")
+  //   .on(
+  //     "postgres_changes",
+  //     {
+  //       event: "*",
+  //       schema: "public",
+  //     },
+  //     (payload) => {
+  //       // console.log("recieed", payload);
+  //       fetchData(); // re-fetch all deals on any change
+  //     },
+  //   )
+  //   .subscribe();
 
-    return () => {
-      channel.unsubscribe();
-    };
-  }, []);
-
-
+  //   channel
 
   return (
     <>
@@ -360,22 +329,22 @@ export default function DealsPage() {
               </Breadcrumb>
               <PageTitle>All deals</PageTitle>
               <PageSubtitle>
-                Vetted offers from Australia's best services. Updated
-                weekly.
+                Vetted offers from Australia's best services. Updated weekly.
               </PageSubtitle>
             </PageHeroText>
             <DealCount>
-              {loading ? "—" : allDeals.filter((item) => {
-                console.log(item)
-                return item.status == "active"
-              }).length
-            }
+              {isloading
+                ? "—"
+                : allDeals.filter((item) => {
+                    console.log(item);
+                    return item.status == "active";
+                  }).length}
               <span>live deals</span>
             </DealCount>
           </PageHeroTop>
 
           {/* Category tabs — driven by Category */}
-          <TabBar>
+          {/* <TabBar>
             {CATEGORIES.map((cat) => (
               <Tab
                 key={cat}
@@ -385,14 +354,14 @@ export default function DealsPage() {
                 {capitalize(cat)}
               </Tab>
             ))}
-          </TabBar>
+          </TabBar> */}
         </PageHeroInner>
       </PageHero>
 
       {/* Main content */}
       <PageBody>
         {/* Skeleton loading state */}
-        {loading && (
+        {isloading && (
           <DealsGrid>
             {Array.from({ length: 6 }).map((_, i) => (
               <SkeletonCard key={i} />
@@ -401,14 +370,14 @@ export default function DealsPage() {
         )}
 
         {/* Deal cards */}
-        {!loading && filteredDeals.length > 0 && (
+        {!isloading && filteredDeals.length > 0 && (
           <DealsGrid>
             {filteredDeals.map((deal, i) => (
               <DealCardComponent
                 key={deal.uuid}
                 deal={deal}
                 emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
-                note={deal.note ? `Note: ${deal.note}` : ''}
+                note={deal.note ? `Note: ${deal.note}` : ""}
                 bg={
                   RETURN_TYPE_BG[deal.return_type] ??
                   `linear-gradient(135deg, ${T.navy}, #2d2d2d)`
@@ -420,7 +389,7 @@ export default function DealsPage() {
         )}
 
         {/* Empty state */}
-        {!loading && filteredDeals.length === 0 && (
+        {!isloading && filteredDeals.length === 0 && (
           <div
             style={{
               textAlign: "center",

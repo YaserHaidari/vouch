@@ -1,5 +1,37 @@
+
 import styled from "styled-components";
 import { T } from "./colors";
+
+export const TabBar = styled.div`
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  margin-top: 0.5rem;
+`;
+export const Tab = styled.button<{ $active: boolean }>`
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.88rem;
+  font-weight: ${(p) => (p.$active ? "600" : "500")};
+  color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.55)")};
+  padding: 0.9rem 1.3rem;
+  border-bottom: 2px solid ${(p) => (p.$active ? T.yellow : "transparent")};
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+  white-space: nowrap;
+  &:hover {
+    color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.85)")};
+  }
+`;
+
 
 export const CopyBtn = styled.button`
   background: ${T.blue};
