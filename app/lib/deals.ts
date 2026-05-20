@@ -11,7 +11,8 @@ export enum Category {
   Investing = 'investing',
   Tech = 'tech',
   Mobile = 'mobile',
-  Insurance = 'insurance'
+  Insurance = 'insurance',
+  Phone = 'phone',
 }
 
 export type DealStatus = 'active' | 'expired' | 'coming_soon';
