@@ -80,12 +80,8 @@ const SkeletonCard = styled.div`
   overflow: hidden;
   height: 340px;
   @keyframes shimmer {
-    0% {
-      background-position: -400px 0;
-    }
-    100% {
-      background-position: 400px 0;
-    }
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
   }
   background: linear-gradient(
     90deg,
@@ -103,9 +99,9 @@ export default async function DealsPage({
 }: {
   searchParams: { category?: string };
 }) {
-  const { category } = await searchParams;
-  const activeCategory = category ?? "All";
-  
+  const activeCategory = searchParams.category ?? "All";
+
+  // Filtered deals query — push filter to DB, don't over-fetch
   let query = supabase.from("deals").select("*");
   if (activeCategory !== "All") {
     query = query.eq("category", activeCategory);
