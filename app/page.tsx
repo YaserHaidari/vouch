@@ -1,11 +1,8 @@
-"use client";
-
 import styled, { createGlobalStyle, keyframes } from "styled-components";
-import { getDealStats } from "./lib/deals_stats";
-import { useEffect, useState } from "react";
 import { DealCardComponent } from "../components/DealCard/dealcard";
 import { T } from "@/assets/colors";
-import { pulse, fadeUp,float,shimmer } from "@/assets/animations";
+import { pulse, fadeUp, float, shimmer } from "@/assets/animations";
+
 import {
   Deal,
   ReturnType,
@@ -15,6 +12,51 @@ import {
 import { supabase } from "@/utils/supabase/client";
 import { NavCard } from "@/components/NavCard/navcard";
 import { FooterCard } from "@/components/FooterCard/footercard";
+import {
+  HeroBadge,
+  HeroCtas,
+  HeroDesc,
+  HeroHeading,
+  HeroInner,
+  HeroSection,
+  HeroVisual,
+} from "@/assets/pageHeroStyles";
+import { BtnPrimary, BtnSecondary, CopyBtn, CtaBtn } from "@/assets/btnStyles";
+
+import { Metadata } from "next";
+import {
+  SectionTitle,
+  SectionSubtitle,
+  SectionInner,
+  SectionHeader,
+  SectionEyebrow,
+  HowSection,
+} from "@/assets/sectionStyles";
+import { steps } from "@/assets/data/steps";
+
+export const metadata: Metadata = {
+  title:
+    "We find the best deals for you in Australia so you get rewarded for signing up.",
+  description: "",
+  keywords: [],
+  openGraph: {
+    url: "vouch.net.au",
+    images: [{ url: "", width: 100, height: 100 }],
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+    },
+  },
+};
+
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -24,159 +66,6 @@ const GlobalStyle = createGlobalStyle`
     color: #1A1A2E;
     -webkit-font-smoothing: antialiased;
   }
-`;
-
-// ─── Tokens ───────────────────────────────────────────────
-
-
-// ─── Hero ─────────────────────────────────────────────────
-const HeroSection = styled.section`
-  background: ${T.white};
-  padding: 5rem 2rem 4rem;
-  position: relative;
-  overflow: hidden;
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: ${T.grey200};
-  }
-`;
-
-const HeroInner = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-`;
-
-const HeroBadge = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: ${T.yellowLight};
-  border: 1px solid #f0d800;
-  border-radius: 100px;
-  padding: 0.3rem 0.9rem;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #7a5f00;
-  margin-bottom: 1.2rem;
-  animation: ${fadeUp} 0.7s ease both;
-
-  &::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: ${T.yellow};
-    display: inline-block;
-  }
-`;
-
-const HeroHeading = styled.h1`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  color: ${T.navy};
-  margin-bottom: 1.2rem;
-  animation: ${fadeUp} 0.7s 0.1s ease both;
-
-  em {
-    font-style: normal;
-    background: linear-gradient(90deg, ${T.blue}, #0099ff, ${T.blue});
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: ${shimmer} 3s linear infinite;
-  }
-`;
-
-const HeroDesc = styled.p`
-  font-size: 1.05rem;
-  color: ${T.grey600};
-  line-height: 1.7;
-  max-width: 480px;
-  margin-bottom: 2rem;
-  font-weight: 400;
-  animation: ${fadeUp} 0.7s 0.2s ease both;
-`;
-
-const HeroCtas = styled.div`
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  animation: ${fadeUp} 0.7s 0.3s ease both;
-`;
-
-const BtnPrimary = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: ${T.yellow};
-  color: ${T.navy};
-  padding: 0.8rem 1.8rem;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  text-decoration: none;
-  transition:
-    background 0.2s,
-    transform 0.15s,
-    box-shadow 0.2s;
-  font-family: "DM Sans", sans-serif;
-
-  &:hover {
-    background: #e8bd00;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(255, 208, 0, 0.35);
-  }
-`;
-
-const BtnSecondary = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  color: ${T.blue};
-  padding: 0.8rem 1.8rem;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  text-decoration: none;
-  border: 1.5px solid ${T.blue};
-  transition:
-    background 0.2s,
-    transform 0.15s;
-  font-family: "DM Sans", sans-serif;
-
-  &:hover {
-    background: ${T.blueLight};
-    transform: translateY(-2px);
-  }
-`;
-
-// Hero right — referral card visual
-const HeroVisual = styled.div`
-  animation: ${fadeUp} 0.7s 0.35s ease both;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
 `;
 
 const ReferralCard = styled.div`
@@ -256,22 +145,6 @@ const CodeText = styled.span`
   color: ${T.navy};
 `;
 
-const CopyBtn = styled.button`
-  background: ${T.blue};
-  color: #fff;
-  border: none;
-  border-radius: 7px;
-  padding: 0.4rem 0.9rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: "DM Sans", sans-serif;
-  transition: background 0.2s;
-  &:hover {
-    background: #004fb0;
-  }
-`;
-
 const MiniStat = styled.div`
   display: flex;
   align-items: center;
@@ -334,47 +207,6 @@ const StatItem = styled.div`
 `;
 
 // ─── How It Works ─────────────────────────────────────────
-const HowSection = styled.section`
-  background: ${T.grey50};
-  padding: 5rem 2rem;
-`;
-
-const SectionInner = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-`;
-
-const SectionHeader = styled.div`
-  text-align: center;
-  margin-bottom: 3.5rem;
-`;
-
-const SectionEyebrow = styled.p`
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: ${T.blue};
-  margin-bottom: 0.75rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  font-weight: 800;
-  color: ${T.navy};
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  margin-bottom: 0.8rem;
-`;
-
-const SectionSubtitle = styled.p`
-  color: ${T.grey600};
-  font-size: 1rem;
-  max-width: 500px;
-  margin: 0 auto;
-  line-height: 1.6;
-`;
 
 const StepsGrid = styled.div`
   display: grid;
@@ -585,102 +417,29 @@ const CtaDesc = styled.p`
   z-index: 1;
 `;
 
-const CtaBtn = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: ${T.yellow};
-  color: ${T.navy};
-  padding: 0.9rem 2.2rem;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 1rem;
-  text-decoration: none;
-  position: relative;
-  z-index: 1;
-  transition:
-    background 0.2s,
-    transform 0.15s,
-    box-shadow 0.2s;
-
-  &:hover {
-    background: #e8bd00;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(255, 208, 0, 0.3);
-  }
-`;
-
-
-
-// ─── Data ─────────────────────────────────────────────────
-const steps = [
-  {
-    num: "Step 01",
-    icon: "🔗",
-    bg: "#E8F1FC",
-    accent: T.blue,
-    title: "Browse deals",
-    desc: "Vouch brings the best offers from top Australian & International services — all in one place.",
-  },
-  {
-    num: "Step 02",
-    icon: "📋",
-    bg: T.yellowLight,
-    accent: "#C8A200",
-    title: "Grab the link",
-    desc: "Each deal comes with a unique link. Clicking on the link will take you to service provider's signup page .",
-  },
-  {
-    num: "Step 03",
-    icon: "✅",
-    bg: "#E6F7ED",
-    accent: "#1B7A3A",
-    title: "Sign up & get rewarded",
-    desc: "Sign up to the service and unlock your bonus — automatically.",
-  },
-  {
-    num: "Step 04",
-    icon: "🎉",
-    bg: "#FDE8EF",
-    accent: "#C0325C",
-    title: "Enjoy your reward",
-    desc: "Credits, cashback, free months — real rewards just for signing up the smart way.",
-  },
-];
-
-
-
 // ─── Page ─────────────────────────────────────────────────
-export default function VouchHome() {
-  const [stats, setStats] = useState<{
-    numOfDeals: number;
-    valueOfDeals: number;
-    popularDeals: Deal[];
-  }>({ numOfDeals: 0, valueOfDeals: 0, popularDeals: [] });
-  const [isLoading, setIsLoading] = useState<boolean>();
-
-  async function fetchData() {
-    setIsLoading(true);
-    try {
-      const val = await getDealStats();
-      setStats(val);
-      setIsLoading(false);
-    } catch (err) {
-      console.error("Fetch failed:", err);
+export default async function VouchHome() {
+  let data = { numberOfDeals: 0, valueOfDeals: 0, popularDeals: [] };
+  //NEXT_PUBLIC_SITE_URL during production
+  try {
+    const res = await fetch("http://localhost:3000/api/fetchdeal", {
+      method: "POST",
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Request failed: ${res.status} - ${text}`);
+    } else {
+      data = await res.json();
     }
-
-    const {data: {user}} = await supabase.auth.getUser()
-    // console.log(user)
+  } catch (error) {
+    console.log(error);
   }
-  useEffect(() => {
-    fetchData();
-  }, []);
   return (
     <>
       <GlobalStyle />
 
       {/* Nav */}
-      <NavCard/>
+      <NavCard />
 
       {/* Hero */}
       <HeroSection>
@@ -725,7 +484,11 @@ export default function VouchHome() {
 
               <CodeBox>
                 <CodeText>Limited time offer</CodeText>
-                <CopyBtn>< a href="https://www.finder.com.au/finder-rewards/finder-amaysim-switching-promotion-terms-and-conditions-may-2026?rewards_ref=MmQ4OWVkNjMtMWUwYS00MDhhLTg2ODAtNjlmN2ZkM2Q4MjE2">Claim deal</a></CopyBtn>
+                <CopyBtn>
+                  <a href="https://www.finder.com.au/finder-rewards/finder-amaysim-switching-promotion-terms-and-conditions-may-2026?rewards_ref=MmQ4OWVkNjMtMWUwYS00MDhhLTg2ODAtNjlmN2ZkM2Q4MjE2">
+                    Claim deal
+                  </a>
+                </CopyBtn>
               </CodeBox>
 
               <MiniStat>
@@ -751,7 +514,7 @@ export default function VouchHome() {
       <StatsBar>
         <StatsInner>
           <StatItem>
-            <div className="num">{stats.numOfDeals}+</div>
+            <div className="num">{data.numberOfDeals}+</div>
             <div className="lbl">Live deals</div>
           </StatItem>
           <StatItem>
@@ -759,7 +522,7 @@ export default function VouchHome() {
             <div className="lbl">Upto 5k+ Aussies signed up</div>
           </StatItem>
           <StatItem>
-            <div className="num">${stats.valueOfDeals}+</div>
+            <div className="num">${data.valueOfDeals}+</div>
             <div className="lbl">In rewards value</div>
           </StatItem>
           <StatItem>
@@ -804,7 +567,7 @@ export default function VouchHome() {
             </SectionSubtitle>
           </SectionHeader>
           <DealsGrid>
-            {stats.popularDeals?.map((d, i) => {
+            {data.popularDeals?.map((d, i) => {
               // 1. Define your visual logic (colors and emojis)
               const returnType = d.return_type as ReturnType;
               const emoji = RETURN_TYPE_EMOJI[returnType] ?? "🎁";
@@ -819,7 +582,7 @@ export default function VouchHome() {
                   deal={d} // Pass the whole data object
                   emoji={emoji} // Pass the computed emoji
                   bg={cardBg} // Pass the background color/gradient
-                  note={d.note ? `Note: ${d.note}` : ''}
+                  note={d.note ? `Note: ${d.note}` : ""}
                   style={{ animationDelay: `${i * 0.05}s` }} // Optional: staggered entrance
                 />
               );
@@ -827,44 +590,6 @@ export default function VouchHome() {
           </DealsGrid>
         </SectionInner>
       </DealsSection>
-
-      {/* Deals */}
-      {/* <DealsSection id="deals">
-        <SectionInner>
-          <SectionHeader>
-            <SectionEyebrow>Featured deals</SectionEyebrow>
-            <SectionTitle>Top deals right now</SectionTitle>
-            <SectionSubtitle>
-              Fresh deals updated regularly. All vetted by the Vouch team.
-            </SectionSubtitle>
-          </SectionHeader>
-          {isLoading ? (
-            <div>Loading deals...</div> // Or a Skeleton component
-          ) : (
-            <DealsGrid>
-              {stats.popularDeals?.map((d) => (
-                <DealCard key={d.uuid}>
-                  <DealHeader $bg={d.bg}>
-                    <DealLogo>{d.brand}</DealLogo>
-                    <DealCategory>{d.return_type}</DealCategory>
-                  </DealHeader>
-                  <DealBody>
-                    <DealTitle>{d.brand_name}</DealTitle>
-                    <DealDesc>{d.requirements.instructions}</DealDesc>
-                    <DealFooter>
-                      <DealBonus>
-                        <div className="label">You get</div>
-                        <div className="value">${d.payout_estimate}</div>
-                      </DealBonus>
-                      <SignUpLink href="#">Sign up →</SignUpLink>
-                    </DealFooter>
-                  </DealBody>
-                </DealCard>
-              ))}
-            </DealsGrid>
-          )}
-        </SectionInner>
-      </DealsSection> */}
 
       {/* Trust signals */}
       {/* <TrustSection>
@@ -897,7 +622,7 @@ export default function VouchHome() {
       </CtaBanner>
 
       {/* Footer */}
-      <FooterCard/>
+      <FooterCard />
     </>
   );
 }

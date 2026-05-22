@@ -1,8 +1,5 @@
-"use client";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import styled, { keyframes } from "styled-components";
-import "../deals/../../styles.css";
+import { Suspense } from "react";
+import styled from "styled-components";
 import { supabase } from "@/utils/supabase/client";
 import {
   Deal,
@@ -10,13 +7,11 @@ import {
   RETURN_TYPE_EMOJI,
   RETURN_TYPE_BG,
   CATEGORIES,
-  SORT_OPTIONS,
-  Category,
 } from "../../lib/deals";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { NavCard } from "@/components/NavCard/navcard";
-import { fadeUp, pulse } from "@/assets/animations";
+import { fadeUp } from "@/assets/animations";
 import {
   PageHero,
   PageHeroInner,
@@ -26,7 +21,15 @@ import {
   PageTitle,
   PageSubtitle,
 } from "@/assets/pageHeroStyles";
+import { TabBarFilter } from "@/components/TabBarFilter/TabBarFilter";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "All Deals",
+  description: "Vetted offers from Australia's best services. Updated weekly.",
+};
+
+// ─── Deal Count ───────────────────────────────────────────
 const DealCount = styled.div`
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 2rem;
@@ -45,103 +48,6 @@ const DealCount = styled.div`
   }
 `;
 
-const TabBar = styled.div`
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  margin-top: 0.5rem;
-`;
-const Tab = styled.button<{ $active: boolean }>`
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: "DM Sans", sans-serif;
-  font-size: 0.88rem;
-  font-weight: ${(p) => (p.$active ? "600" : "500")};
-  color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.55)")};
-  padding: 0.9rem 1.3rem;
-  border-bottom: 2px solid ${(p) => (p.$active ? T.yellow : "transparent")};
-  transition:
-    color 0.2s,
-    border-color 0.2s;
-  white-space: nowrap;
-  &:hover {
-    color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.85)")};
-  }
-`;
-
-// ─── Filter + Sort bar ────────────────────────────────────
-const FilterBar = styled.div`
-  background: ${T.white};
-  border-bottom: 1px solid ${T.grey200};
-  padding: 0 2rem;
-  position: sticky;
-  top: 68px;
-  z-index: 90;
-`;
-const FilterInner = styled.div`
-  max-width: 1280px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  flex-wrap: wrap;
-`;
-const FilterLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-`;
-const FilterChip = styled.button<{ $active: boolean }>`
-  background: ${(p) => (p.$active ? T.navy : T.white)};
-  color: ${(p) => (p.$active ? T.white : T.grey600)};
-  border: 1.5px solid ${(p) => (p.$active ? T.navy : T.grey200)};
-  border-radius: 100px;
-  padding: 0.35rem 1rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: "DM Sans", sans-serif;
-  transition: all 0.2s;
-  white-space: nowrap;
-  &:hover {
-    border-color: ${T.navy};
-    color: ${(p) => (p.$active ? T.white : T.navy)};
-  }
-`;
-const FilterLabel = styled.span`
-  font-size: 0.82rem;
-  color: ${T.grey400};
-  font-weight: 500;
-`;
-const SortSelect = styled.select`
-  font-family: "DM Sans", sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: ${T.navy};
-  background: ${T.white};
-  border: 1.5px solid ${T.grey200};
-  border-radius: 8px;
-  padding: 0.4rem 0.8rem;
-  cursor: pointer;
-  &:focus {
-    outline: none;
-    border-color: ${T.blue};
-  }
-`;
-const ResultsCount = styled.span`
-  font-size: 0.82rem;
-  color: ${T.grey400};
-`;
-
 // ─── Main layout ──────────────────────────────────────────
 const PageBody = styled.div`
   max-width: 1280px;
@@ -149,7 +55,7 @@ const PageBody = styled.div`
   padding: 2.5rem 2rem 5rem;
 `;
 
-// ─── Deal Card ────────────────────────────────────────────
+// ─── Deals Grid ───────────────────────────────────────────
 const DealsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -165,113 +71,8 @@ const DealsGrid = styled.div`
     grid-template-columns: repeat(4, 1fr);
   }
 `;
-const Card = styled(Link)`
-  display: flex;
-  flex-direction: column;
-  background: ${T.white};
-  border: 1.5px solid ${T.grey200};
-  border-radius: 16px;
-  overflow: hidden;
-  text-decoration: none;
-  color: inherit;
-  transition:
-    transform 0.25s,
-    box-shadow 0.25s,
-    border-color 0.25s;
-  animation: ${fadeUp} 0.5s ease both;
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
-    border-color: ${T.blue};
-  }
-`;
 
-const CardImageArea = styled.div<{ $bg: string }>`
-  background: ${(p) => p.$bg};
-  height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.12) 100%
-    );
-  }
-`;
-
-const BrandEmoji = styled.div`
-  font-size: 4rem;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
-  z-index: 1;
-`;
-
-const CardBadgeRow = styled.div`
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 2;
-`;
-
-const StatusBadge = styled.span<{ $status: DealStatus }>`
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 0.22rem 0.65rem;
-  border-radius: 100px;
-  background: ${(p) =>
-    p.$status === "active"
-      ? T.yellow
-      : p.$status === "coming_soon"
-        ? "#818CF8"
-        : T.grey400};
-  color: ${(p) => (p.$status === "active" ? T.navy : "#fff")};
-`;
-
-const ViewBtn = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: ${T.blueLight};
-  color: ${T.blue};
-  font-size: 0.82rem;
-  font-weight: 700;
-  padding: 0.45rem 1rem;
-  border-radius: 8px;
-  transition: background 0.2s;
-  ${Card}:hover & {
-    background: ${T.blue};
-    color: #fff;
-  }
-`;
-
-// ─── Section heading ──────────────────────────────────────
-const SectionHeading = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-  h2 {
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: ${T.navy};
-    letter-spacing: -0.02em;
-  }
-`;
-
-// ─── Loading / empty states ───────────────────────────────
+// ─── Skeleton ─────────────────────────────────────────────
 const SkeletonCard = styled.div`
   background: ${T.white};
   border: 1.5px solid ${T.grey200};
@@ -297,63 +98,36 @@ const SkeletonCard = styled.div`
 `;
 
 // ─── Page ─────────────────────────────────────────────────
-export default function DealsPage() {
-  const [allDeals, setAllDeals] = useState<Deal[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-
-  // Filter deals by category
-  const filteredDeals =
-    activeCategory === "All"
-      ? allDeals
-      : allDeals.filter((deal) => deal.category === activeCategory);
-
-  const fetchData = async () => {
-    setLoading(true);
-    const { data, error } = (await supabase.from("deals").select("*"));
-    if (error) {
-      console.error("Supabase error:", error);
-    } else {
-      const fil = data.filter((item) => {
-        return new Date(item.offer_expiry_date).getTime() > Date.now()
-      })
-      setAllDeals(fil ?? []);
-    }
-    setLoading(false);
-  };
-  function capitalize(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+export default async function DealsPage({
+  searchParams,
+}: {
+  searchParams: { category?: string };
+}) {
+  const { category } = await searchParams;
+  const activeCategory = category ?? "All";
+  
+  let query = supabase.from("deals").select("*");
+  if (activeCategory !== "All") {
+    query = query.eq("category", activeCategory);
   }
-  useEffect(() => {
-    fetchData();
-    const channel = supabase
-      .channel("schema-db-changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-        },
-        (payload) => {
-          // console.log("recieed", payload);
-          fetchData(); // re-fetch all deals on any change
-        },
-      )
-      .subscribe();
 
-    return () => {
-      channel.unsubscribe();
-    };
-  }, []);
+  // Total active deals count — always unfiltered, for the hero badge
+  const [{ data, error }, { count }] = await Promise.all([
+    query,
+    supabase
+      .from("deals")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "active"),
+  ]);
 
+  if (error) console.error("Supabase error:", error);
 
+  const filteredDeals: Deal[] = data || [];
 
   return (
     <>
-      {/* Nav */}
       <NavCard />
 
-      {/* Hero */}
       <PageHero>
         <PageHeroInner>
           <PageHeroTop>
@@ -363,55 +137,32 @@ export default function DealsPage() {
               </Breadcrumb>
               <PageTitle>All deals</PageTitle>
               <PageSubtitle>
-                Vetted offers from Australia's best services. Updated
-                weekly.
+                Vetted offers from Australia's best services. Updated weekly.
               </PageSubtitle>
             </PageHeroText>
             <DealCount>
-              {loading ? "—" : allDeals.filter((item) => {
-                console.log(item)
-                return item.status == "active"
-              }).length
-            }
+              {count ?? "—"}
               <span>live deals</span>
             </DealCount>
           </PageHeroTop>
 
-          {/* Category tabs — driven by Category */}
-          <TabBar>
-            {CATEGORIES.map((cat) => (
-              <Tab
-                key={cat}
-                $active={activeCategory === cat}
-                onClick={() => setActiveCategory(cat)}
-              >
-                {capitalize(cat)}
-              </Tab>
-            ))}
-          </TabBar>
+          {/* Category tabs — reads activeCategory from URL, updates URL on click */}
+          <Suspense fallback={null}>
+            <TabBarFilter activeCategory={activeCategory} />
+          </Suspense>
         </PageHeroInner>
       </PageHero>
 
-      {/* Main content */}
       <PageBody>
-        {/* Skeleton loading state */}
-        {loading && (
-          <DealsGrid>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <SkeletonCard key={i} />
-            ))}
-          </DealsGrid>
-        )}
-
         {/* Deal cards */}
-        {!loading && filteredDeals.length > 0 && (
+        {filteredDeals.length > 0 && (
           <DealsGrid>
             {filteredDeals.map((deal, i) => (
               <DealCardComponent
                 key={deal.uuid}
                 deal={deal}
                 emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
-                note={deal.note ? `Note: ${deal.note}` : ''}
+                note={deal.note ? `Note: ${deal.note}` : ""}
                 bg={
                   RETURN_TYPE_BG[deal.return_type] ??
                   `linear-gradient(135deg, ${T.navy}, #2d2d2d)`
@@ -423,7 +174,7 @@ export default function DealsPage() {
         )}
 
         {/* Empty state */}
-        {!loading && filteredDeals.length === 0 && (
+        {filteredDeals.length === 0 && (
           <div
             style={{
               textAlign: "center",
@@ -444,7 +195,7 @@ export default function DealsPage() {
               No deals found
             </p>
             <p style={{ fontSize: "0.9rem" }}>
-              Try a different category or filter.
+              Try a different category or check back soon.
             </p>
           </div>
         )}
