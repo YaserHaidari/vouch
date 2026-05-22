@@ -45,8 +45,10 @@ export async function updateSession(request: NextRequest) {
 
   const user = data?.claims;
 
-  const public_urls = ["/register", "/deals", "/privacy-policy", "/contact", "/api/contact", "/api/fetchdeal"];
-  
+  const public_urls = ["/", "/deals", "/privacy-policy", "/contact", "/api/contact", "/api/fetchAllDeals", "/home"];
+
+  //first one is reigster instead of /
+  //CHECK_FOR_PROD
   if (
     !user &&
     !public_urls.some((url) => request.nextUrl.pathname.startsWith(url)) &&

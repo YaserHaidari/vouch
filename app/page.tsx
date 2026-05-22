@@ -32,7 +32,7 @@ import {
   HowSection,
 } from "@/assets/sectionStyles";
 import { steps } from "@/assets/data/steps";
-import { DealsStats } from "./api/fetchdeal/route";
+
 
 export const metadata: Metadata = {
   title:
@@ -420,7 +420,7 @@ const CtaDesc = styled.p`
 // ─── Page ─────────────────────────────────────────────────
 
 export default async function VouchHome() {
-  let deals_stats: DealsStats = {
+  let deals_stats = {
     deals: [],
     numberOfDeals: 0,
     valueOfDeals: 0,
@@ -428,9 +428,12 @@ export default async function VouchHome() {
   };
 
   //NEXT_PUBLIC_SITE_URL during production
+  const baseUrl = process.env.NEXT_PUBLIC_STAGING_URL 
+  ?? process.env.VERCEL_URL 
+  ?? "http://localhost:3000";
 
   try {
-    const res = await fetch("https://yaser-haidaris-vouch-staging.vercel.app/api/fetchdeal", {  
+    const res = await fetch(`${baseUrl}/api/fetchdeal`, {  
       method: "POST",
     });
     if (!res.ok) {
@@ -576,7 +579,7 @@ export default async function VouchHome() {
               Fresh deals updated regularly. All vetted by the Vouch team.
             </SectionSubtitle>
           </SectionHeader>
-          <DealsGrid>
+          {/* <DealsGrid>
             {deals_stats.popularDeals?.map((d, i) => {
               // 1. Define your visual logic (colors and emojis)
               const returnType = d.return_type as ReturnType;
@@ -597,7 +600,7 @@ export default async function VouchHome() {
                 />
               );
             })}
-          </DealsGrid>
+          </DealsGrid> */}
         </SectionInner>
       </DealsSection>
 
