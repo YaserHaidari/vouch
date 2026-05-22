@@ -2,7 +2,6 @@ import styled, { createGlobalStyle, keyframes } from "styled-components";
 import { DealCardComponent } from "../components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { pulse, fadeUp, float, shimmer } from "@/assets/animations";
-
 import {
   Deal,
   ReturnType,
@@ -33,6 +32,7 @@ import {
   HowSection,
 } from "@/assets/sectionStyles";
 import { steps } from "@/assets/data/steps";
+import { DealsStats } from "./api/fetchdeal/route";
 
 export const metadata: Metadata = {
   title:
@@ -418,8 +418,15 @@ const CtaDesc = styled.p`
 `;
 
 // ─── Page ─────────────────────────────────────────────────
+
 export default async function VouchHome() {
-  let data = { numberOfDeals: 0, valueOfDeals: 0, popularDeals: [] };
+  let deals_stats: DealsStats = {
+    deals: [],
+    numberOfDeals: 0,
+    valueOfDeals: 0,
+    popularDeals: [],
+  };
+  
   //NEXT_PUBLIC_SITE_URL during production
   try {
     const res = await fetch("http://localhost:3000/api/fetchdeal", {
@@ -429,7 +436,7 @@ export default async function VouchHome() {
       const text = await res.text();
       throw new Error(`Request failed: ${res.status} - ${text}`);
     } else {
-      data = await res.json();
+      deals_stats = await res.json();
     }
   } catch (error) {
     console.log(error);
@@ -452,7 +459,9 @@ export default async function VouchHome() {
               <em>Get rewarded.</em>
             </HeroHeading>
             <HeroDesc>
-              It’s exhausting watching the cost of living climb, so we’re here to help you reclaim your money by finding you deals, cashback, and exclusive rewards on your everyday bills.
+              It’s exhausting watching the cost of living climb, so we’re here
+              to help you reclaim your money by finding you deals, cashback, and
+              exclusive rewards on your everyday bills.
             </HeroDesc>
             <HeroCtas>
               <BtnPrimary href="/deals">Browse deals →</BtnPrimary>
@@ -514,7 +523,7 @@ export default async function VouchHome() {
       <StatsBar>
         <StatsInner>
           <StatItem>
-            <div className="num">{data.numberOfDeals}+</div>
+            <div className="num">{deals_stats.numberOfDeals}+</div>
             <div className="lbl">Live deals</div>
           </StatItem>
           <StatItem>
@@ -522,7 +531,7 @@ export default async function VouchHome() {
             <div className="lbl">Upto 5k+ Aussies signed up</div>
           </StatItem>
           <StatItem>
-            <div className="num">${data.valueOfDeals}+</div>
+            <div className="num">${deals_stats.valueOfDeals}+</div>
             <div className="lbl">In rewards value</div>
           </StatItem>
           <StatItem>
@@ -567,7 +576,7 @@ export default async function VouchHome() {
             </SectionSubtitle>
           </SectionHeader>
           <DealsGrid>
-            {data.popularDeals?.map((d, i) => {
+            {deals_stats.popularDeals?.map((d, i) => {
               // 1. Define your visual logic (colors and emojis)
               const returnType = d.return_type as ReturnType;
               const emoji = RETURN_TYPE_EMOJI[returnType] ?? "🎁";
@@ -616,7 +625,8 @@ export default async function VouchHome() {
       <CtaBanner>
         <CtaTitle>Ready to get rewarded?</CtaTitle>
         <CtaDesc>
-          Before you sign up to any new service, check out our special deals first.
+          Before you sign up to any new service, check out our special deals
+          first.
         </CtaDesc>
         <CtaBtn href="/deals">Browse all deals →</CtaBtn>
       </CtaBanner>
