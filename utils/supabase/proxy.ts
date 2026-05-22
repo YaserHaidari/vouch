@@ -46,6 +46,7 @@ export async function updateSession(request: NextRequest) {
   const user = data?.claims;
 
   const public_urls = ["/register", "/deals", "/privacy-policy", "/contact", "/api/contact", "/api/fetchdeal"];
+  
   if (
     !user &&
     !public_urls.some((url) => request.nextUrl.pathname.startsWith(url)) &&

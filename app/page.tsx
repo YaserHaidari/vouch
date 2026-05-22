@@ -426,10 +426,11 @@ export default async function VouchHome() {
     valueOfDeals: 0,
     popularDeals: [],
   };
-  
+
   //NEXT_PUBLIC_SITE_URL during production
+
   try {
-    const res = await fetch("http://localhost:3000/api/fetchdeal", {
+    const res = await fetch("https://yaser-haidaris-vouch-staging.vercel.app/api/fetchdeal", {  
       method: "POST",
     });
     if (!res.ok) {
