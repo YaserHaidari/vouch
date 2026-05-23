@@ -1,7 +1,31 @@
-import {CATEGORY_T} from '@/assets/TYPES/CATEGORY_T'
-import {RETURN_TYPE_T} from '@/assets/TYPES/RETURN_TYPE_T'
 
-export interface DEAL_T {
+export type CATEGORY_T =
+  | "internet"
+  | "transport"
+  | "energy"
+  | "finance"
+  | "investing"
+  | "tech"
+  | "mobile"
+  | "insurance"
+  | "phone";
+
+export const CATEGORIES: ["All", ...CATEGORY_T[]] = [
+    "All",
+    "internet",
+    "transport",
+    "energy",
+    "finance",
+    "investing",
+    "tech",
+    "mobile",
+    "insurance",
+    "phone",
+  ];
+
+export type RETURN_TYPE_T = "Credit" | "Stock" | "Voucher"
+
+export type DEAL_T = {
     uuid: string,
     brand_id: string,
     brand_name: string,
@@ -12,11 +36,12 @@ export interface DEAL_T {
     is_cash_convertible: boolean,
     created_at: string,
     updated_at: string,
-    status: boolean,
+    status: string,
     referral_code: string,
     is_referral: boolean,
     popular: boolean
     category:CATEGORY_T,
     return_type: RETURN_TYPE_T,
     payout_estimate: number,
+    note: string
 }

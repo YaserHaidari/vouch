@@ -148,15 +148,13 @@ const ViewBtn = styled(Link)`
 `;
 
 // --- Component Logic ---
-interface DealCardProps {
+type DealCardProps = {
   deal: any; // Ideally replace with your Deal interface
-  bg: string;
-  emoji: string;
   style?: React.CSSProperties;
   note: string;
 }
 
-export const DealCardComponent = ({ deal, bg, emoji, style, note }: DealCardProps) => {
+export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false); // State to track toggle
   const instructions = deal.requirements?.instructions ?? [];
   
@@ -166,15 +164,13 @@ export const DealCardComponent = ({ deal, bg, emoji, style, note }: DealCardProp
 
   return (
     <CardWrapper style={style}>
-      <CardImageArea $bg={bg}>
         <CardBadgeRow>
           <CategoryPill>{deal.return_type}</CategoryPill>
           <StatusBadge $status={deal.status}>
             {deal.status === "active" ? "Active" : deal.status === "coming_soon" ? "Soon" : "Expired"}
           </StatusBadge>
         </CardBadgeRow>
-        <BrandEmoji>{emoji}</BrandEmoji>
-      </CardImageArea>
+        
 
       <CardBody>
         <BrandName>{deal.brand_name}</BrandName>

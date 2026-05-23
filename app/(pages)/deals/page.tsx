@@ -1,13 +1,6 @@
 import { Suspense } from "react";
 import styled from "styled-components";
 import { supabase } from "@/utils/supabase/client";
-import {
-  Deal,
-  DealStatus,
-  RETURN_TYPE_EMOJI,
-  RETURN_TYPE_BG,
-  CATEGORIES,
-} from "../../lib/deals";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { NavCard } from "@/components/NavCard/navcard";
@@ -23,6 +16,8 @@ import {
 } from "@/assets/pageHeroStyles";
 import { TabBarFilter } from "@/components/TabBarFilter/TabBarFilter";
 import { Metadata } from "next";
+import { Deals } from "@/assets/dealsFunction/deals";
+import { DEAL_T } from "@/assets/types/DEAL_T";
 
 export const metadata: Metadata = {
   title: "All Deals",
@@ -106,23 +101,12 @@ export default async function DealsPage({
   const { category } = await searchParams;
   const activeCategory = category ?? "All";
   
-  let query = supabase.from("deals").select("*");
-  if (activeCategory !== "All") {
-    query = query.eq("category", activeCategory);
-  }
+  const deals = (await Deals()) || []
 
-  // Total active deals count — always unfiltered, for the hero badge
-  const [{ data, error }, { count }] = await Promise.all([
-    query,
-    supabase
-      .from("deals")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "active"),
-  ]);
-
-  if (error) console.error("Supabase error:", error);
-
-  const filteredDeals: Deal[] = data || [];
+  const filteredDeals: DEAL_T[] = activeCategory !== "All"
+  ? deals.filter(d => d.category === activeCategory)
+  : deals
+  const count = filteredDeals.filter((d => d.status == 'active')).length
 
   return (
     <>
@@ -161,12 +145,7 @@ export default async function DealsPage({
               <DealCardComponent
                 key={deal.uuid}
                 deal={deal}
-                emoji={RETURN_TYPE_EMOJI[deal.return_type] ?? "🎁"}
                 note={deal.note ? `Note: ${deal.note}` : ""}
-                bg={
-                  RETURN_TYPE_BG[deal.return_type] ??
-                  `linear-gradient(135deg, ${T.navy}, #2d2d2d)`
-                }
                 style={{ animationDelay: `${i * 0.05}s` }}
               />
             ))}

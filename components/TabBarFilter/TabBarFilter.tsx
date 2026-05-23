@@ -1,13 +1,13 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CATEGORIES } from "@/app/lib/deals";
 import { TabBar, Tab } from "@/assets/btnStyles";
+import { CATEGORIES, CATEGORY_T } from "@/assets/types/DEAL_T";
 
 export function TabBarFilter({activeCategory}: {activeCategory: string} ){
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  function handleClick(cat: (typeof CATEGORIES)[number]){
+  function handleClick(cat: CATEGORY_T | "All"){
     const params = new URLSearchParams(searchParams.toString())
     if(cat == "All")
     {

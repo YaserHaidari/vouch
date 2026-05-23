@@ -32,6 +32,9 @@ import {
   HowSection,
 } from "@/assets/sectionStyles";
 import { steps } from "@/assets/data/steps";
+import { Deals } from "@/assets/dealsFunction/deals";
+import { DEAL_T } from "@/assets/types/DEAL_T";
+import { stat } from "fs";
 
 
 export const metadata: Metadata = {
@@ -413,38 +416,31 @@ const CtaDesc = styled.p`
   color: rgba(255, 255, 255, 0.75);
   font-size: 1rem;
   margin-bottom: 2rem;
-  position: relative;
+  position: relative; 
   z-index: 1;
 `;
 
 // ─── Page ─────────────────────────────────────────────────
+const statistics: {valueOfDeals: number, numOfDeals: number, popularDeals: DEAL_T[]} = 
+{valueOfDeals: 0, numOfDeals: 0, popularDeals: [] }
 
 export default async function VouchHome() {
-  let deals_stats = {
-    deals: [],
-    numberOfDeals: 0,
-    valueOfDeals: 0,
-    popularDeals: [],
-  };
+  const deal: DEAL_T[] = (await Deals()) || []
 
-  //NEXT_PUBLIC_SITE_URL during production
-  const baseUrl = process.env.NEXT_PUBLIC_STAGING_URL 
-  ?? process.env.VERCEL_URL 
-  ?? "http://localhost:3000";
+  statistics.popularDeals = deal.filter((value: DEAL_T) => {
+        return value.popular
+    })
 
-  try {
-    const res = await fetch(`${baseUrl}/api/fetchdeal`, {  
-      method: "POST",
-    });
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Request failed: ${res.status} - ${text}`);
-    } else {
-      deals_stats = await res.json();
+    statistics.numOfDeals = deal.length - 1
+    function calculateTotalValueOfDeals(): number{
+        let sum =0;
+        deal.forEach((item: DEAL_T) => {
+            sum += item.payout_estimate
+        })
+        return sum - 1;
     }
-  } catch (error) {
-    console.log(error);
-  }
+    statistics.valueOfDeals = calculateTotalValueOfDeals()
+
   return (
     <>
       <GlobalStyle />
@@ -474,7 +470,7 @@ export default async function VouchHome() {
           </div>
 
           {/* Referral card mockup */}
-          <HeroVisual>
+          {/* <HeroVisual>
             <ReferralCard>
               <CardTop>
                 <ServiceBadge $color={T.blue} $bg={T.blueLight}>
@@ -519,7 +515,7 @@ export default async function VouchHome() {
                 </MiniStatItem>
               </MiniStat>
             </ReferralCard>
-          </HeroVisual>
+          </HeroVisual> */}
         </HeroInner>
       </HeroSection>
 
@@ -527,7 +523,7 @@ export default async function VouchHome() {
       <StatsBar>
         <StatsInner>
           <StatItem>
-            <div className="num">{deals_stats.numberOfDeals}+</div>
+            <div className="num">{statistics.numOfDeals}+</div>
             <div className="lbl">Live deals</div>
           </StatItem>
           <StatItem>
@@ -535,7 +531,7 @@ export default async function VouchHome() {
             <div className="lbl">Upto 5k+ Aussies signed up</div>
           </StatItem>
           <StatItem>
-            <div className="num">${deals_stats.valueOfDeals}+</div>
+            <div className="num">${statistics.valueOfDeals}+</div>
             <div className="lbl">In rewards value</div>
           </StatItem>
           <StatItem>
@@ -579,51 +575,21 @@ export default async function VouchHome() {
               Fresh deals updated regularly. All vetted by the Vouch team.
             </SectionSubtitle>
           </SectionHeader>
-          {/* <DealsGrid>
-            {deals_stats.popularDeals?.map((d, i) => {
+          <DealsGrid>
+            {statistics.popularDeals?.map((d, i) => {
               // 1. Define your visual logic (colors and emojis)
-              const returnType = d.return_type as ReturnType;
-              const emoji = RETURN_TYPE_EMOJI[returnType] ?? "🎁";
-              const cardBg =
-                d.bg ||
-                RETURN_TYPE_BG[returnType] ||
-                `linear-gradient(135deg, ${T.navy}, #2d2d2d)`;
-
               return (
                 <DealCardComponent
                   key={d.uuid}
                   deal={d} // Pass the whole data object
-                  emoji={emoji} // Pass the computed emoji
-                  bg={cardBg} // Pass the background color/gradient
                   note={d.note ? `Note: ${d.note}` : ""}
                   style={{ animationDelay: `${i * 0.05}s` }} // Optional: staggered entrance
                 />
               );
             })}
-          </DealsGrid> */}
+          </DealsGrid>
         </SectionInner>
       </DealsSection>
-
-      {/* Trust signals */}
-      {/* <TrustSection>
-        <TrustGrid>
-          <TrustItem>
-            <div className="icon">🇦🇺</div> Australian owned & operated
-          </TrustItem>
-          <TrustItem>
-            <div className="icon">🔒</div> Community deals included
-          </TrustItem>
-          <TrustItem>
-            <div className="icon">✅</div> All deals verified by Vouch
-          </TrustItem>
-          <TrustItem>
-            <div className="icon">💸</div> Always free to use
-          </TrustItem>
-          <TrustItem>
-            <div className="icon">📞</div> Aussie support team
-          </TrustItem>
-        </TrustGrid>
-      </TrustSection> */}
 
       {/* CTA Banner */}
       <CtaBanner>
