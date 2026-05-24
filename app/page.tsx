@@ -702,7 +702,7 @@ export default function VouchHome() {
           </div>
 
           {/* Referral card mockup */}
-          <HeroVisual>
+          {/* <HeroVisual>
             <ReferralCard>
               <CardTop>
                 <ServiceBadge $color={T.blue} $bg={T.blueLight}>
@@ -743,7 +743,7 @@ export default function VouchHome() {
                 </MiniStatItem>
               </MiniStat>
             </ReferralCard>
-          </HeroVisual>
+          </HeroVisual> */}
         </HeroInner>
       </HeroSection>
 
