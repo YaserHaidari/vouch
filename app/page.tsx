@@ -1,14 +1,7 @@
-import styled, { createGlobalStyle, keyframes } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { DealCardComponent } from "../components/DealCard/dealcard";
 import { T } from "@/assets/colors";
-import { pulse, fadeUp, float, shimmer } from "@/assets/animations";
-import {
-  Deal,
-  ReturnType,
-  RETURN_TYPE_EMOJI,
-  RETURN_TYPE_BG,
-} from "./lib/deals";
-import { supabase } from "@/utils/supabase/client";
+import { pulse, float } from "@/assets/animations";
 import { NavCard } from "@/components/NavCard/navcard";
 import { FooterCard } from "@/components/FooterCard/footercard";
 import {

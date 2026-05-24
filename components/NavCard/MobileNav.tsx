@@ -9,7 +9,7 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
       <input type="checkbox" id="nav-toggle" className={styles.menuToggleInput} />
       <div className={styles.navInner}>
         <div className={styles.logo}>
-           <Link href={"/"}><Image src={"/logo.svg"} width={120} height={120} alt="Logo"/></Link>
+           <Link href={"/"}><Image src={"/logo.svg"} loading={"eager"} width={120} height={120} alt="Logo"/></Link>
           <span />
         </div>
 

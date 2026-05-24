@@ -1,5 +1,3 @@
-"use client";
-
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 
@@ -312,7 +310,7 @@ export default function PrivacyPolicy() {
             </Body>
             <ContactBox>
               <p>
-                🌐 <a href="/contact" target="_blank" rel="noopener noreferrer">Contact us</a>
+                🌐 <a href="/contact">Contact us</a>
               </p>
             </ContactBox>
             <Body style={{ marginTop: "1rem" }}>
