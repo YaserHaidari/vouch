@@ -120,3 +120,23 @@ export const CtaBtn = styled.a`
     box-shadow: 0 10px 28px rgba(255, 208, 0, 0.3);
   }
 `;
+
+export const PostBtn = styled.button`
+  background: ${T.yellow};
+  color: ${T.navy};
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1.2rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+  white-space: nowrap;
+  &:hover {
+    background: #e6bb00;
+    transform: translateY(-1px);
+  }
+`;

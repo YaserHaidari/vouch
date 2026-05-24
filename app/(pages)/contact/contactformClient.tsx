@@ -343,7 +343,6 @@ export const ContactPageForm = () => {
 
   async function handleSubmitForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log("submit fired", form)
     if (!canSubmit) return;
     setError(null);
     setLoading(true);

@@ -1,18 +1,55 @@
-"use client"
+"use client";
 import Link from "next/link";
-import {  Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import styles from "./NavBar.module.css";
 import Image from "next/image";
+import styled from "styled-components";
+import { T } from "@/assets/colors";
+import { useEffect, useState } from "react";
+import { supabase } from "@/utils/supabase/client";
 
-export function MobileNav({ isUser }: { isUser: boolean }) {
+const FooterLogo = styled.div`
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: ${T.yellow};
+    display: inline-block;
+  }
+`;
+
+export function MobileNav() {
+  const [isUser, setIsUser] = useState<boolean | null>(null)
+  async function fetchUser(){
+    const {data: {user}} = await supabase.auth.getUser()
+    if(user){
+      setIsUser(true)
+    }
+  }
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
   return (
     <nav className={styles.navbar}>
-      <input type="checkbox" id="nav-toggle" className={styles.menuToggleInput} />
+      <input
+        type="checkbox"
+        id="nav-toggle"
+        className={styles.menuToggleInput}
+      />
       <div className={styles.navInner}>
-        <div className={styles.logo}>
-           <Link href={"/"}><Image src={"/logo.svg"} loading={"eager"} width={120} height={120} alt="Logo"/></Link>
-          <span />
-        </div>
+        <FooterLogo>
+          <a href="/">vouch</a>
+          <span></span>
+        </FooterLogo>
 
         <label htmlFor="nav-toggle" className={styles.menuToggleLabel}>
           <Menu size={28} className={styles.menuIcon} />
@@ -20,7 +57,9 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
         </label>
 
         <ul className={styles.navLinks}>
-          <li><Link href="/#how">How it works</Link></li>
+          <li>
+            <Link href="/#how">How it works</Link>
+          </li>
           <li>
             {isUser ? (
               <Link href="/community-deals">Community deals</Link>
@@ -28,7 +67,6 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
               <Link href="/register">Register</Link>
             )}
           </li>
-          <li><Link href="/deals">Deals</Link></li>
           <li>
             <Link href="/deals" className={styles.cta}>
               Browse Deals →

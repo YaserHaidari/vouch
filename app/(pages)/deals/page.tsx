@@ -94,11 +94,7 @@ const SkeletonCard = styled.div`
 
 
 // ─── Page ─────────────────────────────────────────────────
-export default async function DealsPage({
-  searchParams,
-}: {
-  searchParams: { category?: string };
-}) {
+export default async function DealsPage({ searchParams}: { searchParams: { category?: string };}) {
   const { category } = await searchParams;
   const activeCategory = category ?? "All";
   

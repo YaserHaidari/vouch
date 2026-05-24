@@ -80,6 +80,58 @@ export const HeroSection = styled.section`
     background: ${T.grey200};
   }
 `;
+export const PageBody = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+`;
+export const SubmitBtn = styled.button`
+  width: 100%;
+  margin-top: 8px;
+  background: ${T.yellow};
+  color: ${T.navy};
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+  &:hover {
+    background: #e6bb00;
+    transform: translateY(-1px);
+  }
+  &:disabled {
+    background: ${T.grey200};
+    color: ${T.grey400};
+    cursor: default;
+    transform: none;
+  }
+`;
+export const CloseBtn = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: ${T.grey100};
+  border: 1px solid ${T.grey200};
+  color: ${T.grey400};
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  &:hover {
+    background: ${T.grey200};
+    color: ${T.navy};
+  }
+`;
 
 export const HeroInner = styled.div`
   max-width: 1200px;

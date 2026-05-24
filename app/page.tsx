@@ -28,6 +28,7 @@ import { steps } from "@/assets/data/steps";
 import { Deals } from "@/assets/dealsFunction/deals";
 import { DEAL_T } from "@/assets/types/DEAL_T";
 import { stat } from "fs";
+import { BrowseBtn } from "@/assets/browseClinetBtn/page";
 
 
 export const metadata: Metadata = {
@@ -591,7 +592,7 @@ export default async function VouchHome() {
           Before you sign up to any new service, check out our special deals
           first.
         </CtaDesc>
-        <CtaBtn href="/deals">Browse all deals →</CtaBtn>
+        <BrowseBtn/>
       </CtaBanner>
 
       {/* Footer */}
@@ -599,3 +600,4 @@ export default async function VouchHome() {
     </>
   );
 }
+
