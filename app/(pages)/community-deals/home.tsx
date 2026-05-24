@@ -14,43 +14,10 @@ import {
   PageTitle,
   PageSubtitle,
 } from "@/assets/pageHeroStyles";
-import {
-  Deal,
-  ReturnType,
-  RETURN_TYPE_EMOJI,
-  RETURN_TYPE_BG,
-  CATEGORIES,
-} from "@/app/lib/deals";
 
-import { Category } from "@/app/lib/deals";
 import { supabase } from "@/utils/supabase/client";
 // ─── Mock community data ──────────────────────────────────
-const MOCK_COMMUNITY_DEALS: Deal[] = [
-  {
-    uuid: "c1",
-    brand_name: "Boost Mobile",
-    brand_id: "123",
-    created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-    updated_at: new Date(Date.now() - 2 * 60 * 60 * 1000),
-    num: 1,
-    status: "active",
-    link: "https://example.com/referral",
-    offer_expiry_date: new Date(
-      Date.now() + 7 * 24 * 60 * 60 * 1000,
-    ).toISOString(),
-    requirements: {
-      initial_deposit: 0,
-      instructions: ["Sign up", "Use referral link"],
-    },
-    return_type: ReturnType.Credit,
-    is_cash_convertible: false,
-    payout_estimate: "1",
-    popular: true,
-    category: Category.Finance,
-    bg: "#0064D2",
-    note: "",
-  },
-];
+
 
 const SORT_OPTIONS = ["Newest", "A–Z", "Highest payout"] as const;
 type SortOption = (typeof SORT_OPTIONS)[number];
