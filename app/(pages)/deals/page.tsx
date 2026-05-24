@@ -4,7 +4,6 @@ import { supabase } from "@/utils/supabase/client";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { NavCard } from "@/components/NavCard/navcard";
-import { fadeUp } from "@/assets/animations";
 import {
   PageHero,
   PageHeroInner,
@@ -92,6 +91,8 @@ const SkeletonCard = styled.div`
   animation: shimmer 1.4s infinite;
 `;
 
+
+
 // ─── Page ─────────────────────────────────────────────────
 export default async function DealsPage({
   searchParams,
@@ -107,6 +108,11 @@ export default async function DealsPage({
   ? deals.filter(d => d.category === activeCategory)
   : deals
   const count = filteredDeals.filter((d => d.status == 'active')).length
+
+
+
+
+ 
 
   return (
     <>

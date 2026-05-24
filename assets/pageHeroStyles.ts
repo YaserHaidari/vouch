@@ -1,3 +1,4 @@
+"user client"
 import styled from "styled-components";
 import { fadeUp, shimmer } from "./animations";
 import { T } from "./colors";
