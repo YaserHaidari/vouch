@@ -129,7 +129,7 @@ const RewardBox = styled.div`
   .value { font-family: "Bricolage Grotesque", sans-serif; font-size: 1rem; font-weight: 800; color: ${T.navy}; }
 `;
 
-const ViewBtn = styled(Link)`
+const ViewBtn = styled.a`
   background: ${T.navy};
   color: ${T.white};
   font-size: 0.8rem;
@@ -234,7 +234,7 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
           </div>
         </RewardBox>
         {deal.status !== "expired" && (
-          <ViewBtn href={`${deal.link}`}>Claim deal →</ViewBtn>
+          <ViewBtn href={`${deal.link}`} target="_blank" rel="noopener noreferrer">Claim deal →</ViewBtn>
         )}
       </CardFooter>
     </CardWrapper>
