@@ -34,7 +34,7 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
         />
-        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+        <link rel="icon" href="/logo.png" type="image/svg+xml" />
       </head>
       <body className="min-h-full flex flex-col">{children}
         <Analytics />
