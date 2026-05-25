@@ -7,7 +7,7 @@ export const steps = [
     icon: "🔗",
     bg: "#E8F1FC",
     accent: T.blue,
-    title: "Browse deals",
+    title: "Browse smart deals",
     desc: "Vouch brings the best offers from top Australian & International services — all in one place.",
   },
   {

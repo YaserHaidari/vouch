@@ -69,7 +69,7 @@ export function MobileNav() {
           </li>
           <li>
             <Link href="/deals" className={styles.cta}>
-              Browse Deals →
+              Browse Smart Deals →
             </Link>
           </li>
         </ul>

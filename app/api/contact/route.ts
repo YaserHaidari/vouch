@@ -19,7 +19,6 @@ export async function POST(request: Request) {
   try {
     const body: Body = await request.json()
     const {first_name, last_name, email, subject, message, category} = body
-
     const { error} = await supabase.from('contact_submissions').insert({first_name:first_name, last_name:last_name, message: message, email: email, subject: subject, category: category})
 
     if (error){
