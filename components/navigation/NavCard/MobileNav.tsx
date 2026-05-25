@@ -27,7 +27,6 @@ const FooterLogo = styled.div`
 `;
 
 export function MobileNav({ isUser }: { isUser: boolean }) {
-
   return (
     <nav className={styles.navbar}>
       <input
@@ -36,10 +35,10 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
         className={styles.menuToggleInput}
       />
       <div className={styles.navInner}>
-        <FooterLogo>
-          <a href="/">vouch</a>
-          <span></span>
-        </FooterLogo>
+        <a href="/" className={styles.logo}>
+          vouch
+          <span className={styles.logoDot} />
+        </a>
 
         <label htmlFor="nav-toggle" className={styles.menuToggleLabel}>
           <Menu size={28} className={styles.menuIcon} />
