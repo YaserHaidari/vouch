@@ -17,7 +17,7 @@ import { TabBarFilter } from "@/components/TabBarFilter/TabBarFilter";
 import { Metadata } from "next";
 import { Deals } from "@/assets/dealsFunction/deals";
 import { DEAL_T } from "@/assets/types/DEAL_T";
-import { DealsClient } from "@/components/DealsClinet/dealsClient";
+import { DealsClient } from "@/components/DealsClient/dealsClient";
 
 export const metadata: Metadata = {
   title: "All Deals",
@@ -31,7 +31,7 @@ export default async function DealsPage() {
   return (
     <>
       <NavCard />
-      <DealsClient deals={deals} count={count} />
+      <DealsClient dealNote="All Smart Deals" deals={deals} count={count} />
     </>
   );
 }

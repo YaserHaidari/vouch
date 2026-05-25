@@ -28,7 +28,7 @@ import { steps } from "@/assets/data/steps";
 import { Deals } from "@/assets/dealsFunction/deals";
 import { DEAL_T } from "@/assets/types/DEAL_T";
 import { stat } from "fs";
-import { BrowseBtn } from "@/assets/browseClinetBtn/page";
+import { DealsClient } from "@/components/DealsClient/dealsClient";
 
 
 export const metadata: Metadata = {
@@ -326,44 +326,7 @@ const SignUpLink = styled.a`
   }
 `;
 
-// ─── Trust Section ────────────────────────────────────────
-const TrustSection = styled.section`
-  background: ${T.grey50};
-  padding: 4rem 2rem;
-  border-top: 1px solid ${T.grey200};
-  border-bottom: 1px solid ${T.grey200};
-`;
 
-const TrustGrid = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2.5rem;
-`;
-
-const TrustItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: ${T.grey600};
-  font-size: 0.88rem;
-  font-weight: 500;
-
-  .icon {
-    width: 36px;
-    height: 36px;
-    background: ${T.white};
-    border: 1.5px solid ${T.grey200};
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
-`;
 
 // ─── CTA Banner ───────────────────────────────────────────
 const CtaBanner = styled.section`
@@ -458,7 +421,7 @@ export default async function VouchHome() {
               exclusive rewards on your everyday bills.
             </HeroDesc>
             <HeroCtas>
-              <BtnPrimary href="/deals">Browse deals →</BtnPrimary>
+              <BtnPrimary href="/deals">Browse Smart Deals →</BtnPrimary>
               <BtnSecondary href="#how">How it works</BtnSecondary>
             </HeroCtas>
           </div>
@@ -569,6 +532,7 @@ export default async function VouchHome() {
               Fresh deals updated regularly. All vetted by the Vouch team.
             </SectionSubtitle>
           </SectionHeader>
+
           <DealsGrid>
             {statistics.popularDeals?.map((d, i) => {
               // 1. Define your visual logic (colors and emojis)
@@ -592,7 +556,7 @@ export default async function VouchHome() {
           Before you sign up to any new service, check out our special deals
           first.
         </CtaDesc>
-        <BrowseBtn/>
+        <CtaBtn href="/deals">Browse Smart Deals →</CtaBtn>
       </CtaBanner>
 
       {/* Footer */}

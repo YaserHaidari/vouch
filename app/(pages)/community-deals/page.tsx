@@ -16,59 +16,12 @@ import {
 import { supabase } from "@/utils/supabase/client";
 import { DEAL_T } from "@/assets/types/DEAL_T";
 import { TabBarFilter } from "@/components/TabBarFilter/TabBarFilter";
+import { DealsClient } from "@/components/DealsClient/dealsClient";
 
 const SORT_OPTIONS = ["Newest", "A–Z", "Highest payout"] as const;
 type SortOption = (typeof SORT_OPTIONS)[number];
 
-// ─── Hero extras ──────────────────────────────────────────
-const DealCount = styled.div`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 2rem;
-  font-weight: 800;
-  color: ${T.yellow};
-  text-align: right;
-  span {
-    display: block;
-    font-family: "DM Sans", sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-`;
 
-const TabBar = styled.div`
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  margin-top: 0.5rem;
-`;
-
-const Tab = styled.button<{ $active: boolean }>`
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: "DM Sans", sans-serif;
-  font-size: 0.88rem;
-  font-weight: ${(p) => (p.$active ? "600" : "500")};
-  color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.55)")};
-  padding: 0.9rem 1.3rem;
-  border-bottom: 2px solid ${(p) => (p.$active ? T.yellow : "transparent")};
-  transition:
-    color 0.2s,
-    border-color 0.2s;
-  white-space: nowrap;
-  &:hover {
-    color: ${(p) => (p.$active ? T.yellow : "rgba(255,255,255,0.85)")};
-  }
-`;
 
 // ─── Filter bar ───────────────────────────────────────────
 const FilterBar = styled.div`
@@ -365,55 +318,19 @@ export default async function CommunityDeals({
   searchParams: { category: string };
 }) {
   const { category } = await searchParams;
-  const { data: deals = [] } = await supabase.from("community_deals").select("*");
+  const { data: deals = [] } = await supabase
+    .from("community_deals")
+    .select("*");
   const activeCategory = category ?? "All";
-  const filteredDeals: DEAL_T[] = activeCategory !== "All"
-    ? (deals ?? []).filter((d: DEAL_T) => d.category === activeCategory)
-    : (deals ?? [])
-  const count = filteredDeals.filter((d => d.status == 'active')).length
+  const filteredDeals: DEAL_T[] =
+    activeCategory !== "All"
+      ? (deals ?? []).filter((d: DEAL_T) => d.category === activeCategory)
+      : (deals ?? []);
+  const count = filteredDeals.filter((d) => d.status == "active").length;
   return (
     <>
       <NavCard />
-      <PageHero>
-        <PageHeroInner>
-          <PageHeroTop>
-            <PageHeroText>
-              <Breadcrumb>
-                <a href="/">Home</a> / Community Referrals
-              </Breadcrumb>
-              <PageTitle>Community referrals</PageTitle>
-              <PageSubtitle>
-                Deals shared by the Vouch community. Every submission is
-                reviewed before going live.
-              </PageSubtitle>
-            </PageHeroText>
-            <DealCount>
-              {filteredDeals.length}
-              <span>community deals</span>
-            </DealCount>
-          </PageHeroTop>
-        </PageHeroInner>
-        <TabBarFilter activeCategory={activeCategory} />
-      </PageHero>
-       <PageBody>
-         {filteredDeals.length > 0 ? (
-           <DealsGrid>
-             {filteredDeals.map((deal, i) => (
-               <DealCardComponent
-                 key={deal.uuid}                 deal={deal}
-                 note={deal.note ? `Note: ${deal.note}` : ""}
-            
-                 style={{ animationDelay: `${i * 0.05}s` }}
-               />
-             ))}
-          </DealsGrid>
-         ) : (
-           <EmptyState>
-           <div className="icon">🔍</div>
-             <h3>No referrals found</h3>
-            <p>Be the first to post one in this category.</p>
-          </EmptyState>         )}
-       </PageBody>
+      <DealsClient dealNote="Community deals" deals={deals} count={count} />
     </>
   );
 }

@@ -46,21 +46,20 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
         </label>
 
         <ul className={styles.navLinks}>
-          <li>
-            <Link href="/#how">How it works</Link>
-          </li>
-          <li>
-            {isUser ? (
+          <Link href="/#how">How it works</Link>
+
+          {isUser ? (
+            <>
               <Link href="/community-deals">Community deals</Link>
-            ) : (
-              <Link href="/register">Register</Link>
-            )}
-          </li>
-          <li>
-            <Link href="/deals" className={styles.cta}>
-              Browse Smart Deals →
-            </Link>
-          </li>
+              <Link href="/post-deal">Post deals</Link>
+            </>
+          ) : (
+            <Link href="/register">Register</Link>
+          )}
+
+          <Link href="/deals" className={styles.cta}>
+            Browse Smart Deals →
+          </Link>
         </ul>
       </div>
     </nav>

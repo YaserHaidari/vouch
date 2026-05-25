@@ -42,7 +42,7 @@ const DealCount = styled.div`
     margin-top: 2px;
   }
 `;
-export function DealsClient({ deals, count }: { deals: DEAL_T[], count: number }) {
+export function DealsClient({ deals, count, dealNote }: { deals: DEAL_T[], count: number, dealNote: string}) {
   const [activeCategory, setActiveCategory] = useState<CATEGORY_T | "All">("All");
 
   const filteredDeals = activeCategory === "All"
@@ -57,7 +57,7 @@ export function DealsClient({ deals, count }: { deals: DEAL_T[], count: number }
           <PageHeroTop>
             <PageHeroText>
               <Breadcrumb><a href="/">Home</a> / Deals</Breadcrumb>
-              <PageTitle>All deals</PageTitle>
+              <PageTitle>{dealNote}</PageTitle>
               <PageSubtitle>Vetted offers from Australia's best services. Updated weekly.</PageSubtitle>
             </PageHeroText>
             <DealCount>
