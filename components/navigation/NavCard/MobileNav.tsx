@@ -26,17 +26,7 @@ const FooterLogo = styled.div`
   }
 `;
 
-export function MobileNav() {
-  const [isUser, setIsUser] = useState<boolean | null>(null)
-  async function fetchUser(){
-    const {data: {user}} = await supabase.auth.getUser()
-    if(user){
-      setIsUser(true)
-    }
-  }
-  useEffect(() => {
-    fetchUser()
-  }, [])
+export function MobileNav({ isUser }: { isUser: boolean }) {
 
   return (
     <nav className={styles.navbar}>

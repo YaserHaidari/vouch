@@ -1,4 +1,4 @@
-import { NavCard } from "@/components/NavCard/navcard"
+import { NavCard } from "@/components/navigation/NavCard/navcard"
 import { ContactPageForm } from "./contactformClient"
 
 export default function Contact(){

@@ -1,5 +1,5 @@
 import { PageHero, PageHeroInner, PageHeroTop, PageHeroText, PageSubtitle, PageTitle, Breadcrumb } from "@/assets/pageHeroStyles";
-import { NavCard } from "@/components/NavCard/navcard";
+import { NavCard } from "@/components/navigation/NavCard/navcard";
 import styled, { createGlobalStyle } from "styled-components";
 import { TabBarFilter } from "@/components/TabBarFilter/TabBarFilter";
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { NavCard } from "@/components/NavCard/navcard";
+import { NavCard } from "@/components/navigation/NavCard/navcard";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { fadeUp } from "@/assets/animations";

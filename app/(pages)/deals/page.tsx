@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { supabase } from "@/utils/supabase/client";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";
-import { NavCard } from "@/components/NavCard/navcard";
+import { NavCard } from "@/components/navigation/NavCard/navcard";
 import {
   PageHero,
   PageHeroInner,

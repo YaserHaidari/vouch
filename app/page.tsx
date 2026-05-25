@@ -2,8 +2,8 @@ import styled, { createGlobalStyle } from "styled-components";
 import { DealCardComponent } from "../components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { pulse, float } from "@/assets/animations";
-import { NavCard } from "@/components/NavCard/navcard";
-import { FooterCard } from "@/components/FooterCard/footercard";
+import { NavCard } from "@/components/navigation/NavCard/navcard";
+import { FooterCard } from "@/components/navigation/FooterCard/footercard";
 import {
   HeroBadge,
   HeroCtas,
