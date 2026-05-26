@@ -1,5 +1,6 @@
 "use server"
 import { T } from "@/assets/colors";
+import Link from "next/link";
 import styled from "styled-components";
 
 
@@ -67,7 +68,7 @@ export async function FooterCard(){
         <Footer>
         <FooterInner>
           <FooterLogo>
-            <a href="/">vouch</a>
+            <Link href="/">vouch</Link>
             <span />
           </FooterLogo>
           <FooterLinks>

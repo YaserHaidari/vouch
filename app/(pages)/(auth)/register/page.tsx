@@ -2,6 +2,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import { T } from "@/assets/colors";
 import { createClient } from "@/utils/supabase/server";
 import { GoogleBtn } from "@/components/GoogleBtn/googleBtn";
+import Link from "next/link";
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -178,7 +179,7 @@ export default async function Register() {
           <Terms>
             By continuing, you agree to our{" "}
             Terms of Service and {" "}
-            <a href="/privacy-policy">Privacy Policy</a>.
+            <Link href="/privacy-policy">Privacy Policy</Link>.
           </Terms>
         </Card>
       </Page>

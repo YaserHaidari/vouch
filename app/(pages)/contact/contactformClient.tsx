@@ -11,6 +11,7 @@ import {
   PageTitle,
   PageSubtitle,
 } from "@/assets/pageHeroStyles";
+import Link from "next/link";
 
 const PageBody = styled.div`
   max-width: 1280px;
@@ -386,7 +387,7 @@ export const ContactPageForm = () => {
           <PageHeroTop>
             <PageHeroText>
               <Breadcrumb>
-                <a href="/">Home</a> / Contact
+                <Link href="/">Home</Link> / Contact
               </Breadcrumb>
               <PageTitle>Get in touch</PageTitle>
               <PageSubtitle>

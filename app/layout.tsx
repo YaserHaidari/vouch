@@ -39,7 +39,7 @@ export default function RootLayout({
         <link rel="icon" href="/logo.png" type="image/svg+xml" />
       </head>
      <body className="min-h-full flex flex-col">
-                    <NavCard/>
+      <NavCard/>
 
       {children}
 

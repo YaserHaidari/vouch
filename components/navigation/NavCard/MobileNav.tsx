@@ -2,11 +2,12 @@
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import styles from "./NavBar.module.css";
-
-
-
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 export function MobileNav({ isUser }: { isUser: boolean }) {
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <nav className={styles.navbar}>
       <input
@@ -15,10 +16,10 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
         className={styles.menuToggleInput}
       />
       <div className={styles.navInner}>
-        <a href="/" className={styles.logo}>
+        <Link href="/" className={styles.logo}>
           vouch
           <span className={styles.logoDot} />
-        </a>
+        </Link>
 
         <label htmlFor="nav-toggle" className={styles.menuToggleLabel}>
           <Menu size={28} className={styles.menuIcon} />
@@ -30,7 +31,11 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
 
           {isUser ? (
             <>
-              <Link href="/community-deals">Community deals</Link>
+              <Link
+                href="/community-deals"
+              >
+                Community deals
+              </Link>
               <Link href="/post-deal">Post deals</Link>
             </>
           ) : (

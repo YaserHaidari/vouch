@@ -402,9 +402,6 @@ export default async function VouchHome() {
     <>
       <GlobalStyle />
 
-      {/* Nav */}
-      {/* <NavCard /> */}
-
       {/* Hero */}
       <HeroSection>
         <HeroInner>
