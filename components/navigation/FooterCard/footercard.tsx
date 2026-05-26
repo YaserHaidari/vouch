@@ -1,4 +1,6 @@
+"use server"
 import { T } from "@/assets/colors";
+import Link from "next/link";
 import styled from "styled-components";
 
 
@@ -60,12 +62,13 @@ const FooterCopy = styled.p`
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   margin-top: 1rem;
 `;
-export function FooterCard(){
+
+export async function FooterCard(){
     return(
         <Footer>
         <FooterInner>
           <FooterLogo>
-            <a href="/">vouch</a>
+            <Link href="/">vouch</Link>
             <span />
           </FooterLogo>
           <FooterLinks>

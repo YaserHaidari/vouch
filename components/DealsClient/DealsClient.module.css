@@ -1,0 +1,161 @@
+/* ── Hero ───────────────────────────────────────────────── */
+.hero {
+  background: #0d1b2a; /* T.navy */
+  padding: 3rem 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 80% 50%,
+    rgba(0, 100, 210, 0.25) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.heroInner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.heroTop {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 2rem;
+}
+
+.heroText {
+  /* intentionally empty — just a grouping wrapper */
+}
+
+/* ── Breadcrumb ─────────────────────────────────────────── */
+.breadcrumb {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+
+.breadcrumb a {
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ── Title / subtitle ───────────────────────────────────── */
+.pageTitle {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.6rem;
+  animation: fadeUp 0.6s ease both;
+}
+
+.pageSubtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+/* ── Deal count ─────────────────────────────────────────── */
+.dealCount {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f5c518; /* T.yellow */
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.dealCount span {
+  display: block;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ── Page body ──────────────────────────────────────────── */
+.pageBody {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+}
+
+/* ── Deals grid ─────────────────────────────────────────── */
+.dealsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .dealsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dealsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .dealsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ── Empty state ────────────────────────────────────────── */
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #9ca3af; /* T.grey400 */
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.emptyTitle {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0d1b2a; /* T.navy */
+  margin-bottom: 0.4rem;
+}
+
+.emptySubtitle {
+  font-size: 0.9rem;
+}
+
+/* ── Animations ─────────────────────────────────────────── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

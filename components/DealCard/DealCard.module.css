@@ -1,0 +1,187 @@
+/* ── Card wrapper ───────────────────────────────────────── */
+.card {
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Badge row ──────────────────────────────────────────── */
+.badgeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.25rem 0;
+}
+
+.categoryPill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0d1b2a;
+  background: #e5e7eb;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+}
+
+/* ── Status badge variants ──────────────────────────────── */
+.statusBadge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+}
+
+.status_active {
+  background: #e6f7ed;
+  color: #1b7a3a;
+}
+
+.status_soon {
+  background: #fffbe6;
+  color: #7a5f00;
+}
+
+.status_expired {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+/* ── Card body ──────────────────────────────────────────── */
+.cardBody {
+  padding: 1.25rem;
+  flex-grow: 1;
+}
+
+.brandName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #9ca3af;
+  margin-bottom: 0.25rem;
+}
+
+.cardTitle {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0d1b2a;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Step bullets ───────────────────────────────────────── */
+.cardDesc {
+  font-size: 0.85rem;
+  color: #4b5563;
+  line-height: 1.4;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.cardDesc::before {
+  content: "•";
+  color: #0064d2;
+  flex-shrink: 0;
+}
+
+/* ── Toggle button ──────────────────────────────────────── */
+.toggleBtn {
+  background: none;
+  border: none;
+  color: #0064d2;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-top: 4px;
+  font-family: inherit;
+}
+
+/* ── Meta rows ──────────────────────────────────────────── */
+.cardMeta {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.metaRow {
+  font-size: 0.78rem;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.metaRow span {
+  color: #0d1b2a;
+  font-weight: 700;
+}
+
+.cashBadge {
+  color: #0064d2;
+  font-weight: 700;
+}
+
+/* ── Divider ────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 0 1.25rem;
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+.cardFooter {
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rewardBox {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rewardLabel {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.rewardValue {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0d1b2a;
+}
+
+/* ── Claim button ───────────────────────────────────────── */
+.viewBtn {
+  background: #0d1b2a;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.viewBtn:hover {
+  background: #111827;
+  color: #f5c518;
+}

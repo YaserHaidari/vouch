@@ -1,5 +1,4 @@
-"use client";
-
+import Link from "next/link";
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";
 
@@ -182,7 +181,7 @@ export default function PrivacyPolicy() {
             </Body>
             <Body>
               We operate under the <strong>Australian Privacy Principles (APPs)</strong> contained in the <em>Privacy Act 1988 (Cth)</em>. A copy of the APPs is available at{" "}
-              <a href="https://www.oaic.gov.au/" target="_blank" rel="noopener noreferrer">oaic.gov.au</a>.
+              <Link href="https://www.oaic.gov.au/" target="_blank" rel="noopener noreferrer">oaic.gov.au</Link>.
             </Body>
           </Section>
 
@@ -299,7 +298,7 @@ export default function PrivacyPolicy() {
             <SectionTitle>11. Changes to This Policy</SectionTitle>
             <Body>
               We may update this Privacy Policy from time to time. The current version will always be available at{" "}
-              <a href="https://vouch.net.au/privacy-policy">vouch.net.au/privacy-policy</a>. Continued use of the platform after changes are published constitutes acceptance of the updated policy.
+              <Link href="https://vouch.net.au/privacy-policy">vouch.net.au/privacy-policy</Link>. Continued use of the platform after changes are published constitutes acceptance of the updated policy.
             </Body>
           </Section>
 
@@ -312,14 +311,14 @@ export default function PrivacyPolicy() {
             </Body>
             <ContactBox>
               <p>
-                🌐 <a href="/contact" target="_blank" rel="noopener noreferrer">Contact us</a>
+                🌐 <Link href="/contact">Contact us</Link>
               </p>
             </ContactBox>
             <Body style={{ marginTop: "1rem" }}>
               If you are not satisfied with our response, you may escalate your complaint to the{" "}
-              <a href="https://www.oaic.gov.au/privacy/privacy-complaints" target="_blank" rel="noopener noreferrer">
+              <Link href="https://www.oaic.gov.au/privacy/privacy-complaints" target="_blank" rel="noopener noreferrer">
                 Office of the Australian Information Commissioner (OAIC)
-              </a>.
+              </Link>.
             </Body>
           </Section>
 

@@ -1,0 +1,123 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--grey200);
+  padding: 0 2rem;
+    font-family: 'DM Sans', sans-serif;
+
+}
+
+.navInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+
+
+.logo {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+}
+
+.logoDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F5D800;
+  display: inline-block;
+  margin-left: 2px;
+}
+
+/* hidden checkbox — the toggle engine */
+.menuToggleInput {
+  display: none;
+}
+
+/* hamburger label — hidden on desktop */
+.menuToggleLabel {
+  display: none;
+  cursor: pointer;
+  color: var(--navy);
+  z-index: 101;
+}
+
+.menuToggleLabel .xIcon {
+  display: none;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: var(--grey600);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navLinks a:hover {
+  color: var(--navy);
+}
+
+.cta {
+  background: var(--blue);
+  color: white !important;
+  padding: 0.55rem 1.3rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #004fb0 !important;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .menuToggleLabel {
+    display: block;
+  }
+
+  .navLinks {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 2rem;
+    border-bottom: 1px solid var(--grey200);
+    gap: 1.5rem;
+  }
+
+  /* checkbox siblings drive everything — no JS */
+  .menuToggleInput:checked ~ .navInner .navLinks {
+    display: flex;
+  }
+
+  .menuToggleInput:checked ~ .navInner .menuToggleLabel .menuIcon {
+    display: none;
+  }
+
+  .menuToggleInput:checked ~ .navInner .menuToggleLabel .xIcon {
+    display: block;
+  }
+}
