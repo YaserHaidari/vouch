@@ -3,8 +3,7 @@ import { NavCard } from "@/components/navigation/NavCard/navcard";
 export default function Loading() {
   return (
     <>
-      {/* Nav skeleton */}
-      <NavCard/>
+
 
       {/* Hero skeleton */}
       <div style={{ padding: "5rem 2rem 4rem", maxWidth: "1280px", margin: "0 auto" }}>

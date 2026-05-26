@@ -1,10 +1,11 @@
-'use server'
+"use server";
 
-import { createClient } from "@/utils/supabase/server"
+import { createClient } from "@/utils/supabase/server";
 import styled from "styled-components";
 import { T } from "@/assets/colors";
 import { NavCard } from "@/components/navigation/NavCard/navcard";
 import { FooterCard } from "@/components/navigation/FooterCard/footercard";
+import { redirect } from "next/navigation";
 
 // ─── Styled Components ──────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -69,7 +70,9 @@ const Input = styled.input`
   font-family: "DM Sans", sans-serif;
   font-size: 0.9rem;
   padding: 10px 14px;
-  &:focus { outline: 2px solid ${T.blue}; }
+  &:focus {
+    outline: 2px solid ${T.blue};
+  }
 `;
 
 const SelectInput = styled(Input).attrs({ as: "select" })`
@@ -108,7 +111,9 @@ const CheckboxRow = styled.label`
   font-size: 0.88rem;
   color: ${T.navy};
   margin-bottom: 1rem;
-  input { accent-color: ${T.blue}; }
+  input {
+    accent-color: ${T.blue};
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -125,30 +130,48 @@ const SubmitBtn = styled.button`
 `;
 
 export default async function PostDeal() {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await (await supabase).auth.getSession();
+
+  if (!session?.user) {
+    redirect("/");
+  }
+
   async function handlePostDeal(e: FormData) {
-    "use server"
-    const supabase = await createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (session?.user) {
-      const f = Object.fromEntries(e.entries());
-      const { error } = await supabase.from("community_deals").insert({
-        brand_name: f.brand_name,
-        link: f.referral_link,
-        payout_estimate: f.payout_estimate,
-        offer_expiry_date: f.offer_expiry_date || null,
-        return_type: f.return_type || null,
-        is_cash_convertible: f.is_cash_convertible === "true",
-        category: f.category || null,
-        referral_code: f.referral_code || null,
-        note: f.note || null,
-      });
-      if (error) throw new Error(error.message);
+    "use server";
+    const supabase = createClient();
+    const f = Object.fromEntries(e.entries());
+
+
+    const missing: string[] = [];
+    if (!String(f.brand_name ?? "").trim())       missing.push("Brand name");
+    if (!String(f.referral_link ?? "").trim())     missing.push("Referral link");
+    if (!String(f.offer_expiry_date ?? "").trim()) missing.push("Expiry date");
+    if (!String(f.payout_estimate ?? "").trim())   missing.push("Reward / payout");
+
+    if (missing.length) {
+      throw new Error(`Please fill in the following required fields: ${missing.join(", ")}.`);
     }
+
+    const { error } = await (await supabase).from("community_deals").insert({
+      brand_name:          String(f.brand_name).trim(),
+      link:                String(f.referral_link).trim(),
+      payout_estimate:     String(f.payout_estimate).trim(),
+      offer_expiry_date:   String(f.offer_expiry_date).trim(),
+      return_type:         f.return_type  || null,
+      is_cash_convertible: f.is_cash_convertible === "true",
+      category:            f.category    || null,
+      referral_code:       f.referral_code || null,
+      note:                f.note        || null,
+    });
+
+    if (error) throw new Error(`Submission failed: ${error.message}`);
   }
 
   return (
     <PageWrapper>
-
       <ContentArea>
         <Modal>
           <ModalTitle>Post a referral</ModalTitle>
@@ -156,28 +179,36 @@ export default async function PostDeal() {
           <form action={handlePostDeal}>
             <Field>
               <Label>Brand name *</Label>
-              <Input name="brand_name" required />
+              <Input name="brand_name" />
             </Field>
             <Field>
               <Label>Referral link *</Label>
-              <Input name="referral_link" type="url" required />
+              <Input name="referral_link" type="url" />
             </Field>
             <Divider />
             <TwoCol>
               <Field>
                 <Label>Reward / payout *</Label>
-                <Input name="payout_estimate" required />
+                <Input name="payout_estimate" />
               </Field>
               <Field>
-                <Label>Expiry date</Label>
+                <Label>Expiry date *</Label>
                 <Input name="offer_expiry_date" type="date" />
               </Field>
             </TwoCol>
+            <Field>
+              <Label>Note</Label>
+              <Textarea name="note" />
+            </Field>
             <Field>
               <Label>Return type</Label>
               <SelectInput name="return_type">
                 <option value="">Select…</option>
                 <option value="cashback">Cashback</option>
+                <option value="credit">Credit</option>
+                <option value="cash">Cash</option>
+                <option value="stocks">Stocks</option>
+                <option value="crypto">Crypto</option>
               </SelectInput>
             </Field>
             <CheckboxRow>
@@ -188,7 +219,6 @@ export default async function PostDeal() {
           </form>
         </Modal>
       </ContentArea>
-
     </PageWrapper>
-  )
+  );
 }
