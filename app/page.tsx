@@ -403,7 +403,7 @@ export default async function VouchHome() {
       <GlobalStyle />
 
       {/* Nav */}
-      <NavCard />
+      {/* <NavCard /> */}
 
       {/* Hero */}
       <HeroSection>
@@ -560,7 +560,7 @@ export default async function VouchHome() {
       </CtaBanner>
 
       {/* Footer */}
-      <FooterCard />
+      {/* <FooterCard /> */}
     </>
   );
 }

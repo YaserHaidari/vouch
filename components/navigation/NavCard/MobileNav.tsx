@@ -2,29 +2,9 @@
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import styles from "./NavBar.module.css";
-import Image from "next/image";
-import styled from "styled-components";
-import { T } from "@/assets/colors";
-import { useEffect, useState } from "react";
-import { supabase } from "@/utils/supabase/client";
 
-const FooterLogo = styled.div`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 800;
-  font-size: 1.4rem;
-  color: #000;
-  display: flex;
-  align-items: center;
-  gap: 6px;
 
-  span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: ${T.yellow};
-    display: inline-block;
-  }
-`;
+
 
 export function MobileNav({ isUser }: { isUser: boolean }) {
   return (
@@ -58,7 +38,7 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
           )}
 
           <Link href="/deals" className={styles.cta}>
-            Browse Smart Deals →
+            Browse Smart Deals
           </Link>
         </ul>
       </div>

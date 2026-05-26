@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { NavCard } from "@/components/navigation/NavCard/navcard";
+import { FooterCard } from "@/components/navigation/FooterCard/footercard";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -36,9 +38,14 @@ export default function RootLayout({
         />
         <link rel="icon" href="/logo.png" type="image/svg+xml" />
       </head>
-      <body className="min-h-full flex flex-col">{children}
+     <body className="min-h-full flex flex-col">
+                    <NavCard/>
+
+      {children}
+
         <Analytics />
         <SpeedInsights/>
+        <FooterCard/>
       </body>
     </html>
   );

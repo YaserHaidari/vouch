@@ -329,8 +329,8 @@ export default async function CommunityDeals({
   const count = filteredDeals.filter((d) => d.status == "active").length;
   return (
     <>
-      <NavCard />
-      <DealsClient dealNote="Community deals" deals={deals} count={count} />
+
+      <DealsClient dealNote="Community deals" deals={deals ? deals : []} count={count} />
     </>
   );
 }

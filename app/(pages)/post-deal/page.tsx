@@ -148,7 +148,7 @@ export default async function PostDeal() {
 
   return (
     <PageWrapper>
-      <NavCard />
+
       <ContentArea>
         <Modal>
           <ModalTitle>Post a referral</ModalTitle>
@@ -188,7 +188,7 @@ export default async function PostDeal() {
           </form>
         </Modal>
       </ContentArea>
-      <FooterCard />
+
     </PageWrapper>
   )
 }

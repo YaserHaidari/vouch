@@ -30,7 +30,7 @@ export default async function DealsPage() {
 
   return (
     <>
-      <NavCard />
+      {/* <NavCard /> */}
       <DealsClient dealNote="All Smart Deals" deals={deals} count={count} />
     </>
   );
