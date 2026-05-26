@@ -1,5 +1,3 @@
-import { NavCard } from "@/components/navigation/NavCard/navcard";
-
 export default function Loading() {
   return (
     <>

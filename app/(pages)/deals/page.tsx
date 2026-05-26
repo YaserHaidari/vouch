@@ -1,9 +1,4 @@
 import { Suspense } from "react";
-import styled from "styled-components";
-import { supabase } from "@/utils/supabase/client";
-import { DealCardComponent } from "@/components/DealCard/dealcard";
-import { T } from "@/assets/colors";
-import { NavCard } from "@/components/navigation/NavCard/navcard";
 import {
   PageHero,
   PageHeroInner,
@@ -13,12 +8,9 @@ import {
   PageTitle,
   PageSubtitle,
 } from "@/assets/pageHeroStyles";
-import { TabBarFilter } from "@/components/TabBarFilter/TabBarFilter";
 import { Metadata } from "next";
 import { Deals } from "@/assets/dealsFunction/deals";
-import { DEAL_T } from "@/assets/types/DEAL_T";
 import { DealsClient } from "@/components/DealsClient/dealsClient";
-import Loading from "./loading";
 import Link from "next/link";
 
 export const metadata: Metadata = {

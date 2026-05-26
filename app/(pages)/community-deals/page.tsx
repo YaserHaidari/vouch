@@ -1,21 +1,7 @@
 import styled from "styled-components";
-import { NavCard } from "@/components/navigation/NavCard/navcard";
-import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { T } from "@/assets/colors";
-import { fadeUp } from "@/assets/animations";
-import {
-  PageHero,
-  PageHeroInner,
-  PageHeroTop,
-  PageHeroText,
-  Breadcrumb,
-  PageTitle,
-  PageSubtitle,
-  PageBody,
-} from "@/assets/pageHeroStyles";
 import { supabase } from "@/utils/supabase/client";
 import { DEAL_T } from "@/assets/types/DEAL_T";
-import { TabBarFilter } from "@/components/TabBarFilter/TabBarFilter";
 import { DealsClient } from "@/components/DealsClient/dealsClient";
 
 const SORT_OPTIONS = ["Newest", "A–Z", "Highest payout"] as const;

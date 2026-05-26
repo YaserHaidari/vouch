@@ -2,8 +2,6 @@ import styled, { createGlobalStyle } from "styled-components";
 import { DealCardComponent } from "../components/DealCard/dealcard";
 import { T } from "@/assets/colors";
 import { pulse, float } from "@/assets/animations";
-import { NavCard } from "@/components/navigation/NavCard/navcard";
-import { FooterCard } from "@/components/navigation/FooterCard/footercard";
 import {
   HeroBadge,
   HeroCtas,
@@ -27,8 +25,7 @@ import {
 import { steps } from "@/assets/data/steps";
 import { Deals } from "@/assets/dealsFunction/deals";
 import { DEAL_T } from "@/assets/types/DEAL_T";
-import { stat } from "fs";
-import { DealsClient } from "@/components/DealsClient/dealsClient";
+
 
 
 export const metadata: Metadata = {
