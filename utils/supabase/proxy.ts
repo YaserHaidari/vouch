@@ -47,7 +47,6 @@ export async function updateSession(request: NextRequest) {
 
   const public_urls = ["/", "/deals", "/privacy-policy", "/contact", "/api/contact", "/api/fetchAllDeals", "/register"];
 
-  //first one is reigster instead of /
   //CHECK_FOR_PROD
   if (
     !user &&

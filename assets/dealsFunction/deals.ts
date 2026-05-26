@@ -5,7 +5,7 @@ import { DEAL_T } from '@/assets/types/DEAL_T'
 export const Deals = async (): Promise<DEAL_T[]> => {
     const { data, error } = await supabase.from("deals").select("*")
     if (error) {
-        console.log(error)
+        throw new Error(error.message)
         return []
     }
     return data

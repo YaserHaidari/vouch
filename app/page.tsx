@@ -32,14 +32,29 @@ import { DealsClient } from "@/components/DealsClient/dealsClient";
 
 
 export const metadata: Metadata = {
-  title:
-    "We find the best deals for you in Australia so you get rewarded for signing up.",
-  description: "",
-  keywords: [],
+  title: "Vouch - Smart Deals & Rewards Australia",
+  description:
+    "Join Australia's #1 smart saving community. Discover the best deals, exclusive offers, and top referral rewards to help you save money on everyday bills. Vouch finds and vets the smartest ways for you to earn and save as the cost of living rises.",
+  keywords: [
+    "smart deals", "Australia deals", "save money", "cashback", "referral rewards", "discounts", "bills", "exclusive offers", "sign up bonuses", "cost of living"
+  ],
   openGraph: {
-    url: "vouch.net.au",
-    images: [{ url: "", width: 100, height: 100 }],
+    title: "Vouch - Smart Deals & Rewards Australia",
+    description:
+      "Discover the best deals, exclusive offers, and referral rewards in Australia. Save money and earn rewards with Vouch.",
+    url: "https://vouch.net.au/",
+    images: [
+      { url: "/logo.svg", width: 1200, height: 630, alt: "Vouch Logo and Smart Deals" }
+    ],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vouch - Smart Deals & Rewards Australia",
+    description:
+      "Discover the best deals, exclusive offers, and referral rewards in Australia. Save money and earn rewards with Vouch.",
+    images: ["/logo.svg"],
+    site: "@vouchau",
   },
   robots: {
     index: true,
@@ -419,7 +434,7 @@ export default async function VouchHome() {
             </HeroDesc>
             <HeroCtas>
               <BtnPrimary href="/deals">Browse Smart Deals →</BtnPrimary>
-              <BtnSecondary href="#how">How it works</BtnSecondary>
+              <BtnSecondary href="/#how">How it works</BtnSecondary>
             </HeroCtas>
           </div>
 

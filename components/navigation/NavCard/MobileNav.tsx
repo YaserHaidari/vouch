@@ -7,7 +7,7 @@ import clsx from "clsx";
 
 export function MobileNav({ isUser }: { isUser: boolean }) {
   const pathname = usePathname();
-  console.log(pathname);
+
   return (
     <nav className={styles.navbar}>
       <input

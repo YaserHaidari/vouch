@@ -6,6 +6,6 @@ export async function NavCard() {
   const supabase = createClient()
   const { data: { user } } = await (await supabase).auth.getUser();
   const isUser = !!user;
-  console.log(isUser)
+
   return <MobileNav isUser={isUser} />;
 }
