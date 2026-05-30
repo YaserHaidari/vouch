@@ -1,10 +1,9 @@
 
 
-export default function Loading() {
+export default function LoadingSkeleton() {
   return (
     <>
       {/* Plain div mimicking NavCard height */}
-      <div style={{ height: "64px", background: "#fff", borderBottom: "1px solid #eee" }} />
 
       {/* Plain div mimicking PageHero */}
       <div style={{ background: "#0a1628", padding: "2.5rem 2rem" }}>

@@ -24,7 +24,7 @@ export function DealsClient({
 
   return (
     <>
-      {/* Hero */}
+
       <div className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.heroTop}>

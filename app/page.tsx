@@ -25,15 +25,23 @@ import {
 import { steps } from "@/assets/data/steps";
 import { Deals } from "@/assets/dealsFunction/deals";
 import { DEAL_T } from "@/assets/types/DEAL_T";
-
-
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Vouch - Smart Deals & Rewards Australia",
   description:
     "Join Australia's #1 smart saving community. Discover the best deals, exclusive offers, and top referral rewards to help you save money on everyday bills. Vouch finds and vets the smartest ways for you to earn and save as the cost of living rises.",
   keywords: [
-    "smart deals", "Australia deals", "save money", "cashback", "referral rewards", "discounts", "bills", "exclusive offers", "sign up bonuses", "cost of living"
+    "smart deals",
+    "Australia deals",
+    "save money",
+    "cashback",
+    "referral rewards",
+    "discounts",
+    "bills",
+    "exclusive offers",
+    "sign up bonuses",
+    "cost of living",
   ],
   openGraph: {
     title: "Vouch - Smart Deals & Rewards Australia",
@@ -41,7 +49,12 @@ export const metadata: Metadata = {
       "Discover the best deals, exclusive offers, and referral rewards in Australia. Save money and earn rewards with Vouch.",
     url: "https://vouch.net.au/",
     images: [
-      { url: "/logo.svg", width: 1200, height: 630, alt: "Vouch Logo and Smart Deals" }
+      {
+        url: "/logo.svg",
+        width: 1200,
+        height: 630,
+        alt: "Vouch Logo and Smart Deals",
+      },
     ],
     type: "website",
   },
@@ -338,8 +351,6 @@ const SignUpLink = styled.a`
   }
 `;
 
-
-
 // ─── CTA Banner ───────────────────────────────────────────
 const CtaBanner = styled.section`
   background: ${T.blue};
@@ -385,31 +396,83 @@ const CtaDesc = styled.p`
   color: rgba(255, 255, 255, 0.75);
   font-size: 1rem;
   margin-bottom: 2rem;
-  position: relative; 
+  position: relative;
   z-index: 1;
 `;
 
 // ─── Page ─────────────────────────────────────────────────
-const statistics: {valueOfDeals: number, numOfDeals: number, popularDeals: DEAL_T[]} = 
-{valueOfDeals: 0, numOfDeals: 0, popularDeals: [] }
+const statistics: {
+  valueOfDeals: number;
+  numOfDeals: number;
+  popularDeals: DEAL_T[];
+} = { valueOfDeals: 0, numOfDeals: 0, popularDeals: [] };
 
-export default async function VouchHome() {
-  const deal: DEAL_T[] = (await Deals()) || []
+async function AllDeals() {
+  // await new Promise((resolve) => setTimeout(resolve, 10000));
+  const deal: DEAL_T[] = (await Deals()) || [];
 
   statistics.popularDeals = deal.filter((value: DEAL_T) => {
-        return value.popular
-    })
+    return value.popular;
+  });
+  return (
+    <DealsGrid>
+      {statistics.popularDeals?.map((d, i) => {
+        // 1. Define your visual logic (colors and emojis)
+        return (
+          <DealCardComponent
+            key={d.uuid}
+            deal={d} // Pass the whole data object
+            note={d.note ? `Note: ${d.note}` : ""}
+            style={{ animationDelay: `${i * 0.05}s` }} // Optional: staggered entrance
+          />
+        );
+      })}
+    </DealsGrid>
+  );
+}
 
-    statistics.numOfDeals = deal.length - 1
-    function calculateTotalValueOfDeals(): number{
-        let sum =0;
-        deal.forEach((item: DEAL_T) => {
-            sum += item.payout_estimate
-        })
-        return sum - 1;
-    }
-    statistics.valueOfDeals = calculateTotalValueOfDeals()
+async function StatsComponent() {
+  // await new Promise((resolve) => setTimeout(resolve, 10000));
+  const deal: DEAL_T[] = (await Deals()) || [];
 
+  statistics.popularDeals = deal.filter((value: DEAL_T) => {
+    return value.popular;
+  });
+
+  statistics.numOfDeals = deal.length - 1;
+  function calculateTotalValueOfDeals(): number {
+    let sum = 0;
+    deal.forEach((item: DEAL_T) => {
+      sum += item.payout_estimate;
+    });
+    return sum - 1;
+  }
+  statistics.valueOfDeals = calculateTotalValueOfDeals();
+  return (
+    <StatsBar>
+      <StatsInner>
+        <StatItem>
+          <div className="num">{statistics.numOfDeals}+</div>
+          <div className="lbl">Live deals</div>
+        </StatItem>
+        <StatItem>
+          <div className="num">5k+</div>
+          <div className="lbl">Upto 5k+ Aussies signed up</div>
+        </StatItem>
+        <StatItem>
+          <div className="num">${statistics.valueOfDeals}+</div>
+          <div className="lbl">In rewards value</div>
+        </StatItem>
+        <StatItem>
+          <div className="num">100%</div>
+          <div className="lbl">Free to use</div>
+        </StatItem>
+      </StatsInner>
+    </StatsBar>
+  );
+}
+
+export default function VouchHome() {
   return (
     <>
       <GlobalStyle />
@@ -434,78 +497,54 @@ export default async function VouchHome() {
               <BtnSecondary href="/#how">How it works</BtnSecondary>
             </HeroCtas>
           </div>
-
-          {/* Referral card mockup */}
-          {/* <HeroVisual>
-            <ReferralCard>
-              <CardTop>
-                <ServiceBadge $color={T.blue} $bg={T.blueLight}>
-                  <div className="icon">📱</div>
-                  Amaysim Mobile
-                </ServiceBadge>
-                <LiveTag>Live deal</LiveTag>
-              </CardTop>
-
-              <p
-                style={{
-                  fontSize: "0.85rem",
-                  color: T.grey600,
-                  marginBottom: "1rem",
-                  lineHeight: 1.5,
-                }}
-              >
-                Amaysim yearly sim $121 off + Bonus 80GB + $75 finder reward
-              </p>
-
-              <CodeBox>
-                <CodeText>Limited time offer</CodeText>
-                <CopyBtn>
-                  <a href="https://www.finder.com.au/finder-rewards/finder-amaysim-switching-promotion-terms-and-conditions-may-2026?rewards_ref=MmQ4OWVkNjMtMWUwYS00MDhhLTg2ODAtNjlmN2ZkM2Q4MjE2">
-                    Claim deal
-                  </a>
-                </CopyBtn>
-              </CodeBox>
-
-              <MiniStat>
-                <MiniStatItem>
-                  <div className="val">4</div>
-                  <div className="lbl">Used this deal</div>
-                </MiniStatItem>
-                <MiniStatItem>
-                  <div className="val">80GB</div>
-                  <div className="lbl">Bonus data</div>
-                </MiniStatItem>
-                <MiniStatItem>
-                  <div className="val">$199</div>
-                  <div className="lbl">Expires 22nd May </div>
-                </MiniStatItem>
-              </MiniStat>
-            </ReferralCard>
-          </HeroVisual> */}
         </HeroInner>
       </HeroSection>
 
       {/* Stats */}
-      <StatsBar>
-        <StatsInner>
-          <StatItem>
-            <div className="num">{statistics.numOfDeals}+</div>
-            <div className="lbl">Live deals</div>
-          </StatItem>
-          <StatItem>
-            <div className="num">5k+</div>
-            <div className="lbl">Upto 5k+ Aussies signed up</div>
-          </StatItem>
-          <StatItem>
-            <div className="num">${statistics.valueOfDeals}+</div>
-            <div className="lbl">In rewards value</div>
-          </StatItem>
-          <StatItem>
-            <div className="num">100%</div>
-            <div className="lbl">Free to use</div>
-          </StatItem>
-        </StatsInner>
-      </StatsBar>
+      <Suspense
+        fallback={
+          <div
+            style={{
+              background: "#0f1f3d",
+              padding: "3rem 2rem",
+              display: "flex",
+              justifyContent: "center",
+              gap: "12rem",
+            }}
+          >
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+              >
+                <div
+                  style={{
+                    height: "36px",
+                    width: "80px",
+                    background: "rgba(245, 216, 0, 0.3)",
+                    borderRadius: "6px",
+                  }}
+                />
+                <div
+                  style={{
+                    height: "14px",
+                    width: "100px",
+                    background: "rgba(255,255,255,0.1)",
+                    borderRadius: "4px",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        }
+      >
+        <StatsComponent />
+      </Suspense>
 
       {/* How it works */}
       <HowSection id="how">
@@ -541,21 +580,10 @@ export default async function VouchHome() {
               Fresh deals updated regularly. All vetted by the Vouch team.
             </SectionSubtitle>
           </SectionHeader>
-
-          <DealsGrid>
-            {statistics.popularDeals?.map((d, i) => {
-              // 1. Define your visual logic (colors and emojis)
-              return (
-                <DealCardComponent
-                  key={d.uuid}
-                  deal={d} // Pass the whole data object
-                  note={d.note ? `Note: ${d.note}` : ""}
-                  style={{ animationDelay: `${i * 0.05}s` }} // Optional: staggered entrance
-                />
-              );
-            })}
-          </DealsGrid>
         </SectionInner>
+          <Suspense fallback={<h1>Loading</h1>}>
+        <AllDeals />
+      </Suspense>
       </DealsSection>
 
       {/* CTA Banner */}
@@ -573,4 +601,3 @@ export default async function VouchHome() {
     </>
   );
 }
-

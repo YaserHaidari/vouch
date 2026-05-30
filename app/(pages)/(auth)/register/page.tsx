@@ -1,5 +1,6 @@
 import "./register.css";
 import { GoogleBtn } from "@/components/GoogleBtn/googleBtn";
+import GuestSignInBtn from "@/components/GuestSignIn/guestSignin";
 import Link from "next/link";
 
 export default async function Register() {
@@ -33,7 +34,8 @@ export default async function Register() {
         </div>
 
         <GoogleBtn />
-
+        <br></br>
+        <GuestSignInBtn/>
         <p className="reg-only-google">Google registration — no password needed</p>
 
         <p className="reg-terms">
