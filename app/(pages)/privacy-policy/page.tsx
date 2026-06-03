@@ -1,3 +1,4 @@
+import "server-only"
 import Link from "next/link";
 import { createGlobalStyle } from "styled-components";
 import styled from "styled-components";

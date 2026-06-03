@@ -1,19 +1,12 @@
+import "server-only"
 import { Suspense } from "react";
-import {
-  PageHero,
-  PageHeroInner,
-  PageHeroTop,
-  PageHeroText,
-  Breadcrumb,
-  PageTitle,
-  PageSubtitle,
-} from "@/assets/pageHeroStyles";
 import { Metadata } from "next";
 import { Deals } from "@/assets/dealsFunction/deals";
 import { DealsClient } from "@/components/DealsClient/dealsClient";
-import Link from "next/link";
-import { exportTraceState } from "next/dist/trace";
 import LoadingSkeleton from "./loading123";
+
+export const dynamic = 'force-dynamic'
+
 
 export const metadata: Metadata = {
   title: "All Smart Deals & Referrals",
@@ -37,7 +30,7 @@ export const metadata: Metadata = {
       "Discover the best deals and referral programs in Australia. Save money and earn rewards with Vouch.",
     url: "https://vouch.net.au/deals",
     images: [
-      { url: "https://vouch.net.au/loog.svg", width: 1200, height: 630 },
+      { url: "https://vouch.net.au/logo.svg", width: 1200, height: 630 },
     ],
     type: "website",
   },
@@ -64,19 +57,15 @@ export const metadata: Metadata = {
 
 
 async function AllDeals() {
-  // await new Promise((resolve) => setTimeout(resolve, 10000))
   const deals = (await Deals()) || [];
   const count = deals.filter((d) => d.status === "active").length;
   return <DealsClient dealNote="All Smart Deals" deals={deals} count={count} />;
 }
+
 export default function DealsPage() {
   return (
-    <>
-
-      <Suspense fallback={<LoadingSkeleton/>}>
-        <AllDeals/>
-      </Suspense>
-
-    </>
+    <Suspense fallback={<LoadingSkeleton />}>
+      <AllDeals />
+    </Suspense>
   );
 }

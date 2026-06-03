@@ -1,3 +1,4 @@
+import "server-only"
 import styled, { createGlobalStyle } from "styled-components";
 import { DealCardComponent } from "../components/DealCard/dealcard";
 import { T } from "@/assets/colors";
@@ -12,7 +13,6 @@ import {
   HeroVisual,
 } from "@/assets/pageHeroStyles";
 import { BtnPrimary, BtnSecondary, CopyBtn, CtaBtn } from "@/assets/btnStyles";
-
 import { Metadata } from "next";
 import {
   SectionTitle,
@@ -78,6 +78,7 @@ export const metadata: Metadata = {
     },
   },
 };
+export const dynamic = 'force-dynamic'
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -581,6 +582,7 @@ export default function VouchHome() {
             </SectionSubtitle>
           </SectionHeader>
         </SectionInner>
+        
           <Suspense fallback={<h1>Loading</h1>}>
         <AllDeals />
       </Suspense>

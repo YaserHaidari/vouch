@@ -1,4 +1,4 @@
-"use server";
+import "server-only";
 
 import { createClient } from "@/utils/supabase/server";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import { T } from "@/assets/colors";
 import { NavCard } from "@/components/navigation/NavCard/navcard";
 import { FooterCard } from "@/components/navigation/FooterCard/footercard";
 import { redirect } from "next/navigation";
+import { requireUser } from "@/app/data/require-user";
 
 // ─── Styled Components ──────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -130,41 +131,37 @@ const SubmitBtn = styled.button`
 `;
 
 export default async function PostDeal() {
-  const supabase = createClient();
-  const {
-    data: { session },
-  } = await (await supabase).auth.getSession();
-
-  if (!session?.user) {
-    redirect("/");
-  }
-
+  console.log("x")
+  await requireUser();
+  console.log("WORKZING")
   async function handlePostDeal(e: FormData) {
     "use server";
     const supabase = createClient();
     const f = Object.fromEntries(e.entries());
 
-
     const missing: string[] = [];
-    if (!String(f.brand_name ?? "").trim())       missing.push("Brand name");
-    if (!String(f.referral_link ?? "").trim())     missing.push("Referral link");
+    if (!String(f.brand_name ?? "").trim()) missing.push("Brand name");
+    if (!String(f.referral_link ?? "").trim()) missing.push("Referral link");
     if (!String(f.offer_expiry_date ?? "").trim()) missing.push("Expiry date");
-    if (!String(f.payout_estimate ?? "").trim())   missing.push("Reward / payout");
+    if (!String(f.payout_estimate ?? "").trim())
+      missing.push("Reward / payout");
 
     if (missing.length) {
-      throw new Error(`Please fill in the following required fields: ${missing.join(", ")}.`);
+      throw new Error(
+        `Please fill in the following required fields: ${missing.join(", ")}.`,
+      );
     }
 
     const { error } = await (await supabase).from("community_deals").insert({
-      brand_name:          String(f.brand_name).trim(),
-      link:                String(f.referral_link).trim(),
-      payout_estimate:     String(f.payout_estimate).trim(),
-      offer_expiry_date:   String(f.offer_expiry_date).trim(),
-      return_type:         f.return_type  || null,
+      brand_name: String(f.brand_name).trim(),
+      link: String(f.referral_link).trim(),
+      payout_estimate: String(f.payout_estimate).trim(),
+      offer_expiry_date: String(f.offer_expiry_date).trim(),
+      return_type: f.return_type || null,
       is_cash_convertible: f.is_cash_convertible === "true",
-      category:            f.category    || null,
-      referral_code:       f.referral_code || null,
-      note:                f.note        || null,
+      category: f.category || null,
+      referral_code: f.referral_code || null,
+      note: f.note || null,
     });
 
     if (error) throw new Error(`Submission failed: ${error.message}`);

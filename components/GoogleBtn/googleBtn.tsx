@@ -1,6 +1,6 @@
 "use client";
 
-import { googleSignIn } from "@/actions/auth";
+import { googleSignIn } from "@/app/actions/auth-actions";
 import { T } from "@/assets/colors";
 import styled from "styled-components";
 

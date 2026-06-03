@@ -1,6 +1,7 @@
 "use client";
-import { anonSignIn } from "@/actions/anonSignIn";
+import { anonSignIn } from "@/app/actions/auth-actions";
 import { T } from "@/assets/colors";
+import { redirect } from "next/navigation";
 import styled from "styled-components";
 
 const GoogleBtnStyle = styled.button`
@@ -37,14 +38,13 @@ export default function GuestSignInBtn() {
   async function handleGuestSignIn(e: React.FormEvent) {
     e.preventDefault();
     try {
-      const res = await anonSignIn();
-      console.log(res.json())
-    //   if (res) window.location.href = res.url;
-      if (!res?.ok) {
-        throw new Error("Error");
+      const { error } = await anonSignIn();
+      if (error) {
+        throw new Error(error);
       }
+      window.location.href = "/";
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   }
   return (

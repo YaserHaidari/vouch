@@ -21,6 +21,13 @@ export const PageHero = styled.div`
     pointer-events: none;
   }
 `;
+
+
+export const LeftPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
 export const PageHeroInner = styled.div`
   max-width: 1280px;
   margin: 0 auto;

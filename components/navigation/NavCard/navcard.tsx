@@ -1,11 +1,16 @@
+"use client";
+import { useEffect, useState } from "react";
+import { supabase } from "@/utils/supabase/client";
 import { MobileNav } from "./MobileNav";
-import { createClient } from "@/utils/supabase/server";
 
-export async function NavCard() {
+export function NavCard() {
+  const [isUser, setIsUser] = useState(false);
 
-  const supabase = createClient()
-  const { data: { user } } = await (await supabase).auth.getUser();
-  const isUser = !!user;
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setIsUser(!!data?.user);
+    });
+  }, []);
 
   return <MobileNav isUser={isUser} />;
 }
