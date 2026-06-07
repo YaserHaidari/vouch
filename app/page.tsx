@@ -490,8 +490,8 @@ export default function VouchHome() {
             </HeroHeading>
             <HeroDesc>
               It’s exhausting watching the cost of living climb, so we’re here
-              to help you reclaim your money by finding you deals, cashback, and
-              exclusive rewards on your everyday bills.
+              to help you reclaim your money by finding you deals, cashback,
+              exclusive rewards on your everyday bills and to help you avoid loyalty tax.
             </HeroDesc>
             <HeroCtas>
               <BtnPrimary href="/deals">Browse Smart Deals →</BtnPrimary>

@@ -41,10 +41,13 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
           ) : (
             <Link href="/register">Register</Link>
           )}
-
+          <Link href="/blogs">
+            Blogs
+          </Link>
           <Link href="/deals" className={styles.cta}>
             Browse Smart Deals
           </Link>
+          
         </ul>
       </div>
     </nav>
