@@ -57,7 +57,7 @@ export default async function Blogpost({ params }: {params: {id: number}}) {
         { type: "heading", text: "2. Time Your Usage" },
         {
           type: "paragraph",
-          text: 'When signing up to an energy provider understand the rates first. You can provide attach the plan details to chatgpt and try to understand it. If you are on a "Time of Use" (TOU) tariff, your energy provider charges different rates (almost double or more) depending on when you consume electricity. Identify your peak times usually late afternoon from 3pm to 9pm when everyone is back from work cooking and running the TV—and shift heavy-machinery tasks like the dishwasher, washing machine. For example we put everything in the dishwasher by 8pm but we only on turn it after 9pm.',
+          text: 'When signing up to an energy provider understand the rates first. You can provide attach the plan details to chatgpt and try to understand it. If you are on a "Time of Use" (TOU) tariff, your energy provider charges different rates (almost double or more) depending on when you consume electricity. Identify your peak times usually late afternoon from 3pm to 9pm when everyone is back from work cooking and running the TV—and shift heavy-machinery tasks like the dishwasher, washing machine. For example we put everything in the dishwasher by 8pm but we only turn it on after 9pm.',
         },
 
         { type: "heading", text: "3. Seal the Envelope" },
@@ -72,7 +72,7 @@ export default async function Blogpost({ params }: {params: {id: number}}) {
           text: 'If you haven\'t already, swap every single incandescent or halogen globe in your house for high-quality LEDs. They use a fraction of the power and last years longer. It is the single easiest "set and forget" efficiency upgrade you can make.',
         },
 
-        { type: "section", text: 'Part 2: The Art of "Churning" Providers' },
+        { type: "section", text: 'Part 2: The Art of Churning Providers' },
         {
           type: "paragraph",
           text: 'Loyalty is a virtue, but in the Australian utility market, it is often a liability. Most major providers reserve their best pricing for new customers, leaving long-term customers paying a "loyalty tax" in the form of higher rates.',
@@ -264,7 +264,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   tag: {
     display: "inline-block",
-    fontSize: "0.7rem",
+    fontSize: "1rem",
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
     fontWeight: 700,
     letterSpacing: "0.12em",
@@ -321,7 +321,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   section: {
     fontFamily: "'Helvetica Neue', Arial, sans-serif",
-    fontSize: "0.7rem",
+    fontSize: "1.2rem",
     fontWeight: 700,
     letterSpacing: "0.14em",
     textTransform: "uppercase",
@@ -332,7 +332,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   heading: {
     fontFamily: "'Georgia', serif",
-    fontSize: "1.25rem",
+    fontSize: "1.1rem",
     fontWeight: 700,
     color: "#1A1A18",
     margin: "2rem 0 0.6rem",

@@ -32,7 +32,7 @@ export default async function Blogs() {
       title: "Saving money on utility bills",
       id: 1,
       summary:
-        "Discover practical strategies to cut your electricity, gas, and water costs without sacrificing comfort. We break down the best deals available right now.",
+        "Slash bills without sacrificing comfort. Learn to optimise energy habits, switch providers to avoid loyalty taxes, and secure better deals. Read more to find out how to start saving today..",
     },
   ];
 
