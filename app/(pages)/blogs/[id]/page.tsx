@@ -210,7 +210,7 @@ export default async function Blogpost({ params }: {params: {id: number}}) {
             }
             if (item.type === "link") {
               return (
-                <Link key={item.link} href={item.link} style={styles.linkRow}>
+                <Link key={item.link} href={item.link ? item.link : '/'} style={styles.linkRow}>
                   <span>{item.text}</span>
                   <svg
                     width="16"

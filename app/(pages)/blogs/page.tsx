@@ -1,6 +1,7 @@
+import "server-only"
 import Link from "next/link";
 import styles from "./blog.module.css";
-
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   keywords: [
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 
-export default function Blogs() {
+export default async function Blogs() {
   const blogs = [
     {
       title: "Saving money on utility bills",
