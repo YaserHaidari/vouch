@@ -1,6 +1,6 @@
 /* ── Hero ───────────────────────────────────────────────── */
 .hero {
-  background: #0d1b2a; /* T.navy */
+  background: #0d1b2a;
   padding: 3rem 2rem 0;
   position: relative;
   overflow: hidden;
@@ -76,7 +76,7 @@
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 2rem;
   font-weight: 800;
-  color: #f5c518; /* T.yellow */
+  color: #f5c518;
   text-align: right;
   flex-shrink: 0;
 }
@@ -92,6 +92,61 @@
   margin-top: 2px;
 }
 
+/* ── Filter row (tabs + search) ─────────────────────────── */
+/* ── Filter row (tabs + search) ─────────────────────────── */
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tabsWrapper {
+  flex: 0 0 70%;
+  min-width: 0;
+}
+
+.categoryDropdown {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  .tabsWrapper {
+    display: none;
+  }
+
+  .categoryDropdown {
+    display: block;
+    flex: 1;
+    padding: 0.6rem 2rem 0.6rem 0.85rem;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: #ffffff;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='rgba(255,255,255,0.5)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+
+  .categoryDropdown:focus {
+    border-color: #f5c518;
+    box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.15);
+  }
+
+  .categoryDropdown option {
+    background: #0d1b2a;
+    color: #ffffff;
+  }
+
+  .searchForm {
+    flex: 1;
+    margin-bottom: 7px;
+  }
+}
 /* ── Page body ──────────────────────────────────────────── */
 .pageBody {
   max-width: 1280px;
@@ -128,7 +183,7 @@
 .emptyState {
   text-align: center;
   padding: 4rem 2rem;
-  color: #9ca3af; /* T.grey400 */
+  color: #9ca3af;
 }
 
 .emptyIcon {
@@ -140,13 +195,54 @@
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #0d1b2a; /* T.navy */
+  color: #0d1b2a;
   margin-bottom: 0.4rem;
 }
 
 .emptySubtitle {
   font-size: 0.9rem;
 }
+
+/* ── Search ─────────────────────────────────────────────── */
+.searchForm {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.6rem 1rem 0.6rem 2.5rem;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.searchInput:focus {
+  border-color: #f5c518;
+  box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.15);
+}
+
+
 
 /* ── Animations ─────────────────────────────────────────── */
 @keyframes fadeUp {

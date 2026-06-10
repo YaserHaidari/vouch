@@ -6,8 +6,7 @@
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--grey200);
   padding: 0 2rem;
-    font-family: 'DM Sans', sans-serif;
-
+  font-family: 'DM Sans', sans-serif;
 }
 
 .navInner {
@@ -18,7 +17,6 @@
   justify-content: space-between;
   height: 68px;
 }
-
 
 .logo {
   font-family: "Bricolage Grotesque", sans-serif;
@@ -40,21 +38,15 @@
   margin-left: 2px;
 }
 
-/* hidden checkbox — the toggle engine */
-.menuToggleInput {
-  display: none;
-}
-
-/* hamburger label — hidden on desktop */
 .menuToggleLabel {
   display: none;
   cursor: pointer;
   color: var(--navy);
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 0;
   z-index: 101;
-}
-
-.menuToggleLabel .xIcon {
-  display: none;
 }
 
 .navLinks {
@@ -96,7 +88,7 @@
   }
 
   .navLinks {
-    display: none;
+    display: flex;
     flex-direction: column;
     position: absolute;
     top: 68px;
@@ -106,18 +98,16 @@
     padding: 2rem;
     border-bottom: 1px solid var(--grey200);
     gap: 1.5rem;
+    /* closed state */
+    opacity: 0;
+    pointer-events: none;
+    clip-path: inset(0 0 100% 0);
+    transition: opacity 0.2s ease, clip-path 0.2s ease;
   }
 
-  /* checkbox siblings drive everything — no JS */
-  .menuToggleInput:checked ~ .navInner .navLinks {
-    display: flex;
-  }
-
-  .menuToggleInput:checked ~ .navInner .menuToggleLabel .menuIcon {
-    display: none;
-  }
-
-  .menuToggleInput:checked ~ .navInner .menuToggleLabel .xIcon {
-    display: block;
+  .navOpen {
+    opacity: 1;
+    pointer-events: auto;
+    clip-path: inset(0 0 0% 0);
   }
 }
