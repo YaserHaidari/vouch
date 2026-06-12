@@ -45,7 +45,7 @@ export async function updateSession(request: NextRequest) {
 
   const user = data?.claims;
 
-  const public_urls = [ "/blogs","/deals", "/privacy-policy", "/contact", "/api/contact", "/api/fetchAllDeals", "/register"];
+  const public_urls = [ "/blogs","/deals", "/about", "/privacy-policy", "/contact", "/api/contact", "/api/fetchAllDeals", "/register"];
 
   //CHECK_FOR_PROD
   if (

@@ -72,8 +72,10 @@ export async function FooterCard(){
             <span />
           </FooterLogo>
           <FooterLinks>
+            <FooterLink href="/about">About</FooterLink>
             <FooterLink href="/privacy-policy">Privacy Policy</FooterLink>
             <FooterLink href="/contact">Contact</FooterLink>
+
           </FooterLinks>
         </FooterInner>
         <FooterInner style={{ paddingTop: 0 }}>

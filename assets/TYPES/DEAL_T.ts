@@ -22,8 +22,15 @@ export const CATEGORIES: ["All", ...CATEGORY_T[]] = [
   "phone",
 ];
 
-export type RETURN_TYPE_T = "Credit" | "Stock" | "Voucher";
 
+
+export enum RETURN_TYPE_T {
+  credit = 'credit',
+  stocks = 'stocks',
+  voucher = 'voucher',
+  cash = 'cash'
+
+}
 export type DEAL_T = {
   uuid: string;
   brand_id: string;
@@ -31,7 +38,7 @@ export type DEAL_T = {
   num: number;
   link: string;
   offer_expiry_date: string;
-  requirements: { instructions: string[] };
+  requirements: { instructions: string[], initial_deposit: number };
   is_cash_convertible: boolean;
   created_at: string;
   updated_at: string;

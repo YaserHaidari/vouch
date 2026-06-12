@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./DealCard.module.css";
-import { DEAL_T } from "@/assets/types/DEAL_T";
+import { DEAL_T, RETURN_TYPE_T } from "@/assets/types/DEAL_T";
 
 type DealCardProps = {
   deal: DEAL_T;
@@ -108,9 +108,9 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
         <div className={styles.rewardBox}>
           <div className={styles.rewardLabel}>YOU RECEIVE</div>
           <div className={styles.rewardValue}>
-            {deal.return_type === "credit" && `$${deal.payout_estimate} Credit`}
-            {deal.return_type === "cash" && `$${deal.payout_estimate} Cash`}
-            {deal.return_type === "stocks" && `$${deal.payout_estimate} in Stocks`}
+            {deal.return_type == RETURN_TYPE_T.credit && `$${deal.payout_estimate} Credit`}
+            {deal.return_type == RETURN_TYPE_T.cash && `$${deal.payout_estimate} Cash`}
+            {deal.return_type == RETURN_TYPE_T.stocks && `$${deal.payout_estimate} in Stocks`}
           </div>
         </div>
         {deal.status !== "expired" && (
