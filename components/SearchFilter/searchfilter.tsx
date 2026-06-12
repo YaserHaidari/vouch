@@ -1,6 +1,6 @@
 "use client"
 export default function SearchFilter(){
-    function handleSearch(e: React.ChangeEvent<HTMLFormElement>){
+    function handleSearch(e: React.ChangeEvent<HTMLInputElement>){
         console.log(e.target.value)
     }
     return(

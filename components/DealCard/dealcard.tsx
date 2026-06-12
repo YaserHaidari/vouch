@@ -2,9 +2,10 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./DealCard.module.css";
+import { DEAL_T } from "@/assets/types/DEAL_T";
 
 type DealCardProps = {
-  deal: any;
+  deal: DEAL_T;
   style?: React.CSSProperties;
   note: string;
 };
@@ -21,13 +22,32 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
     ? "soon"
     : "expired";
 
+  function setTimer(expiryDate: string) {
+  const expiry = new Date(expiryDate);
+  const today = new Date();
+
+  if (Number.isNaN(expiry.getTime())) return "Invalid date";
+
+  // Normalize both to midnight (date-only comparison)
+  expiry.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.round(
+    (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+  );
+
+  if (diffDays < 0) return "Expired";
+  if (diffDays === 0) return "Ends today";
+  if (diffDays === 1) return "Ends in 1 day";
+  return `${diffDays} days`;
+}
   return (
     <div style={style} className={styles.card}>
       <div className={styles.badgeRow}>
-        <span className={styles.categoryPill}>{deal.return_type}</span>
+        {/* <span className={styles.categoryPill}>{deal.return_type}</span>
         <span className={`${styles.statusBadge} ${styles[`status_${status}`]}`}>
           {status === "active" ? "Active" : status === "soon" ? "Soon" : "Expired"}
-        </span>
+        </span> */}
       </div>
 
       <div className={styles.cardBody}>
@@ -104,6 +124,11 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
             </a>
         )}
       </div>
+      <div className={styles.divider} />
+<div className={styles.expiryFooter}>
+  <span className={styles.expiryLabel}>Ends in</span>
+  <span className={styles.expiryValue}>{setTimer(deal.offer_expiry_date)}</span>
+</div>
     </div>
   );
 };

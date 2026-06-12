@@ -185,3 +185,33 @@
   background: #111827;
   color: #f5c518;
 }
+/* ── Expiry footer ──────────────────────────────────────── */
+.expiryFooter {
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.expiryLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.expiryValue {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0d1b2a;
+  background: #f3f4f6;
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+}
+
+/* Optional urgency variant — swap in when ≤7 days remain */
+.expiryValue.urgent {
+  background: #fff0f0;
+  color: #b91c1c;
+}

@@ -20,7 +20,7 @@ export function DealsClient({
   );
   const [searchVal, setSearchVal] = useState<string>("");
 
-  function handleSearch(e: React.ChangeEvent<HTMLFormElement>) {
+  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     console.log(e.target.value);
     setSearchVal(e.target.value);
   }

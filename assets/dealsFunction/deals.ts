@@ -8,6 +8,8 @@ export const Deals = async (): Promise<DEAL_T[]> => {
         throw new Error(error.message)
         return []
     }
-    return data
+    return data.filter(
+  (d: DEAL_T) => new Date(d.offer_expiry_date).getTime() > Date.now()
+);
 }
 
