@@ -10,7 +10,6 @@ export async function googleSignIn() {
     provider: "google",
     options: { redirectTo: `${origin}/auth/callback` },
   });
-
   return data.url; // just return the URL
 }
 
