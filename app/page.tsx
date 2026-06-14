@@ -1,8 +1,6 @@
-import "server-only"
+import "server-only";
 import styled, { createGlobalStyle } from "styled-components";
-import { DealCardComponent } from "../components/DealCard/dealcard";
 import { T } from "@/assets/colors";
-import { pulse, float } from "@/assets/animations";
 import {
   HeroBadge,
   HeroCtas,
@@ -10,9 +8,8 @@ import {
   HeroHeading,
   HeroInner,
   HeroSection,
-  HeroVisual,
 } from "@/assets/pageHeroStyles";
-import { BtnPrimary, BtnSecondary, CopyBtn, CtaBtn } from "@/assets/btnStyles";
+import { BtnPrimary, BtnSecondary, CtaBtn } from "@/assets/btnStyles";
 import { Metadata } from "next";
 import {
   SectionTitle,
@@ -23,9 +20,10 @@ import {
   HowSection,
 } from "@/assets/sectionStyles";
 import { steps } from "@/assets/data/steps";
-import { Deals } from "@/assets/dealsFunction/deals";
 import { DEAL_T } from "@/assets/types/DEAL_T";
 import { Suspense } from "react";
+import StatisticsBanner from "@/components/StatisticBanner/statsbanner";
+import PopularDeals from "@/components/PopularDeals/popdeals";
 
 export const metadata: Metadata = {
   title: "Vouch - Smart Deals & Rewards Australia",
@@ -78,7 +76,8 @@ export const metadata: Metadata = {
     },
   },
 };
-export const dynamic = 'force-dynamic'
+
+export const dynamic = "force-dynamic";
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -88,144 +87,6 @@ const GlobalStyle = createGlobalStyle`
     background: #ffffff;
     color: #1A1A2E;
     -webkit-font-smoothing: antialiased;
-  }
-`;
-
-const ReferralCard = styled.div`
-  background: ${T.white};
-  border: 1.5px solid ${T.grey200};
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-  animation: ${float} 4s ease-in-out infinite;
-`;
-
-const CardTop = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-`;
-
-const ServiceBadge = styled.div<{ $color: string; $bg: string }>`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: ${(p) => p.$color};
-
-  .icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: ${(p) => p.$bg};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
-`;
-
-const LiveTag = styled.span`
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: #1b7a3a;
-  background: #e6f7ed;
-  padding: 0.25rem 0.65rem;
-  border-radius: 100px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-
-  &::before {
-    content: "";
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #1b7a3a;
-    display: inline-block;
-    animation: ${pulse} 1.8s ease-in-out infinite;
-  }
-`;
-
-const CodeBox = styled.div`
-  background: ${T.grey50};
-  border: 1px dashed ${T.grey200};
-  border-radius: 10px;
-  padding: 0.8rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const CodeText = styled.span`
-  font-family: "DM Mono", "Courier New", monospace;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: ${T.navy};
-`;
-
-const MiniStat = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 0.8rem;
-`;
-
-const MiniStatItem = styled.div`
-  flex: 1;
-  text-align: center;
-  padding: 0.7rem;
-  background: ${T.grey50};
-  border-radius: 10px;
-
-  .val {
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: ${T.navy};
-  }
-  .lbl {
-    font-size: 0.73rem;
-    color: ${T.grey400};
-    font-weight: 500;
-    margin-top: 1px;
-  }
-`;
-
-// ─── Stats Bar ────────────────────────────────────────────
-const StatsBar = styled.div`
-  background: ${T.navy};
-  padding: 2.5rem 2rem;
-`;
-
-const StatsInner = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 2rem;
-`;
-
-const StatItem = styled.div`
-  text-align: center;
-
-  .num {
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 2.4rem;
-    font-weight: 800;
-    color: ${T.yellow};
-    letter-spacing: -0.03em;
-  }
-  .lbl {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 0.2rem;
-    font-weight: 400;
   }
 `;
 
@@ -310,48 +171,6 @@ const DealsSection = styled.section`
   padding: 5rem 2rem;
 `;
 
-const DealsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 3rem;
-`;
-
-const DealBonus = styled.div`
-  .label {
-    font-size: 0.72rem;
-    color: ${T.grey400};
-    font-weight: 500;
-  }
-  .value {
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: ${T.navy};
-  }
-`;
-
-const SignUpLink = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: ${T.yellow};
-  color: ${T.navy};
-  font-weight: 700;
-  font-size: 0.85rem;
-  padding: 0.5rem 1.1rem;
-  border-radius: 8px;
-  text-decoration: none;
-  transition:
-    background 0.2s,
-    transform 0.15s;
-
-  &:hover {
-    background: #e8bd00;
-    transform: translateY(-1px);
-  }
-`;
-
 // ─── CTA Banner ───────────────────────────────────────────
 const CtaBanner = styled.section`
   background: ${T.blue};
@@ -401,77 +220,6 @@ const CtaDesc = styled.p`
   z-index: 1;
 `;
 
-// ─── Page ─────────────────────────────────────────────────
-const statistics: {
-  valueOfDeals: number;
-  numOfDeals: number;
-  popularDeals: DEAL_T[];
-} = { valueOfDeals: 0, numOfDeals: 0, popularDeals: [] };
-
-async function AllDeals() {
-  // await new Promise((resolve) => setTimeout(resolve, 10000));
-  const deal: DEAL_T[] = (await Deals()) || [];
-
-  statistics.popularDeals = deal.filter((value: DEAL_T) => {
-    return value.popular;
-  });
-  return (
-    <DealsGrid>
-      {statistics.popularDeals?.map((d, i) => {
-        // 1. Define your visual logic (colors and emojis)
-        return (
-          <DealCardComponent
-            key={d.uuid}
-            deal={d} // Pass the whole data object
-            note={d.note ? `Note: ${d.note}` : ""}
-            style={{ animationDelay: `${i * 0.05}s` }} // Optional: staggered entrance
-          />
-        );
-      })}
-    </DealsGrid>
-  );
-}
-
-async function StatsComponent() {
-  // await new Promise((resolve) => setTimeout(resolve, 10000));
-  const deal: DEAL_T[] = (await Deals()) || [];
-
-  statistics.popularDeals = deal.filter((value: DEAL_T) => {
-    return value.popular;
-  });
-
-  statistics.numOfDeals = deal.length - 1;
-  function calculateTotalValueOfDeals(): number {
-    let sum = 0;
-    deal.forEach((item: DEAL_T) => {
-      sum += item.payout_estimate;
-    });
-    return sum - 1;
-  }
-  statistics.valueOfDeals = calculateTotalValueOfDeals();
-  return (
-    <StatsBar>
-      <StatsInner>
-        <StatItem>
-          <div className="num">{statistics.numOfDeals}+</div>
-          <div className="lbl">Live deals</div>
-        </StatItem>
-        <StatItem>
-          <div className="num">5k+</div>
-          <div className="lbl">Upto 5k+ Aussies signed up</div>
-        </StatItem>
-        <StatItem>
-          <div className="num">${statistics.valueOfDeals}+</div>
-          <div className="lbl">In rewards value</div>
-        </StatItem>
-        <StatItem>
-          <div className="num">100%</div>
-          <div className="lbl">Free to use</div>
-        </StatItem>
-      </StatsInner>
-    </StatsBar>
-  );
-}
 
 export default function VouchHome() {
   return (
@@ -491,7 +239,8 @@ export default function VouchHome() {
             <HeroDesc>
               It’s exhausting watching the cost of living climb, so we’re here
               to help you reclaim your money by finding you deals, cashback,
-              exclusive rewards on your everyday bills and to help you avoid loyalty tax.
+              exclusive rewards on your everyday bills and to help you avoid
+              loyalty tax.
             </HeroDesc>
             <HeroCtas>
               <BtnPrimary href="/deals">Browse Smart Deals →</BtnPrimary>
@@ -544,7 +293,7 @@ export default function VouchHome() {
           </div>
         }
       >
-        <StatsComponent />
+        <StatisticsBanner />
       </Suspense>
 
       {/* How it works */}
@@ -582,10 +331,11 @@ export default function VouchHome() {
             </SectionSubtitle>
           </SectionHeader>
         </SectionInner>
-        
-          <Suspense fallback={<h1>Loading</h1>}>
-        <AllDeals />
-      </Suspense>
+
+            {/* Popular deals */}
+        <Suspense fallback={<h1>Loading</h1>}>
+          <PopularDeals />
+        </Suspense>
       </DealsSection>
 
       {/* CTA Banner */}
@@ -599,7 +349,6 @@ export default function VouchHome() {
       </CtaBanner>
 
       {/* Footer */}
-      {/* <FooterCard /> */}
     </>
   );
 }

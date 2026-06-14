@@ -15,3 +15,9 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+:root {
+  --navy: #0d1b2a;
+  --yellow: #f5c518;
+}
