@@ -13,42 +13,34 @@ type DealCardProps = {
 export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const instructions = deal.requirements?.instructions ?? [];
-  const visibleInstructions = isExpanded ? instructions : instructions.slice(0, 3);
+  const visibleInstructions = isExpanded
+    ? instructions
+    : instructions.slice(0, 3);
   const hasMore = instructions.length > 3;
 
-  const status = deal.status === "active"
-    ? "active"
-    : deal.status === "coming_soon"
-    ? "soon"
-    : "expired";
-
+ 
   function setTimer(expiryDate: string) {
-  const expiry = new Date(expiryDate);
-  const today = new Date();
+    const expiry = new Date(expiryDate);
+    const today = new Date();
 
-  if (Number.isNaN(expiry.getTime())) return "Invalid date";
+    if (Number.isNaN(expiry.getTime())) return "Invalid date";
 
-  // Normalize both to midnight (date-only comparison)
-  expiry.setHours(0, 0, 0, 0);
-  today.setHours(0, 0, 0, 0);
+    // Normalize both to midnight (date-only comparison)
+    expiry.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
 
-  const diffDays = Math.round(
-    (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
-  );
+    const diffDays = Math.round(
+      (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+    );
 
-  if (diffDays < 0) return "Expired";
-  if (diffDays === 0) return "Ends today";
-  if (diffDays === 1) return "Ends in 1 day";
-  return `${diffDays} days`;
-}
+    if (diffDays < 0) return "Expired";
+    if (diffDays === 0) return "Ends today";
+    if (diffDays === 1) return "Ends in 1 day";
+    return `${diffDays} days`;
+  }
   return (
     <div style={style} className={styles.card}>
-      <div className={styles.badgeRow}>
-        {/* <span className={styles.categoryPill}>{deal.return_type}</span>
-        <span className={`${styles.statusBadge} ${styles[`status_${status}`]}`}>
-          {status === "active" ? "Active" : status === "soon" ? "Soon" : "Expired"}
-        </span> */}
-      </div>
+
 
       <div className={styles.cardBody}>
         <div className={styles.brandName}>{deal.brand_name}</div>
@@ -59,7 +51,9 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
         </h3>
 
         {visibleInstructions.map((step: string, idx: number) => (
-          <p key={idx} className={styles.cardDesc}>{step}</p>
+          <p key={idx} className={styles.cardDesc}>
+            {step}
+          </p>
         ))}
 
         {hasMore && (
@@ -108,9 +102,12 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
         <div className={styles.rewardBox}>
           <div className={styles.rewardLabel}>YOU RECEIVE</div>
           <div className={styles.rewardValue}>
-            {deal.return_type == RETURN_TYPE_T.credit && `$${deal.payout_estimate} Credit`}
-            {deal.return_type == RETURN_TYPE_T.cash && `$${deal.payout_estimate} Cash`}
-            {deal.return_type == RETURN_TYPE_T.stocks && `$${deal.payout_estimate} in Stocks`}
+            {deal.return_type == RETURN_TYPE_T.credit &&
+              `$${deal.payout_estimate} Credit`}
+            {deal.return_type == RETURN_TYPE_T.cash &&
+              `$${deal.payout_estimate} Cash`}
+            {deal.return_type == RETURN_TYPE_T.stocks &&
+              `$${deal.payout_estimate} in Stocks`}
           </div>
         </div>
         {deal.status !== "expired" && (
@@ -121,14 +118,16 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
             className={styles.viewBtn}
           >
             Claim deal →
-            </a>
+          </a>
         )}
       </div>
       <div className={styles.divider} />
-<div className={styles.expiryFooter}>
-  <span className={styles.expiryLabel}>Ends in</span>
-  <span className={styles.expiryValue}>{setTimer(deal.offer_expiry_date)}</span>
-</div>
+      <div className={styles.expiryFooter}>
+        <span className={styles.expiryLabel}>Ends in</span>
+        <span className={styles.expiryValue}>
+          {setTimer(deal.offer_expiry_date)}
+        </span>
+      </div>
     </div>
   );
 };

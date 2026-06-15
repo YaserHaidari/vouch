@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ── Base & Reset ── */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #F7F8FA;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* ── Main Layout ── */
+.deal-page {
+  background: #F7F8FA;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.deal-container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── Hero ── */
+.deal-hero {
+  background: #0D1B2A;
+  padding: 4rem 2rem; 
+  position: relative;
+  overflow: hidden;
+}
+
+.deal-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(245, 197, 24, 0.07);
+}
+
+.deal-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(26, 86, 219, 0.1);
+}
+
+/* ── Eyebrow pill ── */
+.deal-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(245, 197, 24, 0.15);
+  border: 1px solid rgba(245, 197, 24, 0.3);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #F5C518;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.deal-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #F5C518;
+  display: inline-block;
+}
+
+/* ── Provider + headline ── */
+.deal-provider {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.deal-headline {
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Reward badge ── */
+.deal-reward-badge {
+  display: inline-flex;
+  flex-direction: column;
+  background: #F5C518;
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.deal-reward-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #7A5F00;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.deal-reward-value {
+  font-size: 40px;
+  font-weight: 900;
+  color: #1A1A00;
+  line-height: 1;
+}
+
+.deal-reward-sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: #7A5F00;
+  margin-top: 2px;
+}
+
+/* ── Expiry pill ── */
+/* Update this block */
+.deal-expires {
+
+  min-width: 116px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.deal-expires strong {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Body ── */
+.deal-body {
+  padding: 3rem 2rem;
+  background: #fff;
+}
+
+.deal-steps-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1A56DB;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+/* ── Steps ── */
+.deal-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.deal-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  border: 0.5px solid #E8EAF0;
+  border-radius: 12px;
+  background: #FAFBFF;
+}
+
+.deal-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #1A56DB;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.deal-step-text {
+  font-size: 14px;
+  color: #1A2340;
+  font-weight: 500;
+  line-height: 1.5;
+  padding-top: 3px;
+}
+
+/* ── Divider ── */
+.deal-divider {
+  height: 0.5px;
+  background: #E8EAF0;
+  margin: 0 0 2rem;
+}
+
+/* ── Note ── */
+.deal-note {
+  background: #FFF9E6;
+  border-left: 3px solid #F5C518;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #6B5200;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* ── CTA row ── */
+/* Update these 3 blocks */
+.deal-cta {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 12px;
+
+  flex-wrap: wrap;
+}
+
+
+
+.deal-share-btn,
+.deal-cta-btn  {
+  background: transparent;
+  color: #fff;
+  border: 0.5px solid #C8CCDA;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centers the "Share" text */
+  gap: 8px;
+  white-space: nowrap;
+  min-width: 160px;
+}
+
+
+
+
+.deal-footer-tagline {
+  font-size: 12px;
+  color: #8892A4;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .deal-hero {
+    padding: 3rem 1.25rem;
+  }
+
+  .deal-headline {
+    font-size: 22px;
+  }
+
+  .deal-reward-value {
+    font-size: 32px;
+  }
+
+  .deal-body {
+    padding: 2rem 1.25rem;
+  }
+
+  .deal-cta {
+    flex-direction: column;
+  }
+
+  .deal-cta-btn,
+  .deal-share-btn {
+    width: 50%;
+    flex: unset;
+  }
+}
