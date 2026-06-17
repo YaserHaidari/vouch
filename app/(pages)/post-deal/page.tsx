@@ -131,9 +131,7 @@ const SubmitBtn = styled.button`
 `;
 
 export default async function PostDeal() {
-  console.log("x")
   await requireUser();
-  console.log("WORKZING")
   async function handlePostDeal(e: FormData) {
     "use server";
     const supabase = createClient();
