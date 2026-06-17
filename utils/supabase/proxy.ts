@@ -1,7 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -45,11 +44,21 @@ export async function updateSession(request: NextRequest) {
 
   const user = data?.claims;
 
-  const public_urls = [ "/blogs","/deals", "/about", "/privacy-policy", "/contact", "/api/contact", "/api/fetchAllDeals", "/register"];
-  if (user && request.nextUrl.pathname === '/register') {
-    console.log("AHHAHAHAHAH")
-  return NextResponse.redirect(new URL('/', request.url));
-}
+  const public_urls = [
+    "/blogs",
+    "/deals",
+    "/about",
+    "/privacy-policy",
+    "/contact",
+    "/api/contact",
+    "/api/fetchAllDeals",
+    "/register",
+    "/auth/callback",
+  ];
+
+  if (user && request.nextUrl.pathname == "/register/") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
   //CHECK_FOR_PROD
   if (
     !user &&

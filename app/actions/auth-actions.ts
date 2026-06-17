@@ -4,29 +4,33 @@ import { headers } from "next/headers";
 
 export async function googleSignIn() {
   const supabase = await createClient();
+
   const origin = (await headers()).get("origin");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo: `${origin}/auth/callback` },
   });
-  return data.url; // just return the URL
+  console.log(error?.message);
+  return data.url;
 }
 
-
 export async function anonSignIn() {
-    const supabase = await createClient();
-    const { data: {user}, error } = await supabase.auth.signInAnonymously();
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.signInAnonymously();
 
-    if (error) {
-        return { error: error.message };
-    }
-    if(user){
-      await supabase.auth.updateUser({
-        data: {
-          displayName: "Guest user"
-        }
-      })
-    }
-    return { user };
+  if (error) {
+    return { error: error.message };
+  }
+  if (user) {
+    await supabase.auth.updateUser({
+      data: {
+        displayName: "Guest user",
+      },
+    });
+  }
+  return { user };
 }

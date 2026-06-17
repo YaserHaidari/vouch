@@ -38,7 +38,7 @@ const GoogleBtnStyle = styled.button`
 export function GoogleBtn() {
   async function handleClick() {
     const url = await googleSignIn();
-    if (url) window.location.replace(url); // use replace instead of href
+    if (url) window.location.href = url; ; // use replace instead of href
   }
 
   return (
