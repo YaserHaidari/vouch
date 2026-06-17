@@ -185,6 +185,62 @@
   background: #111827;
   color: #f5c518;
 }
+
+/* ── Vote buttons ───────────────────────────────────────── */
+.voteButtons {
+  display: flex;
+  gap: 8px;
+  padding: 0.75rem 1.25rem;
+}
+
+.voteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 30px;
+  flex: 1;
+  border-radius: 100px;
+  border: 1.5px solid #e5e7eb;
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.voteBtn:active {
+  transform: scale(0.97);
+}
+
+/* Upvote — green */
+.voteBtnUp:hover {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #16a34a;
+}
+
+.voteBtnUpActive {
+  background: #dcfce7;
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+/* Downvote — red */
+.voteBtnDown:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+.voteBtnDownActive {
+  background: #fee2e2;
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
 /* ── Expiry footer ──────────────────────────────────────── */
 .expiryFooter {
   padding: 0.75rem 1.25rem;
@@ -210,7 +266,6 @@
   border-radius: 100px;
 }
 
-/* Optional urgency variant — swap in when ≤7 days remain */
 .expiryValue.urgent {
   background: #fff0f0;
   color: #b91c1c;

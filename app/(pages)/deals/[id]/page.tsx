@@ -1,5 +1,4 @@
 import { DEAL_T } from "@/assets/types/DEAL_T";
-import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { supabase } from "@/utils/supabase/client";
 
 import './style.css'

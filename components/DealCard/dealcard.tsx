@@ -1,14 +1,54 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import styles from "./DealCard.module.css";
 import { DEAL_T, RETURN_TYPE_T } from "@/assets/types/DEAL_T";
+import { UpVote, DownVote } from "@/app/actions/handle-votes";
 
 type DealCardProps = {
   deal: DEAL_T;
   style?: React.CSSProperties;
   note: string;
 };
+
+function VoteButtons({ uuid }: { uuid: string }) {
+  const [vote, setVote] = useState<"up" | "down" | null>(null);
+
+  async function handleVote(dir: "up" | "down") {
+    if (vote === dir) {
+      setVote(null);
+      return;
+    }
+    setVote(dir);
+    if (dir === "up") await UpVote(uuid);
+    else await DownVote(uuid);
+  }
+
+  return (
+    <div className={styles.voteButtons} onClick={(e) => e.stopPropagation()}>
+      <button
+        className={`${styles.voteBtn} ${styles.voteBtnDown} ${vote === "down" ? styles.voteBtnDownActive : ""}`}
+        onClick={() => handleVote("down")}
+        aria-label="Downvote"
+      >
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        Downvote
+      </button>
+      <button
+        className={`${styles.voteBtn} ${styles.voteBtnUp} ${vote === "up" ? styles.voteBtnUpActive : ""}`}
+        onClick={() => handleVote("up")}
+        aria-label="Upvote"
+      >
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <path d="M7 12V2M3 6l4-4 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        Upvote
+      </button>
+    </div>
+  );
+}
 
 export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
@@ -22,22 +62,23 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
   function setTimer(expiryDate: string) {
     const expiry = new Date(expiryDate);
     const today = new Date();
-
+    
     if (Number.isNaN(expiry.getTime())) return "Invalid date";
-
+    
     // Normalize both to midnight (date-only comparison)
     expiry.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
-
+    
     const diffDays = Math.round(
       (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
     );
-
+    
     if (diffDays < 0) return "Expired";
     if (diffDays === 0) return "Ends today";
     if (diffDays === 1) return "Ends in 1 day";
     return `${diffDays} days`;
   }
+
   return (
     <div style={style} className={styles.card}>
 
@@ -121,6 +162,7 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
           </a>
         )}
       </div>
+      <VoteButtons uuid={deal.uuid} />
       <div className={styles.divider} />
       <div className={styles.expiryFooter}>
         <span className={styles.expiryLabel}>Ends in</span>
@@ -128,6 +170,7 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
           {setTimer(deal.offer_expiry_date)}
         </span>
       </div>
+      <div className={styles.divider} />
     </div>
   );
 };
