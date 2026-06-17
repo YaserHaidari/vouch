@@ -2,6 +2,7 @@ import { DEAL_T } from "@/assets/types/DEAL_T";
 import { DealCardComponent } from "@/components/DealCard/dealcard";
 import { supabase } from "@/utils/supabase/client";
 import './style.css'
+
 export default async function Deal({
   params,
 }: {
@@ -17,6 +18,9 @@ export default async function Deal({
     console.log(error);
   }
   const deal: DEAL_T = data;
+
+
+
   return (
     <div className="deal-page">
       <div className="deal-hero">
@@ -24,20 +28,22 @@ export default async function Deal({
           <span className="deal-eyebrow-dot" />
           Live deal · 13 days left
         </div>
-        <div className="deal-provider">Aussie Broadband</div>
+        <div className="deal-provider">{deal.brand_name}</div>
         <h1 className="deal-headline">
-          Switch and pocket
+          Sign up and pocket
           <br />
-          up to $50 back.
+          up to ${deal.payout_estimate} back.
         </h1>
         <div className="deal-reward-badge">
           <div className="deal-reward-label">You receive</div>
           <div className="deal-reward-value">${deal.payout_estimate}</div>
-          <div className="deal-reward-sub">Account credit</div>
+          <div className="deal-reward-sub">{deal.return_type}</div>
         </div>
         <div className="deal-cta">
-          <button className="deal-cta-btn">Claim this deal</button>
-          <button className="deal-share-btn">Share</button>
+          <a href={deal.link}>
+            <button className="deal-cta-btn">Claim this deal</button>
+        </a>
+          {/* <button className="deal-share-btn">Share</button> */}
         <div className="deal-expires">
           Expires <strong>{deal.offer_expiry_date}</strong>
         </div>
