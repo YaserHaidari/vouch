@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./DealCard.module.css";
 import { DEAL_T, RETURN_TYPE_T } from "@/assets/types/DEAL_T";
@@ -11,17 +11,31 @@ type DealCardProps = {
   note: string;
 };
 
-function VoteButtons({ uuid }: { uuid: string }) {
+function VoteButtons({
+  uuid,
+  initialVotes,
+}: {
+  uuid: string;
+  initialVotes: number;
+}) {
   const [vote, setVote] = useState<"up" | "down" | null>(null);
-
+  const [voteCount, setVoteCount] = useState<number>(initialVotes); // 👈 moved here
+  const [voteBtnStatus, setVoteBtnStatus] = useState<string>("");
   async function handleVote(dir: "up" | "down") {
-    if (vote === dir) {
-      setVote(null);
-      return;
+    console.log(voteBtnStatus)
+    if (dir == "up") {
+      setVoteCount(voteCount + 1);
+      setVoteBtnStatus("UP-PRESSED");
+      await UpVote(uuid);
     }
-    setVote(dir);
-    if (dir === "up") await UpVote(uuid);
-    else await DownVote(uuid);
+    if (dir == "down") {
+      if (voteCount == 0) {
+        return;
+      }
+      setVoteBtnStatus("DOWN-PRESSED");
+      setVoteCount(voteCount - 1);
+      await DownVote(uuid);
+    }
   }
 
   return (
@@ -29,20 +43,36 @@ function VoteButtons({ uuid }: { uuid: string }) {
       <button
         className={`${styles.voteBtn} ${styles.voteBtnDown} ${vote === "down" ? styles.voteBtnDownActive : ""}`}
         onClick={() => handleVote("down")}
+
+        disabled={voteBtnStatus == "DOWN-PRESSED" ? true : false}
         aria-label="Downvote"
       >
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-          <path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path
+            d="M7 2v10M3 8l4 4 4-4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         Downvote
       </button>
+      <span>{voteCount}</span> {/* 👈 vote count lives here now */}
       <button
         className={`${styles.voteBtn} ${styles.voteBtnUp} ${vote === "up" ? styles.voteBtnUpActive : ""}`}
         onClick={() => handleVote("up")}
         aria-label="Upvote"
+        disabled={voteBtnStatus == "UP-PRESSED" ? true : false}
       >
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-          <path d="M7 12V2M3 6l4-4 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          <path
+            d="M7 12V2M3 6l4-4 4 4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         Upvote
       </button>
@@ -52,37 +82,40 @@ function VoteButtons({ uuid }: { uuid: string }) {
 
 export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
+  const [vote, setVotes] = React.useState<number>(0);
   const instructions = deal.requirements?.instructions ?? [];
   const visibleInstructions = isExpanded
     ? instructions
     : instructions.slice(0, 3);
   const hasMore = instructions.length > 3;
 
- 
   function setTimer(expiryDate: string) {
     const expiry = new Date(expiryDate);
     const today = new Date();
-    
+
     if (Number.isNaN(expiry.getTime())) return "Invalid date";
-    
+
     // Normalize both to midnight (date-only comparison)
     expiry.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
-    
+
     const diffDays = Math.round(
       (expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
     );
-    
+
     if (diffDays < 0) return "Expired";
     if (diffDays === 0) return "Ends today";
     if (diffDays === 1) return "Ends in 1 day";
     return `${diffDays} days`;
   }
 
+  useEffect(() => {
+    console.log("A");
+    setVotes(deal.vote);
+    console.log(vote);
+  }, [deal.vote]);
   return (
     <div style={style} className={styles.card}>
-
-
       <div className={styles.cardBody}>
         <div className={styles.brandName}>{deal.brand_name}</div>
         <h3 className={styles.cardTitle}>
@@ -162,7 +195,7 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
           </a>
         )}
       </div>
-      <VoteButtons uuid={deal.uuid} />
+      <VoteButtons uuid={deal.uuid} initialVotes={deal.vote} />
       <div className={styles.divider} />
       <div className={styles.expiryFooter}>
         <span className={styles.expiryLabel}>Ends in</span>
@@ -170,6 +203,7 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
           {setTimer(deal.offer_expiry_date)}
         </span>
       </div>
+      <div></div>
       <div className={styles.divider} />
     </div>
   );

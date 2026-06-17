@@ -1,21 +1,21 @@
-import { supabase } from "@/utils/supabase/client"
+import { supabase } from "@/utils/supabase/client";
 
 export async function UpVote(uuid: string) {
-
-    // const {data, error} = await supabase.from('deals').update({'vote': 10}).eq('uuid', uuid).select()
-    // if(error){
-    //     console.log(error)
-    //     return
-    // }
-    // console.log(data)
+  const { error } = await supabase.rpc("increment_vote", {
+    deal_uuid: uuid,
+  });
+  if (error) {
+    console.error("UpVote error:", error);
+    throw error;
+  }
 }
 
 export async function DownVote(uuid: string) {
-
-    // const {data, error} = await supabase.from('deals').update({'vote': 10}).eq('uuid', uuid).select()
-    // if(error){
-    //     console.log(error)
-    //     return
-    // }
-    // console.log(data)
+  const {error} = await supabase.rpc('decrement_vote', {
+    deal_uuid: uuid
+  })
+   if (error) {
+    console.error("UpVote error:", error);
+    throw error;
+  }
 }

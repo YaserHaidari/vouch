@@ -50,4 +50,5 @@ export type DEAL_T = {
   return_type: RETURN_TYPE_T;
   payout_estimate: number;
   note: string;
+  vote: number;
 };
