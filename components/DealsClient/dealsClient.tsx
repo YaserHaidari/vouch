@@ -53,9 +53,7 @@ export function DealsClient({
   function navigateToDeal(dealNum: string) {
     router.push(`/deals/${dealNum}`)
   }
-  function UpVote(uuid){
-    console.log("AHHA")
-  }
+
   return (
     <>
       <div className={styles.hero}>
