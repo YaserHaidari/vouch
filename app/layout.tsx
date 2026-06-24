@@ -6,6 +6,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
 import { NavCard } from "@/components/navigation/NavCard/navcard";
 import { FooterCard } from "@/components/navigation/FooterCard/footercard";
+import { TooltipProvider } from "@base-ui/react";
+import { Tooltip } from "@/components/ui/tooltip";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -55,8 +57,7 @@ function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config
      <body className="min-h-full flex flex-col">
       <NavCard/>
 
-      {children}
-
+          <Tooltip>{children}</Tooltip>
         <Analytics />
         <SpeedInsights/>
         <FooterCard/>

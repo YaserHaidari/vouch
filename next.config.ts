@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true,
   },
+  serverExternalPackages: [
+      '@mastra/duckdb',
+    '@duckdb/node-api',
+    '@duckdb/node-bindings',
+  ],
   // output: 'export',
   trailingSlash: true,
   allowedDevOrigins: ['192.168.0.12'],
