@@ -1,4 +1,4 @@
-import "server-only"
+import "server-only";
 import Link from "next/link";
 import styles from "./blog.module.css";
 import { Metadata } from "next";
@@ -25,14 +25,19 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default async function Blogs() {
-  const blogs = [
+  const blogSummary = [
     {
       title: "Saving money on utility bills",
       id: 1,
       summary:
         "Slash bills without sacrificing comfort. Learn to optimise energy habits, switch providers to avoid loyalty taxes, and secure better deals. Read more to find out how to start saving today..",
+    },
+    {
+      title: "The Honest Guide to Making Side Cash with Uber in Australia",
+      id: 2,
+      summary:
+        "Turn spare evenings into real income without a second job. Learn how to stack bonus pay, Quests, and a $1,000 sign-up bonus to make Uber worth your time. Read more to see if it's right for you.",
     },
   ];
 
@@ -56,7 +61,7 @@ export default async function Blogs() {
 
       {/* Blog Cards */}
       <div className={styles.grid}>
-        {blogs.map((item, index) => (
+        {blogSummary.map((item, index) => (
           <div key={item.id} className={styles.card}>
             <span className={styles.cardNumber}>
               {String(index + 1).padStart(2, "0")}
@@ -86,8 +91,6 @@ export default async function Blogs() {
           </div>
         ))}
       </div>
-
-
     </div>
   );
 }

@@ -243,7 +243,8 @@ export default function VouchHome() {
               loyalty tax.
             </HeroDesc>
             <HeroCtas>
-              <BtnPrimary href="/deals">Browse Smart Deals →</BtnPrimary>
+              {/* add browse smart deals*/}
+              <BtnPrimary href="/deals">Browse Deals →</BtnPrimary>
               <BtnSecondary href="/#how">How it works</BtnSecondary>
             </HeroCtas>
           </div>
