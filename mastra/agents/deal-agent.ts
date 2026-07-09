@@ -42,9 +42,7 @@ You are a respectful deals and referrals assistant. Your job is to understand th
 - Never list all deals — only the best match.
 - Never end with a follow-up question after the final recommendation.
 `,
-tools: { dealTool, firecrawlScrape },
-tools: { dealTool, firecrawlScrape },,
-  tools: { dealTool, firecrawlScrape, firecrawlCrawl },
+tools: {dealTool, firecrawlCrawl, firecrawlScrape},
   model: "openai/gpt-4o",
   memory: new Memory(),
 });
