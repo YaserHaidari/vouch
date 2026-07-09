@@ -19,7 +19,7 @@ export const dealTool = createTool({
                     initialDeposit: z.number(),
                 }),
                 link: z.string(),
-                referral_code: z.string()
+                referral_code: z.string().nullable()
             }),
         ),
     }),
@@ -31,12 +31,16 @@ export const dealTool = createTool({
 async function getDeal(dealType: string) {
     const deals: DEAL_T[] = await Deals();
 
-    const matchingDeals = deals.filter((d) => d.category === dealType);
+    console.log(deals)
+    console.log("******************************************************************************")
+    const matchingDeals = deals.filter((d) => d.category == "internet");
 
+    console.log("----------------------------------------")
+    console.log(matchingDeals)
+    console.log("----------------------------------------")
     if (matchingDeals.length === 0) {
         throw new Error(`No deal found for category: ${dealType}`);
     }
-
     return {
         deals: matchingDeals.map((deal) => ({
             payoutEstimate: deal.payout_estimate,
@@ -47,6 +51,6 @@ async function getDeal(dealType: string) {
             },
             link: deal.link,
             referral_code: deal.referral_code
-        })),
+        }))
     };
 }

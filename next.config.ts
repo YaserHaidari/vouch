@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       '@mastra/duckdb',
     '@duckdb/node-api',
     '@duckdb/node-bindings',
+    "@mastra/*",
   ],
   // output: 'export',
   trailingSlash: true,

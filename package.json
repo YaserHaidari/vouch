@@ -6,8 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "dev:mastra": "mastra dev --dir mastra",
+    "build:mastra": "mastra build --dir mastra"
   },
+  
   "dependencies": {
     "@ai-sdk/react": "^3.0.211",
     "@base-ui/react": "^1.6.0",
