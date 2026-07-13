@@ -43,6 +43,6 @@ You are a respectful deals and referrals assistant. Your job is to understand th
 - Never end with a follow-up question after the final recommendation.
 `,
 tools: {dealTool, firecrawlCrawl, firecrawlScrape},
-  model: "openai/gpt-4o",
+  model: "openai/gpt-4o-mini",
   memory: new Memory(),
 });

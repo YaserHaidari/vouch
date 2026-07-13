@@ -55,7 +55,8 @@ export async function updateSession(request: NextRequest) {
     "/register",
     "/auth/callback",
     "/chat",
-    "/"
+    "/api",
+    "/api/chat"
   ];
 
   if (user && request.nextUrl.pathname == "/register/") {

@@ -2,13 +2,10 @@ import { scoreTraces, scoreTracesWorkflow } from '@mastra/core/evals/scoreTraces
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
-import { DuckDBStore } from '@mastra/duckdb';
-import * as coreStorage from '@mastra/core/storage';
-import { MastraCompositeStore, tracesFilterSchema, dateRangeSchema as dateRangeSchema$1, tracesOrderBySchema, listTracesResponseSchema, getTraceResponseSchema, getTraceArgsSchema, getTraceLightResponseSchema, getSpanResponseSchema, getSpanArgsSchema, scoreTracesResponseSchema, scoreTracesRequestSchema, spanIdsSchema } from '@mastra/core/storage';
 import { Observability, SensitiveDataFilter, MastraStorageExporter, MastraPlatformExporter } from '@mastra/observability';
 import { Agent, isDurableAgentLike, MessageList } from '@mastra/core/agent';
 import { Memory } from '@mastra/memory';
-import { dealTool } from './tools/0751d2a7-6e9f-4957-a20c-e6811cc41c74.mjs';
+import { dealTool } from './tools/2423b02a-bbb7-4636-8326-8a34ec25bce9.mjs';
 import { MCPClient } from '@mastra/mcp';
 import { readFile } from 'fs/promises';
 import * as https from 'https';
@@ -42,6 +39,8 @@ import { isProcessorWorkflow } from '@mastra/core/processors';
 import { coreFeatures } from '@mastra/core/features';
 import { generateEmptyFromSchema } from '@mastra/core/utils';
 import { generateSignalId } from '@mastra/core/observability';
+import * as coreStorage from '@mastra/core/storage';
+import { tracesFilterSchema, dateRangeSchema as dateRangeSchema$1, tracesOrderBySchema, listTracesResponseSchema, getTraceResponseSchema, getTraceArgsSchema, getTraceLightResponseSchema, getSpanResponseSchema, getSpanArgsSchema, scoreTracesResponseSchema, scoreTracesRequestSchema, spanIdsSchema } from '@mastra/core/storage';
 import { extractTrajectoryFromTrace, listScoresResponseSchema as listScoresResponseSchema$1 } from '@mastra/core/evals';
 import util, { isDeepStrictEqual } from 'util';
 import { MastraA2AError } from '@mastra/core/a2a';
@@ -76,49 +75,40 @@ const DealAgent = new Agent({
   id: "deal-agent",
   name: "Deal Agent",
   instructions: `
-  You are a respectful deals and referrals assistant. Your job is to understand user's current bill structure and recommend offers that you have access too via dealTool.
+You are a respectful deals and referrals assistant. Your job is to understand the user's current bill and recommend a better offer using dealTool and live pricing from netbargains.com.au.
 
-  ## Tools
-  - dealTool: fetches your internal referral deals and offers.
-  - firecrawl-mcp_firecrawl_crawl: use https://netbargains.com.au/ to scrape the page and get the pricing for different providers, when you have finalised a deal from dealTool use firecrawl-mcp_firecrawl_scrape to get the pricing of the selected provider.
+## Tools
+- dealTool: fetches your internal referral deals and offers.
+- firecrawl-mcp_firecrawl_scrape: fetches live, current-week pricing for a single provider from https://netbargains.com.au/providers/{provider-slug} (e.g. /providers/optus, /providers/telstra, /providers/tpg, /providers/aussie-broadband).
 
-  ## Example Conversation regarding internet
-  user: I'm looking for a good deal on internet.
-  assistant: Who is your current provider?
-  user: I'm with Telstra.
-  assistant: How much do you pay to your current provider?
-  user: I pay $99 and I want to find something cheaper.
-  assistant: [calls firecrawl_scrape on Telstra pricing page to verify current plans]
-  assistant: [calls dealTool to fetch available referral offers]
-  assistant: Aussie Broadband has a $79/month NBN 50 plan \u2014 faster and $11 cheaper than your current Telstra plan. Want the referral link?
-
-  ##Example of using firecrawl scrape with Netbargains
-  The telstra's pricing is on this url: https://netbargains.com.au/providers/telstra
-## Rules
-- NEVER invent, guess, or assume any deal, price, or offer. Only use what your tools return.
-- NEVER make a recommendation without first scraping the user's current provider's pricing page.
-- NEVER make a recommendation without first calling dealTool to retrieve available offers.
-- NEVER recommend the user's current provider back to them.
-- ALWAYS ask who their current provider is before doing anything else.
-- ALWAYS use the providers that you recieve from dealTool
-- Only call firecrawl_scrape to check up to date information about the provider and it's pricing.
-- if user asks about a provider that is not part of dealTool respond in respectful manner that it is out of your scope.
 ## Process
-1. Ask who their current provider is and what they currently pay.
-2. Ask one clarifying question at a time to understand their needs (speed, budget, contract preference).
-3. Once you have enough context:
-   a. Call firecrawl-mcp_firecrawl_scrape on https://netbargains.com.au/ to get live plan data.
-   b. Call dealTool to get available referral deals.
-4. Compare the deals fetched dealTool and recommend the best match for the user's needs.
-5. Provide user with the [link] to the following deal & the referral code as well as the current pricing of the provider by calling firecrawl-mcp_firecrawl_scrape  on https://netbargains.com.au/
-6. If no deal is better than what they have, say so honestly.
+1. Ask what they're hoping to improve (cheaper price, faster speed, or both).
+2. Ask who their current provider is, what they pay per month, and their current speed. One question at a time.
+3. Call dealTool to get the providers you have live referral offers for.
+4. For each candidate provider dealTool returns, call firecrawl_scrape on its netbargains page. Also scrape the user's current provider's netbargains page to confirm their price/speed is still accurate.
+5. Compare price and speed across candidates vs. the user's current plan.
+6. Recommend only the single best match \u2014 cheaper or faster (per what they said mattered in step 1), from a provider dealTool actually returned. Never recommend their current provider back.
+7. Give only: plan name, price, NBN speed tier, contract length, payout/exit fee if any, and the referral link/code from dealTool. For anything beyond these \u2014 inclusions, setup costs, promo terms, etc. \u2014 tell the user to check the netbargains page or provider site directly rather than listing it yourself.
+8. If nothing beats their current deal, say so honestly.
+9. End your answer there. Do not ask a follow-up question after giving the recommendation (e.g. don't ask if they want help switching, more info, etc.).
+
+## Rules
+- NEVER invent, guess, or assume any deal, price, or offer. Only use what tools return.
+- NEVER recommend a provider that dealTool didn't return.
+- NEVER recommend without first scraping both the current provider AND the candidate provider's netbargains page.
+- NEVER recommend the user's current provider back to them.
+- If the user asks about a provider not in dealTool's results, decline respectfully \u2014 it's out of scope.
+- Only surface price, speed, contract length, and payout fee. Anything else (inclusions, setup costs, promo mechanics, etc.) \u2014 point them to the netbargains page instead of explaining it yourself.
 
 ## Style
-- Don't include the link as part of word. Max 50 words per response.
-- Ask one question at a time.
-- Never list all deals \u2014 only surface the best match.`,
-  tools: { dealTool, firecrawlScrape, firecrawlCrawl },
-  model: "openai/gpt-4o",
+- Max 50 words per response.
+- One question at a time during the info-gathering phase.
+- Don't paste the raw link inline \u2014 surface it clearly at the end as the recommendation.
+- Never list all deals \u2014 only the best match.
+- Never end with a follow-up question after the final recommendation.
+`,
+  tools: { dealTool, firecrawlCrawl, firecrawlScrape },
+  model: "openai/gpt-4o-mini",
   memory: new Memory()
 });
 
@@ -126,15 +116,10 @@ const mastra = new Mastra({
   agents: {
     DealAgent
   },
-  storage: new MastraCompositeStore({
-    id: "composite-storage",
-    default: new LibSQLStore({
-      id: "mastra-storage",
-      url: "file:./mastra.db"
-    }),
-    domains: {
-      observability: await new DuckDBStore().getStore("observability")
-    }
+  storage: new LibSQLStore({
+    id: "mastra-storage",
+    url: process.env.TURSO_DATABASE_URL,
+    authToken: process.env.TURSO_AUTH_TOKEN
   }),
   logger: new PinoLogger({
     name: "Mastra",
@@ -146,14 +131,10 @@ const mastra = new Mastra({
         serviceName: "mastra",
         exporters: [
           new MastraStorageExporter(),
-          // Persists observability events to Mastra Storage
+          // will now use the same LibSQLStore
           new MastraPlatformExporter()
-          // Sends observability events to Mastra Platform (if MASTRA_PLATFORM_ACCESS_TOKEN is set)
         ],
-        spanOutputProcessors: [
-          new SensitiveDataFilter()
-          // Redacts sensitive data like passwords, tokens, keys
-        ]
+        spanOutputProcessors: [new SensitiveDataFilter()]
       }
     }
   })
