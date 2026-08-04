@@ -23,19 +23,32 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
-
         <ul className={`${styles.navLinks} ${isOpen ? styles.navOpen : ""}`}>
-          <Link href="/#how" onClick={close}>How it works</Link>
+          <Link href="/#how" onClick={close}>
+            How it works
+          </Link>
 
           {isUser ? (
             <>
-              <Link href="/community-deals" onClick={close}>Community deals</Link>
-              <Link href="/post-deal" onClick={close}>Post deals</Link>
+              <Link href="/community-deals" onClick={close}>
+                Community deals
+              </Link>
+              <Link href="/post-deal" onClick={close}>
+                Post deals
+              </Link>
             </>
           ) : (
-            <Link href="/register" onClick={close}>Register</Link>
+            <Link href="/register" onClick={close}>
+              Register
+            </Link>
           )}
-          <Link href="/blogs" onClick={close}>Blogs</Link>
+          <Link href="/blogs" onClick={close}>
+            Blogs
+          </Link>
+          <Link href="/referrals" onClick={close}>
+            Referrals
+          </Link>
+
           <Link href="/deals" className={styles.cta} onClick={close}>
             Browse Smart Deals
           </Link>

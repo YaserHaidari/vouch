@@ -6,7 +6,7 @@ import '@mastra/libsql';
 import '@mastra/observability';
 import '@mastra/core/agent';
 import '@mastra/memory';
-import './tools/2423b02a-bbb7-4636-8326-8a34ec25bce9.mjs';
+import './tools/01e2ccc1-e61b-4a49-9cbc-2521d4b527bc.mjs';
 import '@supabase/ssr';
 import '@mastra/core/tools';
 import 'zod';

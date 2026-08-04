@@ -48,14 +48,15 @@ const dealTool = createTool({
 });
 async function getDeal(dealType) {
   const deals = await Deals();
-  console.log(deals);
-  console.log("******************************************************************************");
   const matchingDeals = deals.filter((d) => d.category == "internet");
   console.log("----------------------------------------");
   console.log(matchingDeals);
   console.log("----------------------------------------");
   if (matchingDeals.length === 0) {
-    throw new Error(`No deal found for category: ${dealType}`);
+    return {
+      deals: [],
+      message: `No deals found for "${dealType}". Do not retry with a different value; summarize what's available instead.`
+    };
   }
   return {
     deals: matchingDeals.map((deal) => ({

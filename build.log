@@ -1,0 +1,53 @@
+
+> workmate@0.1.0 build
+> next build
+
+▲ Next.js 16.2.9 (Turbopack)
+- Environments: .env.local, .env
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 5.0s
+  Running TypeScript ...
+  Finished TypeScript in 5.0s ...
+  Collecting page data using 7 workers ...
+npm warn cli npm v12.0.1 does not support Node.js v24.0.2. This version of npm supports the following node versions: `^22.22.2 || ^24.15.0 || >=26.0.0`. You can find the latest version at https://nodejs.org/.
+npm notice run workmate@0.1.0 npx
+npm notice run 'firecrawl-mcp'
+  Generating static pages using 7 workers (0/17) ...
+  Generating static pages using 7 workers (4/17) 
+  Generating static pages using 7 workers (8/17) 
+  Generating static pages using 7 workers (12/17) 
+npm warn cli npm v12.0.1 does not support Node.js v24.0.2. This version of npm supports the following node versions: `^22.22.2 || ^24.15.0 || >=26.0.0`. You can find the latest version at https://nodejs.org/.
+npm notice run workmate@0.1.0 npx
+npm notice run 'firecrawl-mcp'
+✓ Generating static pages using 7 workers (17/17) in 1393ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /api/chat
+├ ƒ /api/contact
+├ ƒ /api/fetchAllDeals
+├ ƒ /api/postdeal
+├ ƒ /auth/callback
+├ ○ /blogs
+├ ƒ /blogs/[id]
+├ ○ /chat
+├ ƒ /community-deals
+├ ○ /contact
+├ ƒ /deals
+├ ƒ /deals/[id]
+├ ƒ /post-deal
+├ ○ /privacy-policy
+├ ○ /register
+├ ○ /robots.txt
+└ ○ /sitemap.xml
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

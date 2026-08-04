@@ -10,7 +10,6 @@
     "dev:mastra": "mastra dev --dir mastra",
     "build:mastra": "mastra build --dir mastra"
   },
-  
   "dependencies": {
     "@ai-sdk/react": "^3.0.211",
     "@base-ui/react": "^1.6.0",
@@ -47,6 +46,7 @@
     "motion": "^12.41.0",
     "nanoid": "^5.1.15",
     "next": "^16.2.6",
+    "npm": "^12.0.1",
     "postcss": "^8.5.14",
     "react": "19.2.5",
     "react-dom": "19.2.5",

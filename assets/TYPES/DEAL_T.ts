@@ -51,4 +51,5 @@ export type DEAL_T = {
   payout_estimate: number;
   note: string;
   vote: number;
+  deal_type: 'referral' | 'saving'
 };
