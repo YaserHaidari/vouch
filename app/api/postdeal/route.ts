@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
       brand_name,
       return_type,
       category,
-      payout_estimate,
+      reward_value,
       link,
       referral_code,
       offer_expiry_date,
@@ -20,9 +20,9 @@ export async function POST(req: NextRequest) {
     } = body;
  
     // Validate required fields
-    if (!brand_name || !payout_estimate || !link) {
+    if (!brand_name || !reward_value || !link) {
       return NextResponse.json(
-        { message: "Missing required fields: brand_name, payout_estimate, link" },
+        { message: "Missing required fields: brand_name, reward_value, link" },
         { status: 400 }
       );
     }
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       .insert({
         brand_name,
         link,
-        payout_estimate,
+        reward_value,
         display_name,
         offer_expiry_date,
         note,

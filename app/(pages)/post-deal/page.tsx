@@ -141,7 +141,7 @@ export default async function PostDeal() {
     if (!String(f.brand_name ?? "").trim()) missing.push("Brand name");
     if (!String(f.referral_link ?? "").trim()) missing.push("Referral link");
     if (!String(f.offer_expiry_date ?? "").trim()) missing.push("Expiry date");
-    if (!String(f.payout_estimate ?? "").trim())
+    if (!String(f.reward_value ?? "").trim())
       missing.push("Reward / payout");
 
     if (missing.length) {
@@ -153,7 +153,7 @@ export default async function PostDeal() {
     const { error } = await (await supabase).from("community_deals").insert({
       brand_name: String(f.brand_name).trim(),
       link: String(f.referral_link).trim(),
-      payout_estimate: String(f.payout_estimate).trim(),
+      reward_value: String(f.reward_value).trim(),
       offer_expiry_date: String(f.offer_expiry_date).trim(),
       return_type: f.return_type || null,
       is_cash_convertible: f.is_cash_convertible === "true",
@@ -184,7 +184,7 @@ export default async function PostDeal() {
             <TwoCol>
               <Field>
                 <Label>Reward / payout *</Label>
-                <Input name="payout_estimate" />
+                <Input name="reward_value" />
               </Field>
               <Field>
                 <Label>Expiry date *</Label>

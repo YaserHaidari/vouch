@@ -23,9 +23,9 @@ export const dealTool = createTool({
       }),
     ),
   }),
-  execute: async (inputData) => {
-    return await getDeal(inputData.dealType);
-  },
+  // execute: async (inputData) => {
+  //   return await getDeal(inputData.dealType);
+  // },
 });
 
 async function getDeal(dealType: string) {
@@ -33,9 +33,7 @@ async function getDeal(dealType: string) {
 
   const matchingDeals = deals.filter((d) => d.category == "internet");
 
-  console.log("----------------------------------------");
-  console.log(matchingDeals);
-  console.log("----------------------------------------");
+
   if (matchingDeals.length === 0) {
     return {
       deals: [],
@@ -43,16 +41,17 @@ async function getDeal(dealType: string) {
     };
   }
 
+
   return {
     deals: matchingDeals.map((deal) => ({
-      payoutEstimate: deal.payout_estimate,
+      payoutEstimate: deal.reward_value,
       dealCategory: deal.category,
       dealInstructions: {
         instructions: deal.requirements.instructions,
-        initialDeposit: deal.requirements.initial_deposit,
+        initialDeposit: deal.deal_ref?.requirements.min_cost,
       },
       link: deal.link,
-      referral_code: deal.referral_code,
+      referral_code: deal.deal_ref?.referral_code,
     })),
   };
 }

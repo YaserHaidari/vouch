@@ -69,7 +69,7 @@ async function getDeal(dealType) {
   }
   return {
     deals: matchingDeals.map((deal) => ({
-      payoutEstimate: deal.payout_estimate,
+      payoutEstimate: deal.reward_value,
       dealCategory: deal.category,
       dealInstructions: {
         instructions: deal.requirements.instructions,
