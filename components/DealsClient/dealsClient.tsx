@@ -30,17 +30,17 @@ export function DealsClient({
   const displayDeals = useMemo(() => {
     if (!searchVal) {
       if (activeCategory !== "All") {
-        return deals.filter((d) => d.category === activeCategory);
+        return deals.filter((d) => d.category == activeCategory);
       }
     }
-    if (activeCategory === "All") {
+    if (activeCategory == "All") {
       return deals.filter((d) =>
         d.brand_name.toLowerCase().includes(searchVal.toLowerCase()),
       );
     }
     return deals.filter(
       (d) =>
-        d.category === activeCategory &&
+        d.category == activeCategory &&
         d.brand_name.toLowerCase().includes(searchVal.toLowerCase()),
     );
   }, [activeCategory, searchVal]);
@@ -133,9 +133,9 @@ export function DealsClient({
         {displayDeals.length > 0 ? (
           <div className={styles.dealsGrid}>
             {displayDeals.map((deal, i) => (
-              <div key={i} onClick={() => navigateToDeal(deal.uuid)} style={{ cursor: "pointer", display: 'contents' }}>
+              <div key={i} onClick={() => navigateToDeal(deal.id)} style={{ cursor: "pointer", display: 'contents' }}>
                 <DealCardComponent
-                  key={deal.uuid}
+                  key={deal.id}
                   deal={deal}
                   note={deal.note ? `Note: ${deal.note}` : ""}
                   style={{ animationDelay: `${i * 0.05}s` }}

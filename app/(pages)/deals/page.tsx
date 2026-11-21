@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import { Deals } from "@/assets/dealsFunction/deals";
 import { DealsClient } from "@/components/DealsClient/dealsClient";
 import LoadingSkeleton from "./loading123";
-import SearchFilter from "@/components/SearchFilter/searchfilter";
+import { DEAL_T } from "@/assets/types/DEAL_T";
 
 export const dynamic = "force-dynamic";
 
@@ -56,8 +56,8 @@ export const metadata: Metadata = {
 };
 
 async function AllDeals() {
-  const deals = (await Deals()) || [];
-  const count = deals.filter((d) => d.status === "active").length;
+  const deals: DEAL_T[] = await Deals()
+  const count = deals.length
   return (
     <>
       <DealsClient dealNote="All Smart Deals" deals={deals} count={count} />

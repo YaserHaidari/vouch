@@ -20,7 +20,7 @@ export default async function StatisticsBanner() {
   function calculateTotalValueOfDeals(): number {
     let sum = 0;
     deal.forEach((item: DEAL_T) => {
-      sum += item.payout_estimate;
+      sum += item.reward_value;
     });
     return sum - 1;
   }

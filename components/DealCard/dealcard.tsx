@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+
 import styles from "./DealCard.module.css";
-import { DEAL_T, RETURN_TYPE_T } from "@/assets/types/DEAL_T";
-import { UpVote, DownVote } from "@/app/actions/handle-votes";
+import { DEAL_T, REWARD_TYPE_T } from "@/assets/types/DEAL_T";
+
 
 type DealCardProps = {
   deal: DEAL_T;
@@ -11,79 +11,18 @@ type DealCardProps = {
   note: string;
 };
 
-function VoteButtons({
-  uuid,
-  initialVotes,
-}: {
-  uuid: string;
-  initialVotes: number;
-}) {
-  const [vote, setVote] = useState<"up" | "down" | null>(null);
-  const [voteCount, setVoteCount] = useState<number>(initialVotes); // 👈 moved here
-  const [voteBtnStatus, setVoteBtnStatus] = useState<string>("");
-  async function handleVote(dir: "up" | "down") {
-    console.log(voteBtnStatus)
-    if (dir == "up") {
-      setVoteCount(voteCount + 1);
-      setVoteBtnStatus("UP-PRESSED");
-      await UpVote(uuid);
-    }
-    if (dir == "down") {
-      if (voteCount == 0) {
-        return;
-      }
-      setVoteBtnStatus("DOWN-PRESSED");
-      setVoteCount(voteCount - 1);
-      await DownVote(uuid);
-    }
-  }
 
-  return (
-    <div className={styles.voteButtons} onClick={(e) => e.stopPropagation()}>
-      <button
-        className={`${styles.voteBtn} ${styles.voteBtnDown} ${vote === "down" ? styles.voteBtnDownActive : ""}`}
-        onClick={() => handleVote("down")}
-
-        disabled={voteBtnStatus == "DOWN-PRESSED" ? true : false}
-        aria-label="Downvote"
-      >
-        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-          <path
-            d="M7 2v10M3 8l4 4 4-4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        Downvote
-      </button>
-      <span>{voteCount}</span> {/* 👈 vote count lives here now */}
-      <button
-        className={`${styles.voteBtn} ${styles.voteBtnUp} ${vote === "up" ? styles.voteBtnUpActive : ""}`}
-        onClick={() => handleVote("up")}
-        aria-label="Upvote"
-        disabled={voteBtnStatus == "UP-PRESSED" ? true : false}
-      >
-        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
-          <path
-            d="M7 12V2M3 6l4-4 4 4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        Upvote
-      </button>
-    </div>
-  );
-}
 
 export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
+  console.log("AAAAAAA")
   const [isExpanded, setIsExpanded] = React.useState(false);
-  const [vote, setVotes] = React.useState<number>(0);
+
   const instructions = deal.requirements?.instructions ?? [];
+
+  console.log("AAAAAAA")
+  console.log(deal)
+
+  console.log("AAAAAAA")
   const visibleInstructions = isExpanded
     ? instructions
     : instructions.slice(0, 3);
@@ -109,19 +48,15 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
     return `${diffDays} days`;
   }
 
-  useEffect(() => {
-    console.log("A");
-    setVotes(deal.vote);
-    console.log(vote);
-  }, [deal.vote]);
+
   return (
     <div style={style} className={styles.card}>
       <div className={styles.cardBody}>
         <div className={styles.brandName}>{deal.brand_name}</div>
         <h3 className={styles.cardTitle}>
-          {deal.is_referral
-            ? `Earn up to $${deal.payout_estimate}`
-            : `Get up to $${deal.payout_estimate}`}
+          {deal.deal_type == 'referral'
+            ? `Save up to $${deal.reward_value}`
+            : `Get up to $${deal.reward_value}`}
         </h3>
 
         {visibleInstructions.map((step: string, idx: number) => (
@@ -144,10 +79,12 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
         )}
 
         <div className={styles.cardMeta}>
-          {deal.requirements?.initial_deposit > 0 && (
+          {deal.requirements?.min_cost > 0 && (
             <div className={styles.metaRow}>
-              Min. deposit: <span>${deal.requirements.initial_deposit}</span>
+              Min. deposit: <span>${deal.requirements.min_cost}</span>
             </div>
+
+            
           )}
           {deal.offer_expiry_date && (
             <div className={styles.metaRow}>
@@ -162,7 +99,7 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
             </div>
           )}
           {note && <div className={styles.metaRow}>{note}</div>}
-          {deal.is_cash_convertible && (
+          {deal.deal_ref?.is_cash_convertible && (
             <div className={styles.metaRow}>
               <span className={styles.cashBadge}>💵 Redeemable for Cash</span>
             </div>
@@ -176,12 +113,12 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
         <div className={styles.rewardBox}>
           <div className={styles.rewardLabel}>YOU RECEIVE</div>
           <div className={styles.rewardValue}>
-            {deal.return_type == RETURN_TYPE_T.credit &&
-              `$${deal.payout_estimate} Credit`}
-            {deal.return_type == RETURN_TYPE_T.cash &&
-              `$${deal.payout_estimate} Cash`}
-            {deal.return_type == RETURN_TYPE_T.stocks &&
-              `$${deal.payout_estimate} in Stocks`}
+            {deal.reward_type == REWARD_TYPE_T.credit &&
+              `$${deal.reward_value} Credit`}
+            {deal.reward_type == REWARD_TYPE_T.cash &&
+              `$${deal.reward_value} Cash`}
+            {deal.reward_type == REWARD_TYPE_T.stocks &&
+              `$${deal.reward_type} in Stocks`}
           </div>
         </div>
         {deal.status !== "expired" && (
@@ -195,7 +132,6 @@ export const DealCardComponent = ({ deal, style, note }: DealCardProps) => {
           </a>
         )}
       </div>
-      <VoteButtons uuid={deal.uuid} initialVotes={deal.vote} />
       <div className={styles.divider} />
       <div className={styles.expiryFooter}>
         <span className={styles.expiryLabel}>Ends in</span>

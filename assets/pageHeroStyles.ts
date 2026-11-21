@@ -90,8 +90,14 @@ export const HeroSection = styled.section`
 export const PageBody = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2.5rem 2rem 5rem;
+  padding: 40px 24px;
 `;
+
+export const dealsGrid = styled.div `
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+`
 export const SubmitBtn = styled.button`
   width: 100%;
   margin-top: 8px;

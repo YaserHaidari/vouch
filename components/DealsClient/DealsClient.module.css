@@ -149,6 +149,7 @@
 }
 /* ── Page body ──────────────────────────────────────────── */
 .pageBody {
+
   max-width: 1280px;
   margin: 0 auto;
   padding: 2.5rem 2rem 5rem;
@@ -156,8 +157,9 @@
 
 /* ── Deals grid ─────────────────────────────────────────── */
 .dealsGrid {
+
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(900px, 1fr));
   gap: 1.5rem;
 }
 

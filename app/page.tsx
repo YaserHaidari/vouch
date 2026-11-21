@@ -20,7 +20,6 @@ import {
   HowSection,
 } from "@/assets/sectionStyles";
 import { steps } from "@/assets/data/steps";
-import { DEAL_T } from "@/assets/types/DEAL_T";
 import { Suspense } from "react";
 import StatisticsBanner from "@/components/StatisticBanner/statsbanner";
 import PopularDeals from "@/components/PopularDeals/popdeals";
