@@ -1,28 +1,12 @@
 import "server-only";
-import styled, { createGlobalStyle } from "styled-components";
-import { T } from "@/assets/colors";
-import {
-  HeroBadge,
-  HeroCtas,
-  HeroDesc,
-  HeroHeading,
-  HeroInner,
-  HeroSection,
-} from "@/assets/pageHeroStyles";
-import { BtnPrimary, BtnSecondary, CtaBtn } from "@/assets/btnStyles";
+import Link from "next/link";
+import { CSSProperties, Suspense } from "react";
 import { Metadata } from "next";
-import {
-  SectionTitle,
-  SectionSubtitle,
-  SectionInner,
-  SectionHeader,
-  SectionEyebrow,
-  HowSection,
-} from "@/assets/sectionStyles";
 import { steps } from "@/assets/data/steps";
-import { Suspense } from "react";
 import StatisticsBanner from "@/components/StatisticBanner/statsbanner";
 import PopularDeals from "@/components/PopularDeals/popdeals";
+import "./styles.css";
+import '@/assets/colors/colors.css'
 
 export const metadata: Metadata = {
   title: "Vouch - Smart Deals & Rewards Australia",
@@ -78,216 +62,47 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-const GlobalStyle = createGlobalStyle`
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: #ffffff;
-    color: #1A1A2E;
-    -webkit-font-smoothing: antialiased;
-  }
-`;
-
-// ─── How It Works ─────────────────────────────────────────
-
-const StepsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  position: relative;
-`;
-
-const StepCard = styled.div<{ $accent: string }>`
-  background: ${T.white};
-  border: 1.5px solid ${T.grey200};
-  border-radius: 16px;
-  padding: 2rem 1.6rem;
-  position: relative;
-  overflow: hidden;
-  transition:
-    transform 0.25s,
-    box-shadow 0.25s,
-    border-color 0.25s;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-    border-color: ${(p) => p.$accent};
-  }
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: ${(p) => p.$accent};
-    border-radius: 16px 16px 0 0;
-  }
-`;
-
-const StepNumber = styled.div<{ $accent: string }>`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: ${(p) => p.$accent};
-  margin-bottom: 1rem;
-`;
-
-const StepIcon = styled.div<{ $bg: string }>`
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: ${(p) => p.$bg};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  margin-bottom: 1.2rem;
-`;
-
-const StepTitle = styled.h3`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: ${T.navy};
-  margin-bottom: 0.5rem;
-`;
-
-const StepDesc = styled.p`
-  font-size: 0.88rem;
-  color: ${T.grey600};
-  line-height: 1.6;
-`;
-
-// ─── Deals Section ────────────────────────────────────────
-const DealsSection = styled.section`
-  background: ${T.white};
-  padding: 5rem 2rem;
-`;
-
-// ─── CTA Banner ───────────────────────────────────────────
-const CtaBanner = styled.section`
-  background: ${T.blue};
-  padding: 5rem 2rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: -60px;
-    right: -60px;
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-  }
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: -40px;
-    left: -40px;
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background: rgba(255, 208, 0, 0.08);
-  }
-`;
-
-const CtaTitle = styled.h2`
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 800;
-  color: ${T.white};
-  letter-spacing: -0.03em;
-  margin-bottom: 0.8rem;
-  position: relative;
-  z-index: 1;
-`;
-
-const CtaDesc = styled.p`
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 1rem;
-  margin-bottom: 2rem;
-  position: relative;
-  z-index: 1;
-`;
-
-
 export default function VouchHome() {
   return (
     <>
-      <GlobalStyle />
-
       {/* Hero */}
-      <HeroSection>
-        <HeroInner>
+      <section className="hero-section">
+        <div className="hero-inner">
           <div>
-            <HeroBadge>Australia&apos;s #1 Smart Saving Community</HeroBadge>
-            <HeroHeading>
+            <span className="hero-badge">
+              Australia&apos;s #1 Smart Saving Community
+            </span>
+            <h1 className="hero-heading">
               Sign up smarter.
               <br />
               <em>Get rewarded.</em>
-            </HeroHeading>
-            <HeroDesc>
+            </h1>
+            <p className="hero-desc">
               It’s exhausting watching the cost of living climb, so we’re here
               to help you reclaim your money by finding you deals, cashback,
               exclusive rewards on your everyday bills and to help you avoid
               loyalty tax.
-            </HeroDesc>
-            <HeroCtas>
-              {/* add browse smart deals*/}
-              <BtnPrimary href="/deals">Browse Deals →</BtnPrimary>
-              <BtnSecondary href="/#how">How it works</BtnSecondary>
-            </HeroCtas>
+            </p>
+            <div className="hero-ctas">
+              <Link href="/deals" className="btn-primary">
+                Browse Deals →
+              </Link>
+              <Link href="/#how" className="btn-secondary">
+                How it works
+              </Link>
+            </div>
           </div>
-        </HeroInner>
-      </HeroSection>
+        </div>
+      </section>
 
       {/* Stats */}
       <Suspense
         fallback={
-          <div
-            style={{
-              background: "#0f1f3d",
-              padding: "3rem 2rem",
-              display: "flex",
-              justifyContent: "center",
-              gap: "12rem",
-            }}
-          >
+          <div className="stats-skeleton">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                }}
-              >
-                <div
-                  style={{
-                    height: "36px",
-                    width: "80px",
-                    background: "rgba(245, 216, 0, 0.3)",
-                    borderRadius: "6px",
-                  }}
-                />
-                <div
-                  style={{
-                    height: "14px",
-                    width: "100px",
-                    background: "rgba(255,255,255,0.1)",
-                    borderRadius: "4px",
-                  }}
-                />
+              <div key={i} className="stats-skeleton-item">
+                <div className="stats-skeleton-num" />
+                <div className="stats-skeleton-label" />
               </div>
             ))}
           </div>
@@ -297,58 +112,68 @@ export default function VouchHome() {
       </Suspense>
 
       {/* How it works */}
-      <HowSection id="how">
-        <SectionInner>
-          <SectionHeader>
-            <SectionEyebrow>How it works</SectionEyebrow>
-            <SectionTitle>Four simple steps to your reward</SectionTitle>
-            <SectionSubtitle>
+      <section id="how" className="how-section">
+        <div className="section-inner">
+          <div className="section-header">
+            <span className="section-eyebrow">How it works</span>
+            <h2 className="section-title">Four simple steps to your reward</h2>
+            <p className="section-subtitle">
               We scout the best deals so you don’t have to. Simply use our link,
               follow the quick instructions, and collect your reward. Need a
-              hand? Contact our support team anytime.{" "}
-            </SectionSubtitle>
-          </SectionHeader>
+              hand? Contact our support team anytime.
+            </p>
+          </div>
 
-          <StepsGrid>
+          <div className="steps-grid">
             {steps.map((s) => (
-              <StepCard key={s.num} $accent={s.accent}>
-                <StepNumber $accent={s.accent}>{s.num}</StepNumber>
-                <StepIcon $bg={s.bg}>{s.icon}</StepIcon>
-                <StepTitle>{s.title}</StepTitle>
-                <StepDesc>{s.desc}</StepDesc>
-              </StepCard>
+              <div
+                key={s.num}
+                className="step-card"
+                style={
+                  {
+                    "--accent": s.accent,
+                    "--icon-bg": s.bg,
+                  } as CSSProperties
+                }
+              >
+                <div className="step-number">{s.num}</div>
+                <div className="step-icon">{s.icon}</div>
+                <h3 className="step-title">{s.title}</h3>
+                <p className="step-desc">{s.desc}</p>
+              </div>
             ))}
-          </StepsGrid>
-        </SectionInner>
-      </HowSection>
-      <DealsSection id="deals">
-        <SectionInner>
-          <SectionHeader>
-            <SectionEyebrow>Featured deals</SectionEyebrow>
-            <SectionTitle>Top deals right now</SectionTitle>
-            <SectionSubtitle>
-              Fresh deals updated regularly. All vetted by the Vouch team.
-            </SectionSubtitle>
-          </SectionHeader>
-        </SectionInner>
+          </div>
+        </div>
+      </section>
 
-            {/* Popular deals */}
+      {/* Deals Section */}
+      <section id="deals" className="deals-section">
+        <div className="section-inner">
+          <div className="section-header">
+            <span className="section-eyebrow">Featured deals</span>
+            <h2 className="section-title">Top deals right now</h2>
+            <p className="section-subtitle">
+              Fresh deals updated regularly. All vetted by the Vouch team.
+            </p>
+          </div>
+        </div>
+
         <Suspense fallback={<h1>Loading</h1>}>
           <PopularDeals />
         </Suspense>
-      </DealsSection>
+      </section>
 
       {/* CTA Banner */}
-      <CtaBanner>
-        <CtaTitle>Ready to get rewarded?</CtaTitle>
-        <CtaDesc>
+      <section className="cta-banner">
+        <h2 className="cta-title">Ready to get rewarded?</h2>
+        <p className="cta-desc">
           Before you sign up to any new service, check out our special deals
           first.
-        </CtaDesc>
-        <CtaBtn href="/deals">Browse Smart Deals →</CtaBtn>
-      </CtaBanner>
-
-      {/* Footer */}
+        </p>
+        <Link href="/deals" className="cta-btn">
+          Browse Smart Deals →
+        </Link>
+      </section>
     </>
   );
 }

@@ -1,13 +1,13 @@
-/* ── Card wrapper ───────────────────────────────────────── */
+/* ── Card ───────────────────────────────────────────────── */
 .card {
+  display: flex;
+  flex-direction: column;
   background: #ffffff;
   border: 1.5px solid #e5e7eb;
   border-radius: 16px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.25s, box-shadow 0.25s;
   cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 
 .card:hover {
@@ -15,262 +15,239 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
-/* ── Badge row ──────────────────────────────────────────── */
-.badgeRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.25rem 1.25rem 0;
+.cardExpired {
+  opacity: 0.65;
 }
 
-.categoryPill {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #0d1b2a;
-  background: #e5e7eb;
-  padding: 0.3rem 0.7rem;
-  border-radius: 100px;
-}
-
-/* ── Status badge variants ──────────────────────────────── */
-.statusBadge {
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 0.3rem 0.7rem;
-  border-radius: 100px;
-}
-
-.status_active {
-  background: #e6f7ed;
-  color: #1b7a3a;
-}
-
-.status_soon {
-  background: #fffbe6;
-  color: #7a5f00;
-}
-
-.status_expired {
-  background: #f3f4f6;
-  color: #6b7280;
-}
-
-/* ── Card body ──────────────────────────────────────────── */
-.cardBody {
-  padding: 1.25rem;
+/* ── Body (everything above the footer) ─────────────────── */
+.body {
   flex-grow: 1;
-}
-
-.brandName {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #9ca3af;
-  margin-bottom: 0.25rem;
-}
-
-.cardTitle {
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #0d1b2a;
-  margin-bottom: 0.75rem;
-}
-
-/* ── Step bullets ───────────────────────────────────────── */
-.cardDesc {
-  font-size: 0.85rem;
-  color: #4b5563;
-  line-height: 1.4;
-  margin-bottom: 0.4rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-}
-
-.cardDesc::before {
-  content: "•";
-  color: #0064d2;
-  flex-shrink: 0;
-}
-
-/* ── Toggle button ──────────────────────────────────────── */
-.toggleBtn {
-  background: none;
-  border: none;
-  color: #0064d2;
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 4px 0;
-  margin-top: 4px;
-  font-family: inherit;
-}
-
-/* ── Meta rows ──────────────────────────────────────────── */
-.cardMeta {
-  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-}
-
-.metaRow {
-  font-size: 0.78rem;
-  color: #4b5563;
-  font-weight: 500;
-}
-
-.metaRow span {
-  color: #0d1b2a;
-  font-weight: 700;
-}
-
-.cashBadge {
-  color: #0064d2;
-  font-weight: 700;
-}
-
-/* ── Divider ────────────────────────────────────────────── */
-.divider {
-  height: 1px;
-  background: #f3f4f6;
-  margin: 0 1.25rem;
-}
-
-/* ── Footer ─────────────────────────────────────────────── */
-.cardFooter {
   padding: 1.25rem;
+}
+
+.top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
-
-
-.rewardBox {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.rewardLabel {
-  font-size: 0.7rem;
-  color: #9ca3af;
+.brand {
+  font-size: 0.85rem;
   font-weight: 600;
-  text-transform: uppercase;
-}
-
-.rewardValue {
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 1rem;
-  font-weight: 800;
-  color: #0d1b2a;
-}
-
-/* ── Claim button ───────────────────────────────────────── */
-.viewBtn {
-  background: #0d1b2a;
-  color: #ffffff;
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, color 0.2s;
-}
-
-.viewBtn:hover {
-  background: #111827;
-  color: #f5c518;
-}
-
-/* ── Vote buttons ───────────────────────────────────────── */
-.voteButtons {
-  display: flex;
-  gap: 8px;
-  padding: 0.75rem 1.25rem;
-}
-
-.voteBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  height: 30px;
-  flex: 1;
-  border-radius: 100px;
-  border: 1.5px solid #e5e7eb;
-  background: #f9fafb;
   color: #6b7280;
+}
+
+/* Days-left chip */
+.chip {
   font-size: 0.75rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-}
-
-.voteBtn:active {
-  transform: scale(0.97);
-}
-
-/* Upvote — green */
-.voteBtnUp:hover {
-  background: #f0fdf4;
-  border-color: #86efac;
-  color: #16a34a;
-}
-
-.voteBtnUpActive {
-  background: #dcfce7;
-  border-color: #16a34a;
-  color: #16a34a;
-}
-
-/* Downvote — red */
-.voteBtnDown:hover {
-  background: #fef2f2;
-  border-color: #fca5a5;
-  color: #dc2626;
-}
-
-.voteBtnDownActive {
-  background: #fee2e2;
-  border-color: #dc2626;
-  color: #dc2626;
-}
-
-/* ── Expiry footer ──────────────────────────────────────── */
-.expiryFooter {
-  padding: 0.75rem 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.expiryLabel {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.expiryValue {
-  font-size: 0.8rem;
   font-weight: 700;
   color: #0d1b2a;
   background: #f3f4f6;
   padding: 0.25rem 0.65rem;
   border-radius: 100px;
+  white-space: nowrap;
 }
 
-.expiryValue.urgent {
+.chipUrgent {
   background: #fff0f0;
   color: #b91c1c;
+}
+
+/* ── Title ──────────────────────────────────────────────── */
+.title {
+  margin: 0.75rem 0 0;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #0d1b2a;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+/* ── Details toggle ─────────────────────────────────────── */
+.toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  padding: 0.25rem 0;
+  background: none;
+  border: none;
+  color: #0064d2;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toggle:focus-visible,
+.cta:focus-visible {
+  outline: 2px solid #0064d2;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.chevron {
+  position: relative;
+  top: -2px;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.toggle[aria-expanded="true"] .chevron {
+  top: 1px;
+  transform: rotate(-135deg);
+}
+
+/* ── Collapsible details ────────────────────────────────── */
+.details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.details[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.detailsInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.detailsContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+.summary {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+.steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #4b5563;
+}
+
+.steps li::marker {
+  color: #0064d2;
+  font-weight: 700;
+}
+
+.facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.facts strong {
+  color: #0d1b2a;
+}
+
+.note {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: #6b7280;
+}
+
+/* ── Footer: reward + call to action ────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #f9fafb;
+  border-top: 1px solid #f3f4f6;
+}
+
+.reward {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.rewardLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.rewardValue {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #0d1b2a;
+}
+
+.cta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1rem;
+  background: #0d1b2a;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cta:hover {
+  background: #111827;
+  color: #f5c518;
+}
+
+.ended {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .details,
+  .chevron {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
 }

@@ -1,7 +1,75 @@
-import { DEAL_T } from "@/assets/types/DEAL_T";
-import { supabase } from "@/utils/supabase/client";
 
-import './style.css'
+
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { DEAL_T, REWARD_TYPE_T } from "@/assets/types/DEAL_T";
+import { supabase } from "@/utils/supabase/client";
+import "./style.css";
+import { CopyURL } from "@/components/CopyUrl/page";
+
+// "2026-12-06" -> local date (avoids the UTC shift of new Date("2026-12-06"))
+function parseDate(value: string | null | undefined): Date | null {
+  if (!value) return null;
+  const [y, m, d] = value.slice(0, 10).split("-").map(Number);
+  if (!y || !m || !d) return null;
+  return new Date(y, m - 1, d);
+}
+
+function daysLeft(expiry: Date | null): number | null {
+  if (!expiry) return null;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.round((expiry.getTime() - today.getTime()) / 86_400_000);
+}
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString("en-AU", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function expiryText(expiry: Date | null, days: number | null): string | null {
+  if (!expiry || days === null) return null;
+  if (days < 0) return `Ended ${formatDate(expiry)}`;
+  if (days === 0) return "Ends today";
+  if (days === 1) return "Ends tomorrow";
+  return `Ends ${formatDate(expiry)}, ${days} days left`;
+}
+
+function rewardSuffix(type: DEAL_T["reward_type"]): string {
+  switch (type) {
+    case REWARD_TYPE_T.credit:
+      return "credit";
+    case REWARD_TYPE_T.cash:
+      return "cash";
+    case REWARD_TYPE_T.stocks:
+      return "in stocks";
+    case REWARD_TYPE_T.voucher:
+      return "voucher";
+    default:
+      return "";
+  }
+}
+
+// Saving: "You save" + "$1000"
+// Referral (or anything else): "You receive" + "$200" + "credit"
+function rewardInfo(
+  deal: DEAL_T,
+): { label: string; amount: string; suffix: string } | null {
+  if (deal.reward_value == null) return null;
+  const amount = `$${deal.reward_value}`;
+
+  if (deal.deal_type === "saving") {
+    return { label: "You save", amount, suffix: "" };
+  }
+  return {
+    label: "You receive",
+    amount,
+    suffix: rewardSuffix(deal.reward_type),
+  };
+}
 
 export default async function Deal({
   params,
@@ -9,60 +77,131 @@ export default async function Deal({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+
   const { data, error } = await supabase
-    .from("deals")
-    .select("*")
-    .eq("uuid", id)
+    .from("deals_1")
+    .select("*, deal_ref(*), deal_sav(*)")
+    .eq("id", id)
     .single();
-  if (error) {
-    console.log(error);
-  }
-  const deal: DEAL_T = data;
 
+  if (error) console.error(error);
+  if (!data) notFound();
 
+  const deal = data as DEAL_T;
 
+  const details = deal.deal_ref?.requirements ?? deal.deal_sav?.requirements;
+  const instructions: string[] = details?.instructions ?? [];
+  const minCost = details?.min_cost ?? deal.requirements?.min_cost ?? 0;
+
+  const expiry = parseDate(deal.offer_expiry_date);
+  const days = daysLeft(expiry);
+  const isExpired = deal.status === "expired" || (days !== null && days < 0);
+
+  const reward = rewardInfo(deal);
+  const title =
+    deal.deal_title ??
+    (deal.deal_type === "saving"
+      ? `Save up to $${deal.reward_value}`
+      : `Get up to $${deal.reward_value}`);
+
+  const hasGoodToKnow = Boolean(
+    minCost > 0 || deal.deal_ref?.is_cash_convertible || deal.note,
+  );
+
+  
   return (
-    <div className="deal-page">
-      <div className="deal-hero">
-        <div className="deal-eyebrow">
-          <span className="deal-eyebrow-dot" />
-          Live deal · 13 days left
-        </div>
-        <div className="deal-provider">{deal.brand_name}</div>
-        <h1 className="deal-headline">
-          Sign up and pocket
-          <br />
-          up to ${deal.payout_estimate} back.
-        </h1>
-        <div className="deal-reward-badge">
-          <div className="deal-reward-label">You receive</div>
-          <div className="deal-reward-value">${deal.payout_estimate}</div>
-          <div className="deal-reward-sub">{deal.return_type}</div>
-        </div>
-        <div className="deal-cta">
-          <a href={deal.link}>
-            <button className="deal-cta-btn">Claim this deal</button>
-        </a>
-          {/* <button className="deal-share-btn">Share</button> */}
-        <div className="deal-expires">
-          Expires <strong>{deal.offer_expiry_date}</strong>
-        </div>
-        </div>
-      </div>
+    <main>
+      <section className="hero">
+        <div className="inner">
+          <p className="breadcrumb">
+            <Link href="/">Home</Link> / <Link href="/deals">Deals</Link> /{" "}
+            {deal.brand_name}
+          </p>
 
+          <h1 className="title">{title}</h1>
 
-      <div className="deal-body">
-        <div className="deal-steps-label">How to claim</div>
-        <div className="deal-steps">
-          {deal?.requirements.instructions.map((step, i) => (
-              <div className="deal-step" key={i}>
-              <div className="deal-step-num">{i + 1}</div>
-              <div className="deal-step-text">{step}</div>
+          <div className="heroBottom">
+            {reward && (
+              <div className="reward">
+                <span className="rewardLabel">{reward.label}</span>
+                <span className="rewardAmount">
+                  {reward.amount}
+                  {reward.suffix && (
+                    <span className="rewardSuffix">{reward.suffix}</span>
+                  )}
+                </span>
+              </div>
+            )}
+
+            <div className="actions">
+              {isExpired ? (
+                <span className="ended">Offer ended</span>
+              ) : (
+                <div style={{display: 'flex', gap: 10}}>
+                
+       
+             
+                <a
+                  href={deal.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta"
+                >
+                  Claim deal
+                </a>
+                          <CopyURL/>
+                   </div>
+              )}
+              {expiryText(expiry, days) && (
+                <p className="expiry">{expiryText(expiry, days)}</p>
+              )}
+             
             </div>
-          ))}
-          {deal.note && <div className="deal-note">{deal.note}</div>}
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <section className="body">
+        <div className="inner">
+          <div className="content">
+            {deal.deal_summary && (
+              <p className="summary">{deal.deal_summary}</p>
+            )}
+
+            {instructions.length > 0 && (
+              <div className="section">
+                <h2 className="heading">How to claim</h2>
+                <ol className="steps" role="list">
+                  {instructions.map((step, i) => (
+                    <li key={i}>{step}</li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {hasGoodToKnow && (
+              <div className="section">
+                <h2 className="heading">Good to know</h2>
+                <ul className="facts">
+                  {minCost > 0 && (
+                    <li>
+                      {deal.deal_type === "referral"
+                        ? "Minimum deposit"
+                        : "Minimum cost"}{" "}
+                      <strong>${minCost}</strong>
+                    </li>
+                  )}
+                  {deal.deal_ref?.is_cash_convertible && (
+                    <li>Can be redeemed for cash</li>
+                  )}
+                </ul>
+                {deal.note && <p className="note">{deal.note}</p>}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }
+

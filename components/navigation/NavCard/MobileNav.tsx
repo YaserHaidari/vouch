@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import styles from "./NavBar.module.css";
+import '@/assets/colors/colors.css'
 
 export function MobileNav({ isUser }: { isUser: boolean }) {
   const [isOpen, setIsOpen] = useState(false);

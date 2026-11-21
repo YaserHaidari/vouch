@@ -46,7 +46,7 @@ export default async function Blogs() {
       {/* Hero */}
       <div className={styles.hero}>
         <div className={styles.badge}>
-          <span className={styles.badgeDot} />
+   
           Australia's #1 Smart Saving Community
         </div>
         <h1 className={styles.heroTitle}>

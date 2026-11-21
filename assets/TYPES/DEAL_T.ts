@@ -58,12 +58,12 @@ export type DEAL_REF_T = {
   deal_id: string,
   referral_code: string,
   is_cash_convertible: boolean,
-  requirements: {requirements: [], min_cost: number},
+  requirements: {instructions: [], min_cost: number},
   initial_deposit: number,
 }
 
 export type DEAL_SAV_T = {
   deal_id: string,
   min_contract_length: boolean,
-  requirements: {requirements: [], min_cost: number},
+  requirements: {instructions: [], min_cost: number},
 }

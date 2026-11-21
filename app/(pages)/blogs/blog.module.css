@@ -13,16 +13,14 @@
 }
 
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1.5px solid #f5c800;
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 13px;
-  font-weight: 600;
+  display: inline-block;
+  background: #fef9c3;
   color: #1a1a2e;
-  margin-bottom: 24px;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 16px;
 }
 
 .badgeDot {
