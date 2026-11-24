@@ -64,6 +64,6 @@ export type DEAL_REF_T = {
 
 export type DEAL_SAV_T = {
   deal_id: string,
-  min_contract_length: boolean,
+  min_contract_length: number,
   requirements: {instructions: [], min_cost: number},
 }
