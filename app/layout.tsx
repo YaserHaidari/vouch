@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -18,6 +18,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+
+
+const titleFont = Barlow_Condensed({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  display: "swap",
+  variable: "--font-title",
+});
 export const metadata: Metadata = {
   title: "Vouch",
   description:
@@ -32,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${titleFont.variable} h-full antialiased`}
     >
 
       <head>

@@ -1,11 +1,23 @@
-
-
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Poppins } from "next/font/google";
 import { DEAL_T, REWARD_TYPE_T } from "@/assets/types/DEAL_T";
 import { supabase } from "@/utils/supabase/client";
 import "./style.css";
 import { CopyURL } from "@/components/CopyUrl/page";
+
+// add titleFont.variable to a wrapper's className
+
+
+// Same shelf-ticket font as the deals list
+const ticketFont = Poppins({
+  subsets: ["latin"],
+  weight: ["800", "900"],
+  display: "swap",
+});
+
+const ONGOING_AFTER_DAYS = 365;
+const URGENT_WITHIN_DAYS = 7;
 
 // "2026-12-06" -> local date (avoids the UTC shift of new Date("2026-12-06"))
 function parseDate(value: string | null | undefined): Date | null {
@@ -33,6 +45,7 @@ function formatDate(date: Date): string {
 function expiryText(expiry: Date | null, days: number | null): string | null {
   if (!expiry || days === null) return null;
   if (days < 0) return `Ended ${formatDate(expiry)}`;
+  if (days > ONGOING_AFTER_DAYS) return "Ongoing offer";
   if (days === 0) return "Ends today";
   if (days === 1) return "Ends tomorrow";
   return `Ends ${formatDate(expiry)}, ${days} days left`;
@@ -45,7 +58,7 @@ function rewardSuffix(type: DEAL_T["reward_type"]): string {
     case REWARD_TYPE_T.cash:
       return "cash";
     case REWARD_TYPE_T.stocks:
-      return "in stocks";
+      return "stocks";
     case REWARD_TYPE_T.voucher:
       return "voucher";
     default:
@@ -53,22 +66,28 @@ function rewardSuffix(type: DEAL_T["reward_type"]): string {
   }
 }
 
-// Saving: "You save" + "$1000"
-// Referral (or anything else): "You receive" + "$200" + "credit"
+// Saving: "You save" + "$1,000"
+// Referral (or anything else): "You receive" + "$200" + "Reward: credit"
 function rewardInfo(
   deal: DEAL_T,
-): { label: string; amount: string; suffix: string } | null {
+): { label: string; value: number; suffix: string } | null {
   if (deal.reward_value == null) return null;
-  const amount = `$${deal.reward_value}`;
 
   if (deal.deal_type === "saving") {
-    return { label: "You save", amount, suffix: "" };
+    return { label: "You save", value: deal.reward_value, suffix: "" };
   }
   return {
     label: "You receive",
-    amount,
+    value: deal.reward_value,
     suffix: rewardSuffix(deal.reward_type),
   };
+}
+
+// 1000 -> { whole: "1,000", cents: "" }   12.5 -> { whole: "12", cents: "50" }
+function splitMoney(n: number) {
+  const whole = Math.trunc(n).toLocaleString("en-AU");
+  const c = Math.round((n - Math.trunc(n)) * 100);
+  return { whole, cents: c > 0 ? String(c).padStart(2, "0") : "" };
 }
 
 export default async function Deal({
@@ -96,8 +115,11 @@ export default async function Deal({
   const expiry = parseDate(deal.offer_expiry_date);
   const days = daysLeft(expiry);
   const isExpired = deal.status === "expired" || (days !== null && days < 0);
+  const isUrgent =
+    !isExpired && days !== null && days <= URGENT_WITHIN_DAYS;
 
   const reward = rewardInfo(deal);
+  const money = reward ? splitMoney(reward.value) : null;
   const title =
     deal.deal_title ??
     (deal.deal_type === "saving"
@@ -108,7 +130,6 @@ export default async function Deal({
     minCost > 0 || deal.deal_ref?.is_cash_convertible || deal.note,
   );
 
-  
   return (
     <main>
       <section className="hero">
@@ -121,15 +142,28 @@ export default async function Deal({
           <h1 className="title">{title}</h1>
 
           <div className="heroBottom">
-            {reward && (
-              <div className="reward">
-                <span className="rewardLabel">{reward.label}</span>
-                <span className="rewardAmount">
-                  {reward.amount}
-                  {reward.suffix && (
-                    <span className="rewardSuffix">{reward.suffix}</span>
+            {reward && money && (
+              <div
+                className="ticket"
+                style={{ fontFamily: ticketFont.style.fontFamily }}
+              >
+                <span className="ticketLabel">{reward.label}</span>
+                <span className="ticketPrice">
+                  <span className="ticketDollar">$</span>
+                  <span
+                    className={`ticketWhole${
+                      money.whole.length > 5 ? " ticketWholeLong" : ""
+                    }`}
+                  >
+                    {money.whole}
+                  </span>
+                  {money.cents && (
+                    <span className="ticketCents">{money.cents}</span>
                   )}
                 </span>
+                {reward.suffix && (
+                  <span className="ticketNote">Reward: {reward.suffix}</span>
+                )}
               </div>
             )}
 
@@ -137,25 +171,23 @@ export default async function Deal({
               {isExpired ? (
                 <span className="ended">Offer ended</span>
               ) : (
-                <div style={{display: 'flex', gap: 10}}>
-                
-       
-             
-                <a
-                  href={deal.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cta"
-                >
-                  Claim deal
-                </a>
-                          <CopyURL/>
-                   </div>
+                <div className="actionRow">
+                  <a
+                    href={deal.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cta"
+                  >
+                    Claim deal
+                  </a>
+                  <CopyURL />
+                </div>
               )}
               {expiryText(expiry, days) && (
-                <p className="expiry">{expiryText(expiry, days)}</p>
+                <p className={`expiry${isUrgent ? " expiryUrgent" : ""}`}>
+                  {expiryText(expiry, days)}
+                </p>
               )}
-             
             </div>
           </div>
         </div>
@@ -173,7 +205,9 @@ export default async function Deal({
                 <h2 className="heading">How to claim</h2>
                 <ol className="steps" role="list">
                   {instructions.map((step, i) => (
-                    <li key={i}>{step}</li>
+                    <li key={i}>
+                      <span>{step}</span>
+                    </li>
                   ))}
                 </ol>
               </div>
@@ -182,17 +216,21 @@ export default async function Deal({
             {hasGoodToKnow && (
               <div className="section">
                 <h2 className="heading">Good to know</h2>
-                <ul className="facts">
+                <ul className="facts" role="list">
                   {minCost > 0 && (
                     <li>
-                      {deal.deal_type === "referral"
-                        ? "Minimum deposit"
-                        : "Minimum cost"}{" "}
-                      <strong>${minCost}</strong>
+                      <span>
+                        {deal.deal_type === "referral"
+                          ? "Minimum deposit"
+                          : "Minimum cost"}
+                      </span>
+                      <strong>${minCost.toLocaleString("en-AU")}</strong>
                     </li>
                   )}
                   {deal.deal_ref?.is_cash_convertible && (
-                    <li>Can be redeemed for cash</li>
+                    <li>
+                      <span>Can be redeemed for cash</span>
+                    </li>
                   )}
                 </ul>
                 {deal.note && <p className="note">{deal.note}</p>}
@@ -204,4 +242,3 @@ export default async function Deal({
     </main>
   );
 }
-

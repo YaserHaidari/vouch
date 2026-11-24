@@ -32,10 +32,6 @@
   padding-bottom: 2rem;
 }
 
-.heroText {
-  /* intentionally empty — just a grouping wrapper */
-}
-
 /* ── Breadcrumb ─────────────────────────────────────────── */
 .breadcrumb {
   font-size: 0.78rem;
@@ -93,7 +89,6 @@
 }
 
 /* ── Filter row (tabs + search) ─────────────────────────── */
-/* ── Filter row (tabs + search) ─────────────────────────── */
 .filterRow {
   display: flex;
   align-items: center;
@@ -147,63 +142,6 @@
     margin-bottom: 7px;
   }
 }
-/* ── Page body ──────────────────────────────────────────── */
-.pageBody {
-
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2.5rem 2rem 5rem;
-}
-
-/* ── Deals grid ─────────────────────────────────────────── */
-.dealsGrid {
-
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(900px, 1fr));
-  gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
-  .dealsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .dealsGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1280px) {
-  .dealsGrid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* ── Empty state ────────────────────────────────────────── */
-.emptyState {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: #9ca3af;
-}
-
-.emptyIcon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.emptyTitle {
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #0d1b2a;
-  margin-bottom: 0.4rem;
-}
-
-.emptySubtitle {
-  font-size: 0.9rem;
-}
 
 /* ── Search ─────────────────────────────────────────────── */
 .searchForm {
@@ -244,7 +182,404 @@
   box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.15);
 }
 
+/* ── Page body ──────────────────────────────────────────── */
+.pageBody {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+}
 
+/* ── Deals list: price-list look ────────────────────────── */
+/* yellow #ffd500 · red #d0021b · navy #0d1b2a · paper #fffbe3 */
+.page {
+  background: #fffbe3;
+  min-height: 60vh;
+}
+
+.list {
+  background: transparent;
+}
+
+.listMeta {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #6b6650;
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* shared column grid: brand | deal | ends | saving | cta */
+.head,
+.row {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr) 120px 150px 132px;
+  align-items: center;
+  gap: 1rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.head {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid #0d1b2a;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0d1b2a;
+}
+
+.sortBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: #6b6650;
+  text-align: left;
+  transition: color 0.15s;
+}
+
+.sortBtn:hover,
+.sortActive {
+  color: #0d1b2a;
+}
+
+.right {
+  text-align: right;
+}
+
+.right .sortBtn {
+  text-align: right;
+}
+
+.item {
+  border-bottom: 1px dashed #d8cd8a;
+}
+
+.row {
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+  transition: background 0.15s;
+}
+
+.row:hover {
+  background: #fff3a8;
+}
+
+.brand {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0d1b2a;
+}
+
+.deal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.titleLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.6rem;
+}
+
+.title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0d1b2a;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.title:hover {
+  text-decoration: underline;
+  color: #0064d2;
+}
+
+.hot {
+  background: #d0021b;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 2px;
+}
+
+.note {
+  font-size: 0.78rem;
+  color: #6b6650;
+  margin: 0.2rem 0 0;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 0.35rem;
+  cursor: pointer;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0064d2;
+}
+
+.toggle:hover {
+  text-decoration: underline;
+}
+
+.chevron {
+  width: 6px;
+  height: 6px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s;
+}
+
+.toggle[aria-expanded="true"] .chevron {
+  transform: rotate(-135deg) translateY(-2px);
+}
+
+/* ends: plain text, red only when it's about to finish */
+.ends {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #6b6650;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.urgent {
+  background: #d0021b;
+  color: #fff;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+}
+
+.ongoing {
+  color: #8a8466;
+  font-weight: 500;
+}
+
+/* shelf-ticket sticker: yellow, black, tilted like it was slapped on the aisle */
+.save {
+  justify-self: end;
+  box-sizing: border-box;
+  width: 132px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffe400;
+  color: #111;
+  padding: 0.45rem 0.55rem 0.4rem;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transform: rotate(-3deg);
+}
+
+.item:nth-child(3n + 2) .save {
+  transform: rotate(2deg);
+}
+
+.item:nth-child(3n) .save {
+  transform: rotate(-1.5deg);
+}
+
+.saveLabel {
+  background: #fff;
+  color: #111;
+  font-weight: 800;
+  font-size: 0.68rem;
+  line-height: 1;
+  padding: 0.24rem 0.6rem;
+  border-radius: 100px;
+  margin-bottom: 0.25rem;
+}
+
+.price {
+  display: flex;
+  align-items: flex-start;
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+.dollar {
+  font-size: 1rem;
+  margin: 0.28rem 2px 0 0;
+}
+
+.whole {
+  font-size: 2.1rem;
+  letter-spacing: -0.03em;
+}
+
+.wholeLong {
+  font-size: 1.65rem;
+}
+
+.cents {
+  font-size: 1rem;
+  margin: 0.3rem 0 0 1px;
+}
+
+.saveNote {
+  align-self: stretch;
+  margin-top: 0.35rem;
+  padding-top: 0.25rem;
+  border-top: 1.5px dotted #111;
+  font-weight: 800;
+  font-size: 0.64rem;
+  line-height: 1.2;
+}
+
+.bonusText {
+  font-weight: 900;
+  font-size: 1.3rem;
+  line-height: 1.1;
+  padding: 0.15rem 0 0.2rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #d0021b;
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.cta:hover {
+  background: #a80016;
+}
+
+.more {
+  padding: 0 0.75rem 1.1rem calc(0.75rem + 140px + 1rem);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #3d3a2a;
+}
+
+.more p {
+  margin: 0 0 0.5rem;
+}
+
+.steps {
+  margin: 0 0 0.5rem;
+  padding-left: 1.1rem;
+}
+
+.steps li {
+  margin-bottom: 0.2rem;
+}
+
+.minSpend {
+  font-weight: 700;
+  color: #0d1b2a;
+}
+
+.sortBtn:focus-visible,
+.toggle:focus-visible,
+.title:focus-visible,
+.cta:focus-visible {
+  outline: 2px solid #0d1b2a;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .head,
+  .row {
+    grid-template-columns: 110px minmax(0, 1fr) 100px 140px 116px;
+    gap: 0.75rem;
+  }
+
+  .more {
+    padding-left: calc(0.75rem + 110px + 0.75rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .pageBody {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .head {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "brand ends"
+      "deal  deal"
+      "save  cta";
+    row-gap: 0.6rem;
+    align-items: center;
+  }
+
+  .brand { grid-area: brand; }
+  .ends  { grid-area: ends; justify-self: end; }
+  .deal  { grid-area: deal; }
+  .save  { grid-area: save; justify-self: start; }
+  .cta   { grid-area: cta; }
+
+  .more {
+    padding: 0 0.75rem 1.1rem;
+  }
+}
+
+/* ── Empty state ────────────────────────────────────────── */
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #9ca3af;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.emptyTitle {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0d1b2a;
+  margin-bottom: 0.4rem;
+}
+
+.emptySubtitle {
+  font-size: 0.9rem;
+}
 
 /* ── Animations ─────────────────────────────────────────── */
 @keyframes fadeUp {
@@ -255,5 +590,12 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pageTitle,
+  .pageSubtitle {
+    animation: none;
   }
 }

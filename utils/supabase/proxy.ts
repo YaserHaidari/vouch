@@ -54,9 +54,9 @@ export async function updateSession(request: NextRequest) {
     "/api/fetchAllDeals",
     "/register",
     "/auth/callback",
-    "/chat",
     "/api",
-    "/api/chat"
+    // "/chat",
+    // "/api/chat"
   ];
 
   if (user && request.nextUrl.pathname == "/register/") {

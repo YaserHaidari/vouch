@@ -1,0 +1,283 @@
+/* styles.css: Global & Home styles for Vouch app */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap');
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #ffffff;
+  color: #1A1A2E;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Hero (replaces pageHeroStyles & btnStyles) ─────────── */
+
+.hero-section {
+  background: var(--white);
+  padding: 5rem 2rem;
+}
+
+.hero-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--grey600);
+  margin-bottom: 1rem;
+}
+
+.hero-heading {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+  margin-bottom: 1.25rem;
+}
+
+.hero-heading em {
+  font-style: normal;
+  color: var(--blue);
+}
+
+.hero-desc {
+  max-width: 600px;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--grey600);
+  margin-bottom: 2rem;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.btn-primary,
+.btn-secondary,
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.6rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: var(--white);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--navy);
+  border: 1.5px solid var(--grey200);
+}
+
+.cta-btn {
+  position: relative;
+  z-index: 1;
+  background: var(--yellow);
+  color: var(--navy);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover,
+.cta-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ─── Stats Skeleton ─────────────────────────────────────── */
+
+.stats-skeleton {
+  background: #0f1f3d;
+  padding: 3rem 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 12rem;
+}
+
+.stats-skeleton-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stats-skeleton-num {
+  height: 36px;
+  width: 80px;
+  background: rgba(245, 216, 0, 0.3);
+  border-radius: 6px;
+}
+
+.stats-skeleton-label {
+  height: 14px;
+  width: 100px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* ─── Shared Sections (replaces sectionStyles) ───────────── */
+
+.how-section {
+  background: #F8F9FA;
+  padding: 5rem 2rem;
+}
+
+.section-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 3rem;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 0.6rem;
+}
+
+.section-title {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--grey600);
+}
+
+/* ─── How It Works ───────────────────────────────────────── */
+/* ─── How It Works ───────────────────────────────────────── */
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.step-card {
+  background: var(--white);
+  border: 1px solid var(--grey200);
+  border-radius: 12px;
+  padding: 1.75rem;
+}
+
+.step-number {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--grey600);
+  margin-bottom: 1rem;
+}
+
+.step-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.step-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 0.4rem;
+}
+
+.step-desc {
+  font-size: 0.9rem;
+  color: var(--grey600);
+  line-height: 1.6;
+}
+
+/* ─── Deals Section ──────────────────────────────────────── */
+
+.deals-section {
+  background: var(--white);
+  padding: 5rem 2rem;
+}
+
+/* ─── CTA Banner ─────────────────────────────────────────── */
+
+.cta-banner {
+  background: var(--blue);
+  padding: 5rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-banner::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.cta-banner::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255, 208, 0, 0.08);
+}
+
+.cta-title {
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-desc {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}

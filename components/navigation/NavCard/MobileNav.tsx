@@ -25,9 +25,9 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
         <ul className={`${styles.navLinks} ${isOpen ? styles.navOpen : ""}`}>
-          <Link href="/#how" onClick={close}>
+          {/* <Link href="/#how" onClick={close}>
             How it works
-          </Link>
+          </Link> */}
 
           {isUser ? (
             <>
@@ -50,9 +50,9 @@ export function MobileNav({ isUser }: { isUser: boolean }) {
             Referrals
           </Link>
 
-          <Link href="/deals" className={styles.cta} onClick={close}>
+          {/* <Link href="/deals" className={styles.cta} onClick={close}>
             Browse Smart Deals
-          </Link>
+          </Link> */}
         </ul>
       </div>
     </nav>

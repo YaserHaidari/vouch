@@ -1,0 +1,298 @@
+/* Deal page — same price-list theme as the deals list.
+   yellow #ffe400 / #f5c518 · red #d0021b · navy #0d1b2a · paper #fffbe3
+   Uses the site's fonts. No html/body rules, so nothing leaks into the rest of the site. */
+
+/* ── Hero ───────────────────────────────────────────────── */
+
+.title { font-family: var(--font-title), sans-serif; font-size: 1.3rem; }
+.hero {
+  background: #0d1b2a;
+  padding: 3rem 2rem 3.25rem;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.breadcrumb {
+  margin: 0 0 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.title {
+  margin: 0;
+  max-width: 20em;
+
+  font-family: var(--font-title), sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.heroBottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2rem 3rem;
+  margin-top: 2.25rem;
+}
+
+/* ── Reward: shelf-ticket sticker ───────────────────────── */
+.ticket {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content;
+  min-width: 200px;
+  padding: 0.8rem 1rem 0.75rem;
+  background: #ffe400;
+  color: #111111;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  transform: rotate(-3deg);
+}
+
+.ticketLabel {
+  margin-bottom: 0.35rem;
+  padding: 0.3rem 0.8rem;
+  background: #ffffff;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #111111;
+}
+
+.ticketPrice {
+  display: flex;
+  align-items: flex-start;
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+.ticketDollar {
+  margin: 0.45rem 3px 0 0;
+  font-size: 1.8rem;
+}
+
+.ticketWhole {
+  font-size: clamp(3rem, 12vw, 4.25rem);
+  letter-spacing: -0.03em;
+}
+
+.ticketWholeLong {
+  font-size: clamp(2.4rem, 9vw, 3.3rem);
+}
+
+.ticketCents {
+  margin: 0.5rem 0 0 2px;
+  font-size: 1.8rem;
+}
+
+.ticketNote {
+  align-self: stretch;
+  margin-top: 0.55rem;
+  padding-top: 0.4rem;
+  border-top: 2px dotted #111111;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* ── Call to action ─────────────────────────────────────── */
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.75rem;
+  background: #d0021b;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.cta:hover {
+  background: #e8132d;
+}
+
+.cta:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.ended {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.expiry {
+  margin: 0.85rem 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* red flag only when it's about to finish */
+.expiryUrgent {
+  padding: 0.25rem 0.7rem;
+  background: #d0021b;
+  border-radius: 3px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* ── Body ───────────────────────────────────────────────── */
+.body {
+  background: #fffbe3;
+  padding: 3rem 2rem 4.5rem;
+}
+
+.content {
+  max-width: 42rem;
+}
+
+.summary {
+  margin: 0 0 3rem;
+  font-size: 1.2rem;
+  line-height: 1.65;
+  color: #1f1d12;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.heading {
+  margin: 0 0 0.5rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid #0d1b2a;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0d1b2a;
+}
+
+/* Numbered because the steps really are a sequence */
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.1rem 0;
+  border-bottom: 1px dashed #cfc27a;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #1f1d12;
+}
+
+.steps li::before {
+  content: counter(step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: #ffe400;
+  border-radius: 3px;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111111;
+}
+
+/* Good to know: price-list rows */
+.facts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.facts li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px dashed #cfc27a;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: #1f1d12;
+}
+
+.facts strong {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0d1b2a;
+}
+
+.note {
+  margin: 1rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #3d3a28;
+}
+
+/* ── Small screens (same breakpoint as the deals page) ──── */
+@media (max-width: 620px) {
+  .hero {
+    padding: 2rem 1.25rem 2.5rem;
+  }
+
+  .body {
+    padding: 2.25rem 1.25rem 3.5rem;
+  }
+
+  .summary {
+    font-size: 1.125rem;
+  }
+
+  .cta {
+    flex: 1 1 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta {
+    transition: none;
+  }
+}
